@@ -9,10 +9,5 @@ type MainController struct {
 }
 
 func (this *MainController) Get() {
-  username := this.GetSession("username")
-  if username == nil {
-    this.Ctx.Redirect(302, "/sessions/new")
-  } else {
-    this.Ctx.Redirect(302, "/profile")
-  }
+  this.Ctx.Redirect(302, "/profile")
 }
