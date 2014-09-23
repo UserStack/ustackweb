@@ -1,5 +1,8 @@
-<form action="/sessions" method="post">
-  {{.Form | renderform}}
-  <input type="submit" value="Login"/>
-</form>
-
+<div class="container">
+  <form action="/sessions" method="post" role="form">
+    <div class="form-group">
+      {{.Form | renderform}}
+    </div>
+    <button class="btn btn-default" type="submit">Sign in</button>
+  </form>
+</div>
