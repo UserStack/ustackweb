@@ -14,6 +14,10 @@
 2. Run the server
 
         $ make run
+        
+3. Livereload and recompile assets
+
+        $ make watch
 
 ## License
 
