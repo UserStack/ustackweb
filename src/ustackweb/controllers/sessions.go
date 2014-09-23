@@ -29,11 +29,6 @@ func (this *SessionsController) Create() {
 }
 
 func (this *SessionsController) Destroy() {
-  login := Login{}
-  if err := this.ParseForm(&login); err != nil {
-    this.Ctx.Redirect(302, "/sessions/new")
-  } else {
-    this.SetSession("username", login.Username)
-    this.Ctx.Redirect(302, "/profile")
-  }
+  this.DelSession("username")
+  this.Ctx.Redirect(302, "/sessions/new")
 }
