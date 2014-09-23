@@ -1,11 +1,7 @@
 package controllers
 
-import (
-  "github.com/astaxie/beego"
-)
-
 type SessionsController struct {
-  beego.Controller
+  BaseController
 }
 
 type Login struct {
@@ -20,11 +16,13 @@ func (this *SessionsController) New() {
 
 func (this *SessionsController) Create() {
   login := Login{}
-  if err := this.ParseForm(&login); err != nil {
-    this.Ctx.Redirect(302, "/sessions/new")
-  } else {
+  err := this.ParseForm(&login)
+  if err == nil && login.Username == "foo" {
     this.SetSession("username", login.Username)
-    this.Ctx.Redirect(302, "/profile")
+    this.RequireAuth()
+    this.Redirect(302, "/profile")
+  } else {
+    this.RequireAuthFailed()
   }
 }
 
