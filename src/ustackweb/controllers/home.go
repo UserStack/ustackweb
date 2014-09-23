@@ -9,5 +9,5 @@ func (this *HomeController) Prepare() {
 }
 
 func (this *HomeController) Get() {
-  this.Ctx.Redirect(302, "/profile")
+  this.Redirect("/profile", 302)
 }

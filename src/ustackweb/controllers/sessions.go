@@ -20,7 +20,7 @@ func (this *SessionsController) Create() {
   if err == nil && login.Username == "foo" {
     this.SetSession("username", login.Username)
     this.RequireAuth()
-    this.Redirect(302, "/profile")
+    this.Redirect("/profile", 302)
   } else {
     this.RequireAuthFailed()
   }
@@ -28,5 +28,5 @@ func (this *SessionsController) Create() {
 
 func (this *SessionsController) Destroy() {
   this.DelSession("username")
-  this.Ctx.Redirect(302, "/sessions/new")
+  this.Redirect("/sessions/new", 302)
 }
