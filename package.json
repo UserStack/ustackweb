@@ -1,0 +1,23 @@
+{
+  "name": "ustackweb",
+  "version": "0.0.0",
+  "description": "## Audience",
+  "main": "livereload.js",
+  "dependencies": {
+    "livereload": "~0.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/UserStack/ustackweb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UserStack/ustackweb/issues"
+  },
+  "homepage": "https://github.com/UserStack/ustackweb"
+}
