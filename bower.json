@@ -1,0 +1,20 @@
+{
+  "name": "ustackweb",
+  "version": "0.0.0",
+  "homepage": "https://github.com/UserStack/ustackweb",
+  "authors": [
+    "Jens Bissinger <mail@jens-bissinger.de>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src/ustackweb/static/bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": ""
+  }
+}

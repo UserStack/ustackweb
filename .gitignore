@@ -25,5 +25,6 @@ _testmain.go
 
 # Node.js
 node_modules
+src/ustackweb/static/bower_components
 
 src/ustackweb/ustackweb

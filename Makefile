@@ -1,4 +1,6 @@
 all: run
+watch:
+	grunt watch
 livereload:
 	npm run livereload
 run:
@@ -8,3 +10,4 @@ prepare:
 		github.com/beego/bee \
 		github.com/codegangsta/gin
 	npm install
+	bower install
