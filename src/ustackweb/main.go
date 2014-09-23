@@ -15,6 +15,7 @@ var FilterAuthentication = func(ctx *context.Context) {
 
 func main() {
   beego.SessionOn = true
+  beego.EnableAdmin = true
   beego.InsertFilter("/profile", beego.BeforeRouter, FilterAuthentication)
 	beego.Run()
 }
