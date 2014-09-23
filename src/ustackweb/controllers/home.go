@@ -4,10 +4,10 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type MainController struct {
+type HomeController struct {
 	beego.Controller
 }
 
-func (this *MainController) Get() {
+func (this *HomeController) Get() {
   this.Ctx.Redirect(302, "/profile")
 }
