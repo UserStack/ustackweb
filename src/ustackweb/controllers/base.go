@@ -8,6 +8,11 @@ type BaseController struct {
   beego.Controller
 }
 
+func (this *BaseController) PrepareXsrf() {
+  this.Data["xsrf_token"] = this.XsrfToken()
+  this.Data["xsrf_html"] = this.XsrfFormHtml()
+}
+
 func (this *BaseController) RequireAuth() {
   username := this.Ctx.Input.Session("username")
   if username != nil {

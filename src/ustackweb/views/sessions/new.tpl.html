@@ -1,5 +1,6 @@
 <div class="container">
   <form action="/sessions" method="post" role="form">
+    {{.xsrf_html | str2html}}
     <div class="form-group">
       {{.Form | renderform}}
     </div>

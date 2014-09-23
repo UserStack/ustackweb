@@ -8,6 +8,10 @@ type Login struct {
     Username string `form:"username"`
 }
 
+func (this *SessionsController) Prepare() {
+  this.PrepareXsrf();
+}
+
 func (this *SessionsController) New() {
   this.Data["Form"] = &Login{}
   this.Layout = "layouts/default.tpl.html"

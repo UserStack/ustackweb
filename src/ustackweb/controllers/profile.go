@@ -5,6 +5,7 @@ type ProfileController struct {
 }
 
 func (this *ProfileController) Prepare() {
+  this.PrepareXsrf();
   this.RequireAuth();
 }
 
