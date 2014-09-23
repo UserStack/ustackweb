@@ -14,6 +14,9 @@ func (this *BaseController) Prepare() {
     this.Data["loggedIn"] = true
     this.Data["username"] = username
   } else {
+    flash := beego.NewFlash()
+    flash.Error("Not logged in!")
+    flash.Store(&this.Controller)
     this.Redirect("/sessions/new", 302)
     return
   }

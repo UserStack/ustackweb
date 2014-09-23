@@ -14,6 +14,9 @@
     </style>
   </head>
     <body>
+      {{if .flash.error}}
+        <div class="alert alert-danger">{{.flash.error}}</div>
+      {{end}}
       {{if .loggedIn}}
       <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
