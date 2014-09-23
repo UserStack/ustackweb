@@ -9,12 +9,11 @@ type SessionsController struct {
 }
 
 type Login struct {
-    Username  interface{} `form:"username"`
+    Username string `form:"username"`
 }
 
 func (this *SessionsController) New() {
   this.Data["Form"] = &Login{}
-  this.Data["name"] = "mike"
   this.Layout = "layouts/default.tpl.html"
   this.TplNames = "sessions/new.tpl.html"
 }
