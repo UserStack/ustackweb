@@ -9,11 +9,11 @@
 
 1. Setup dependencies
 
-      make prepare 
+            make prepare 
 
 2. Run the server
 
-      make run
+            make run
 
 ## License
 
