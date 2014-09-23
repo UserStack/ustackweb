@@ -5,8 +5,9 @@ type HomeController struct {
 }
 
 func (this *HomeController) Prepare() {
-  this.PrepareXsrf();
-  this.RequireAuth();
+  this.PrepareXsrf()
+  this.RequireAuth()
+  this.PrepareLayout()
 }
 
 func (this *HomeController) Get() {

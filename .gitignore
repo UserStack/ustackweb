@@ -27,4 +27,8 @@ _testmain.go
 node_modules
 src/ustackweb/static/bower_components
 
+# Sass
+src/ustackweb/static/css
+.sass-cache
+
 src/ustackweb/ustackweb

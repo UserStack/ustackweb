@@ -9,12 +9,12 @@ type Login struct {
 }
 
 func (this *SessionsController) Prepare() {
-  this.PrepareXsrf();
+  this.PrepareXsrf()
+  this.PrepareLayout()
 }
 
 func (this *SessionsController) New() {
   this.Data["Form"] = &Login{}
-  this.Layout = "layouts/default.tpl.html"
   this.TplNames = "sessions/new.tpl.html"
 }
 

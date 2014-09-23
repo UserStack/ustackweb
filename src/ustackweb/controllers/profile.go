@@ -5,8 +5,9 @@ type ProfileController struct {
 }
 
 func (this *ProfileController) Prepare() {
-  this.PrepareXsrf();
-  this.RequireAuth();
+  this.PrepareXsrf()
+  this.RequireAuth()
+  this.PrepareLayout()
 }
 
 func (this *ProfileController) Get() {

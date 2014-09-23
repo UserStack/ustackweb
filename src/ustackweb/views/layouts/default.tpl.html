@@ -8,13 +8,10 @@
       <!-- bower:css -->
       <link rel="stylesheet" href="../../static/bower_components/bootstrap/dist/css/bootstrap.css" />
       <!-- endbower -->
-    <style type="text/css">
-      body {
-        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-      }
-    </style>
+      <link rel="stylesheet" href="/static/css/app.css" />
   </head>
-    <body>
+    <body class="{{.ControllerName}} {{.ActionName}}">
+
       {{if .flash.error}}
         <div class="alert alert-danger">{{.flash.error}}</div>
       {{end}}

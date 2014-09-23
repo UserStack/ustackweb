@@ -2,10 +2,18 @@ package controllers
 
 import (
   "github.com/astaxie/beego"
+  "strings"
 )
 
 type BaseController struct {
   beego.Controller
+}
+
+func (this *BaseController) PrepareLayout() {
+  controllerName, actionName := this.GetControllerAndAction()
+  this.Data["ControllerName"] = strings.TrimSuffix(controllerName, "Controller")
+  this.Data["ActionName"] = actionName
+  this.Layout = "layouts/default.tpl.html"
 }
 
 func (this *BaseController) PrepareXsrf() {

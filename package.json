@@ -18,6 +18,7 @@
     "wiredep": "",
     "grunt-wiredep": "",
     "grunt-contrib-watch": "",
+    "grunt-contrib-sass": "",
     "grunt-shell": "",
     "grunt-cli": ""
   },
