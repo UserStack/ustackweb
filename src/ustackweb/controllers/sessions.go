@@ -15,8 +15,8 @@ type Login struct {
 func (this *SessionsController) New() {
   this.Data["Form"] = &Login{}
   this.Data["name"] = "mike"
-  this.Layout = "layouts/default.tpl"
-  this.TplNames = "sessions/new.tpl"
+  this.Layout = "layouts/default.tpl.html"
+  this.TplNames = "sessions/new.tpl.html"
 }
 
 func (this *SessionsController) Create() {
