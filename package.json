@@ -14,7 +14,6 @@
   },
   "homepage": "https://github.com/UserStack/ustackweb",
   "dependencies": {
-    "livereload": "",
     "bower": "",
     "wiredep": "",
     "grunt-wiredep": "",
@@ -24,6 +23,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "livereload": "node livereload.js"
+    "watch": "grunt watch",
+    "bower": "grunt shell:bower"
   }
 }

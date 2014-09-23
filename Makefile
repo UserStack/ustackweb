@@ -1,8 +1,6 @@
 all: run
 watch:
-	grunt watch
-livereload:
-	npm run livereload
+	npm run watch
 run:
 	cd src/ustackweb && bee run
 prepare:
@@ -10,4 +8,4 @@ prepare:
 		github.com/beego/bee \
 		github.com/codegangsta/gin
 	npm install
-	bower install
+	npm run bower

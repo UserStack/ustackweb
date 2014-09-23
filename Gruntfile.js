@@ -18,6 +18,12 @@ module.exports = function(grunt) {
         options: {
           debounceDelay: 250,
         }
+      },
+      livereload: {
+        files: 'src/ustackweb/**/*',
+        options: {
+          livereload: true
+        }
       }
     },
     shell: {
