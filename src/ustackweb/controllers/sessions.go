@@ -1,5 +1,9 @@
 package controllers
 
+import (
+  "github.com/astaxie/beego"
+)
+
 type SessionsController struct {
   BaseController
 }
@@ -25,7 +29,7 @@ func (this *SessionsController) Create() {
   if err == nil && (login.Username == "foo" || login.Username == "admin") && login.Password == "bar" {
     this.SetSession("username", login.Username)
     this.RequireAuth()
-    this.Redirect("/profile", 302)
+    this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
   } else {
     this.RequireAuthFailed()
   }
@@ -33,5 +37,5 @@ func (this *SessionsController) Create() {
 
 func (this *SessionsController) Destroy() {
   this.DelSession("username")
-  this.Redirect("/sign_in", 302)
+  this.Redirect(beego.UrlFor("SessionsController.New"), 302)
 }

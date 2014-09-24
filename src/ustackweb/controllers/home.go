@@ -1,5 +1,9 @@
 package controllers
 
+import (
+  "github.com/astaxie/beego"
+)
+
 type HomeController struct {
 	BaseController
 }
@@ -11,5 +15,5 @@ func (this *HomeController) Prepare() {
 }
 
 func (this *HomeController) Get() {
-  this.Redirect("/profile", 302)
+  this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
 }

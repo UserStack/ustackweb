@@ -1,5 +1,9 @@
 package controllers
 
+import (
+  "github.com/astaxie/beego"
+)
+
 type Registration struct {
     Username string
     Password string
@@ -25,8 +29,8 @@ func (this *RegistrationsController) Create() {
   if err == nil && registration.Username != "foo" && registration.Username != "admin" {
     this.SetSession("username", registration.Username)
     this.RequireAuth()
-    this.Redirect("/profile", 302)
+    this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
   } else {
-    this.Redirect("/register", 302)
+    this.Redirect(beego.UrlFor("RegistrationsController.New"), 302)
   }
 }
