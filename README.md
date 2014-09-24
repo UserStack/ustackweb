@@ -21,6 +21,10 @@ Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go]
 
         $ make watch
 
+## Todos
+
+* Bulk editing (users, groups, permissions)
+
 ## License
 
 See [LICENSE](LICENSE).
