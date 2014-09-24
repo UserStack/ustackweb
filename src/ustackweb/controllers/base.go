@@ -2,7 +2,7 @@ package controllers
 
 import (
   "github.com/astaxie/beego"
-  "strings"
+  "ustackweb/utils"
 )
 
 type Permissions struct {
@@ -10,31 +10,12 @@ type Permissions struct {
   Groups bool
 }
 
-type Context struct {
-  controllerName string
-  actionName string
-}
-
-func (this *Context) ControllerName() string {
-  return strings.ToLower(strings.TrimSuffix(this.controllerName, "Controller"))
-}
-
-func (this *Context) ActionName() string {
-  return strings.ToLower(this.actionName)
-}
-
-func (this *Context) Is(controllerAndAction string) bool {
-  return strings.ToLower(this.controllerName + "." + this.actionName) == strings.ToLower(controllerAndAction)
-}
-
 type BaseController struct {
   beego.Controller
 }
 
 func (this *BaseController) PrepareLayout() {
-  controllerName, actionName := this.GetControllerAndAction()
-  this.Data["context"] = &Context{controllerName: controllerName,
-                                  actionName: actionName}
+  this.Data["context"] = utils.NewContext(this.GetControllerAndAction())
   this.Layout = "layouts/default.tpl.html"
   this.Data["Lang"] = "en-US"
 }
