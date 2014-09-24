@@ -4,14 +4,14 @@
       <table class="table table-condensed">
         <thead>
           <tr>
-            <th>id</th>
-            <th>name</th>
+            <th>Id</th>
+            <th>Name</th>
         </thead>
         <tbody>
         {{range $key, $val := .users}}
           <tr>
-            <td>{{$key}}</td>
-            <td>{{$val}}</td>
+            <td>{{$val.Id}}</td>
+            <td>{{$val.Name}}</td>
           </tr>
         {{end}}
         </tbody>
