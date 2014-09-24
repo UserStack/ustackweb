@@ -22,7 +22,7 @@ func (this *SessionsController) New() {
 func (this *SessionsController) Create() {
   login := Login{}
   err := this.ParseForm(&login)
-  if err == nil && login.Username == "foo" && login.Password == "bar" {
+  if err == nil && (login.Username == "foo" || login.Username == "admin") && login.Password == "bar" {
     this.SetSession("username", login.Username)
     this.RequireAuth()
     this.Redirect("/profile", 302)

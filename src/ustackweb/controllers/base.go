@@ -5,6 +5,10 @@ import (
   "strings"
 )
 
+type Permissions struct {
+  Users bool
+}
+
 type BaseController struct {
   beego.Controller
 }
@@ -26,6 +30,7 @@ func (this *BaseController) RequireAuth() {
   if username != nil {
     this.Data["loggedIn"] = true
     this.Data["username"] = username
+    this.Data["permissions"] = &Permissions{Users: username == "admin"}
   } else {
     this.RequireAuthFailed()
   }
