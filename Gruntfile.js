@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     wiredep: {
       target: {
-
+        exclude: ['bootstrap-sass'],
         // Point to the files that should be updated when
         // you run `grunt wiredep`
         src: [

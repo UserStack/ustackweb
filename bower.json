@@ -15,6 +15,6 @@
     "src/ustackweb/static/bower_components"
   ],
   "dependencies": {
-    "bootstrap": ""
+    "bootstrap-sass": ""
   }
 }
