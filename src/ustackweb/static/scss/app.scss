@@ -4,3 +4,12 @@
     margin-top: 10%;
   }
 }
+
+.users {
+  th,
+  td {
+    &:last-child {
+      text-align:right;
+    }
+  }
+}

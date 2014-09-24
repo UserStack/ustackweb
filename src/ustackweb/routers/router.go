@@ -13,7 +13,8 @@ func init() {
     beego.Router("/sign_in", &controllers.SessionsController{}, "post:Create")
     beego.Router("/sign_out", &controllers.SessionsController{}, "*:Destroy")
     beego.Router("/profile", &controllers.ProfileController{})
-    beego.Router("/users", &controllers.UsersController{})
+    beego.Router("/users", &controllers.UsersController{}, "Get:Index")
+    beego.Router("/users/:id", &controllers.UsersController{}, "Get:Edit")
     beego.Router("/groups", &controllers.GroupsController{})
     beego.Router("/*", &controllers.HomeController{})
 }

@@ -30,7 +30,7 @@
             <ul class="nav navbar-nav">
               <li {{if .context.Is "HomeController.Get" }}class="active"{{end}}><a href="{{urlfor "HomeController.Get"}}">Home</a></li>
               {{if .permissions.Users}}
-              <li {{if .context.Is "UsersController.Get" }}class="active"{{end}}><a href="{{urlfor "UsersController.Get"}}">Users</a></li>
+              <li {{if .context.Is "UsersController.Index" }}class="active"{{end}}><a href="{{urlfor "UsersController.Index"}}">Users</a></li>
               {{end}}
               {{if .permissions.Groups}}
               <li {{if .context.Is "GroupsController.Get" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Get"}}">Groups</a></li>
