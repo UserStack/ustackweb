@@ -41,5 +41,5 @@ func (this *BaseController) RequireAuthFailed() {
   flash := beego.NewFlash()
   flash.Error("Not logged in!")
   flash.Store(&this.Controller)
-  this.Redirect("/login", 302)
+  this.Redirect("/sign_in", 302)
 }

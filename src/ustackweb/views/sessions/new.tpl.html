@@ -1,6 +1,6 @@
 <div class="container">
   <div class="col-md-offset-3 col-md-6">
-    <form action="/login" method="post" role="form" class="form-horizontal">
+    <form action="{{urlfor "SessionsController.Create"}}" method="post" role="form" class="form-horizontal">
       {{.xsrf_html | str2html}}
       <div class="form-group">
         <div class="col-md-offset-2 col-md-10 ">
@@ -22,6 +22,14 @@
       <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
           <button type="submit" class="btn btn-default">Sign In</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <span class="help-block">
+            <a href="{{urlfor "RegistrationsController.New"}}">Register</a>
+            if you don't have an account.
+          </span>
         </div>
       </div>
     </form>
