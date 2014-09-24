@@ -18,6 +18,7 @@ func (this *BaseController) PrepareLayout() {
   this.Data["ControllerName"] = strings.TrimSuffix(controllerName, "Controller")
   this.Data["ActionName"] = actionName
   this.Layout = "layouts/default.tpl.html"
+  this.Data["Lang"] = "en-US"
 }
 
 func (this *BaseController) PrepareXsrf() {
