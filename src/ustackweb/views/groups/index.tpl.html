@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{range $key, $val := .groups}}
+          <tr>
+            <td>{{$val.Gid}}</td>
+            <td>{{$val.Name}}</td>
+          </tr>
+        {{end}}
+        </tbody>
+      </table>
+      {{template "shared/paginator.tpl.html" .}}
+    </div>
+  </div>
+</div>

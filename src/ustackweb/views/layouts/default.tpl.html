@@ -33,6 +33,9 @@
               {{if .permissions.Users}}
               <li><a href="{{urlfor "UsersController.Get"}}">Users</a></li>
               {{end}}
+              {{if .permissions.Groups}}
+              <li><a href="{{urlfor "GroupsController.Get"}}">Groups</a></li>
+              {{end}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="{{urlfor "ProfileController.Get"}}">Profile</a></li>

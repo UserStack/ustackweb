@@ -12,5 +12,6 @@ func init() {
     beego.Router("/logout", &controllers.SessionsController{}, "*:Destroy")
     beego.Router("/profile", &controllers.ProfileController{})
     beego.Router("/users", &controllers.UsersController{})
+    beego.Router("/groups", &controllers.GroupsController{})
     beego.Router("/*", &controllers.HomeController{})
 }

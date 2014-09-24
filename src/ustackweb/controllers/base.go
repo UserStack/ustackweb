@@ -7,6 +7,7 @@ import (
 
 type Permissions struct {
   Users bool
+  Groups bool
 }
 
 type BaseController struct {
@@ -31,7 +32,8 @@ func (this *BaseController) RequireAuth() {
   if username != nil {
     this.Data["loggedIn"] = true
     this.Data["username"] = username
-    this.Data["permissions"] = &Permissions{Users: username == "admin"}
+    this.Data["permissions"] = &Permissions{Users: username == "admin",
+                                            Groups: username == "admin"}
   } else {
     this.RequireAuthFailed()
   }
