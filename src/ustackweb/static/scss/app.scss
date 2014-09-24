@@ -1,3 +1,18 @@
+.navbar-brand {
+  background: url('/static/images/logo.png') 0 2px no-repeat;
+  width: 48px;
+  margin-left: 10px !important;
+}
+
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .navbar-brand {
+    background: url('/static/images/logo@2x.png') 0 2px no-repeat;
+    -webkit-background-size: 48px 48px;
+  }
+}
+
 .sessions.new,
 .registrations.new {
   form {
