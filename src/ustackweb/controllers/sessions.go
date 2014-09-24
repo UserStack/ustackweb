@@ -33,5 +33,5 @@ func (this *SessionsController) Create() {
 
 func (this *SessionsController) Destroy() {
   this.DelSession("username")
-  this.Redirect("/sessions/new", 302)
+  this.Redirect("/login", 302)
 }
