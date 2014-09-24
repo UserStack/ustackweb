@@ -24,6 +24,7 @@ Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go]
 ## Todos
 
 * Bulk editing (users, groups, permissions)
+* https://datatables.net vs ng-table ?
 
 ## License
 
