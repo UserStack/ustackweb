@@ -5,7 +5,8 @@ type SessionsController struct {
 }
 
 type Login struct {
-    Username string `form:"username"`
+    Username string
+    Password string
 }
 
 func (this *SessionsController) Prepare() {
@@ -21,7 +22,7 @@ func (this *SessionsController) New() {
 func (this *SessionsController) Create() {
   login := Login{}
   err := this.ParseForm(&login)
-  if err == nil && login.Username == "foo" {
+  if err == nil && login.Username == "foo" && login.Password == "bar" {
     this.SetSession("username", login.Username)
     this.RequireAuth()
     this.Redirect("/profile", 302)
