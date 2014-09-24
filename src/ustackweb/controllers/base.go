@@ -10,14 +10,31 @@ type Permissions struct {
   Groups bool
 }
 
+type Context struct {
+  controllerName string
+  actionName string
+}
+
+func (this *Context) ControllerName() string {
+  return strings.ToLower(strings.TrimSuffix(this.controllerName, "Controller"))
+}
+
+func (this *Context) ActionName() string {
+  return strings.ToLower(this.actionName)
+}
+
+func (this *Context) Is(controllerAndAction string) bool {
+  return strings.ToLower(this.controllerName + "." + this.actionName) == strings.ToLower(controllerAndAction)
+}
+
 type BaseController struct {
   beego.Controller
 }
 
 func (this *BaseController) PrepareLayout() {
   controllerName, actionName := this.GetControllerAndAction()
-  this.Data["ControllerName"] = strings.TrimSuffix(controllerName, "Controller")
-  this.Data["ActionName"] = actionName
+  this.Data["context"] = &Context{controllerName: controllerName,
+                                  actionName: actionName}
   this.Layout = "layouts/default.tpl.html"
   this.Data["Lang"] = "en-US"
 }

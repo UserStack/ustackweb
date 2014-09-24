@@ -10,8 +10,7 @@
       <!-- endbower -->
       <link rel="stylesheet" href="/static/css/app.css" />
   </head>
-    <body class="{{.ControllerName}} {{.ActionName}}">
-
+    <body class="{{.context.ControllerName}} {{.context.ActionName}}">
       {{if .flash.error}}
         <div class="alert alert-danger">{{.flash.error}}</div>
       {{end}}
@@ -29,16 +28,16 @@
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="{{urlfor "HomeController.Get"}}">Home</a></li>
+              <li {{if .context.Is "HomeController.Get" }}class="active"{{end}}><a href="{{urlfor "HomeController.Get"}}">Home</a></li>
               {{if .permissions.Users}}
-              <li><a href="{{urlfor "UsersController.Get"}}">Users</a></li>
+              <li {{if .context.Is "UsersController.Get" }}class="active"{{end}}><a href="{{urlfor "UsersController.Get"}}">Users</a></li>
               {{end}}
               {{if .permissions.Groups}}
-              <li><a href="{{urlfor "GroupsController.Get"}}">Groups</a></li>
+              <li {{if .context.Is "GroupsController.Get" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Get"}}">Groups</a></li>
               {{end}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="{{urlfor "ProfileController.Get"}}">Profile</a></li>
+              <li {{if .context.Is "ProfileController.Get" }}class="active"{{end}}><a href="{{urlfor "ProfileController.Get"}}">Profile</a></li>
               <li><a href="{{urlfor "SessionsController.Destroy"}}">Logout</a></li>
             </ul>
           </div>
