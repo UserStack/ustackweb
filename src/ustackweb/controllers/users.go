@@ -28,12 +28,5 @@ func (this *UsersController) Get() {
                            backends.User{Uid:8,Email:"xyz"}}
   paginator := utils.NewPaginator(this.Ctx.Request, 3, len(users))
   this.Data["paginator"] = paginator
-  this.Data["users"] = users[paginator.Offset():min(paginator.Offset()+paginator.PerPageNums, len(users))]
-}
-
-func min(x, y int) int {
-  if x > y {
-    return y
-  }
-  return x
+  this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
