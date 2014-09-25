@@ -16,7 +16,7 @@ type BaseController struct {
 
 func (this *BaseController) PrepareLayout() {
 	this.Data["context"] = utils.NewContext(this.GetControllerAndAction())
-	this.Layout = "layouts/default.tpl.html"
+	this.Layout = "layouts/default.html.tpl"
 	this.Data["Lang"] = "en-US"
 }
 

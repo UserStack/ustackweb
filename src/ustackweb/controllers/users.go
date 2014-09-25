@@ -14,11 +14,11 @@ func (this *UsersController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
 	this.PrepareLayout()
-	this.Layout = "layouts/default.tpl.html"
+	this.Layout = "layouts/default.html.tpl"
 }
 
 func (this *UsersController) Index() {
-	this.TplNames = "users/index.tpl.html"
+	this.TplNames = "users/index.html.tpl"
 	users := models.Users().All()
 	paginator := utils.NewPaginator(this.Ctx.Request, 3, len(users))
 	this.Data["paginator"] = paginator
@@ -26,7 +26,7 @@ func (this *UsersController) Index() {
 }
 
 func (this *UsersController) New() {
-	this.TplNames = "users/new.tpl.html"
+	this.TplNames = "users/new.html.tpl"
 }
 
 func (this *UsersController) Create() {
@@ -37,7 +37,7 @@ func (this *UsersController) Create() {
 }
 
 func (this *UsersController) Edit() {
-	this.TplNames = "users/edit.tpl.html"
+	this.TplNames = "users/edit.html.tpl"
 	id, _ := this.GetInt(":id")
 	this.Data["user"] = models.Users().Find(id)
 }

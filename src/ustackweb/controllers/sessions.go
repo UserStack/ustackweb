@@ -20,7 +20,7 @@ func (this *SessionsController) Prepare() {
 
 func (this *SessionsController) New() {
 	this.Data["Form"] = &Login{}
-	this.TplNames = "sessions/new.tpl.html"
+	this.TplNames = "sessions/new.html.tpl"
 }
 
 func (this *SessionsController) Create() {

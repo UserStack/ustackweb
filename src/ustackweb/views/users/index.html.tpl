@@ -38,7 +38,7 @@
         {{end}}
         </tbody>
       </table>
-      {{template "shared/paginator.tpl.html" .}}
+      {{template "shared/paginator.html.tpl" .}}
     </div>
   </div>
 </div>

@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         // Point to the files that should be updated when
         // you run `grunt wiredep`
         src: [
-          'src/ustackweb/views/layouts/default.tpl.html'
+          'src/ustackweb/views/layouts/*'
         ]
       }
     },

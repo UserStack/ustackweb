@@ -16,11 +16,11 @@ type RegistrationsController struct {
 func (this *RegistrationsController) Prepare() {
 	this.PrepareXsrf()
 	this.PrepareLayout()
-	this.Layout = "layouts/default.tpl.html"
+	this.Layout = "layouts/default.html.tpl"
 }
 
 func (this *RegistrationsController) New() {
-	this.TplNames = "registrations/new.tpl.html"
+	this.TplNames = "registrations/new.html.tpl"
 }
 
 func (this *RegistrationsController) Create() {

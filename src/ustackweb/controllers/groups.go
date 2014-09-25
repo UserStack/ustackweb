@@ -13,11 +13,11 @@ func (this *GroupsController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
 	this.PrepareLayout()
-	this.Layout = "layouts/default.tpl.html"
+	this.Layout = "layouts/default.html.tpl"
 }
 
 func (this *GroupsController) Get() {
-	this.TplNames = "groups/index.tpl.html"
+	this.TplNames = "groups/index.html.tpl"
 	groups := []backends.Group{
 		backends.Group{Gid: 1, Name: "Administrator"},
 		backends.Group{Gid: 2, Name: "Customer"},

@@ -11,6 +11,6 @@ func (this *ProfileController) Prepare() {
 }
 
 func (this *ProfileController) Get() {
-	this.Layout = "layouts/default.tpl.html"
-	this.TplNames = "profile/index.tpl.html"
+	this.Layout = "layouts/default.html.tpl"
+	this.TplNames = "profile/index.html.tpl"
 }
