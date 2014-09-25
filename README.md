@@ -38,6 +38,10 @@ Please make sure you have [Go](http://golang.org/), [Node.js](http://nodejs.org/
 * Bulk editing (users, groups, permissions)
 * https://datatables.net vs ng-table ?
 
+## Alternatives
+
+ * [Stormpath](https://stormpath.com/ (commercial)
+
 ## License
 
 See [LICENSE](LICENSE).
