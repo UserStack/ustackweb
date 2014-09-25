@@ -6,6 +6,7 @@ run:
 prepare:
 	go get -u github.com/astaxie/beego \
 				    github.com/beego/bee \
+				    github.com/beego/i18n \
 				    github.com/codegangsta/gin \
 				    github.com/UserStack/ustackd
 	npm install
