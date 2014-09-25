@@ -10,12 +10,6 @@
       <link rel="stylesheet" href="/static/css/app.css" />
   </head>
     <body class="{{.context.ControllerName}} {{.context.ActionName}}">
-      {{if .flash.error}}
-        <div class="alert alert-danger">{{.flash.error}}</div>
-      {{end}}
-      {{if .flash.notice}}
-        <div class="alert alert-info">{{.flash.notice}}</div>
-      {{end}}
       {{if .loggedIn}}
       <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container">
@@ -45,7 +39,15 @@
           </div>
         </div>
       </nav>
-      {{end}}
+      <div class="container">
+        {{end}}
+        {{if .flash.error}}
+          <div class="alert alert-danger">{{.flash.error}}</div>
+        {{end}}
+        {{if .flash.notice}}
+          <div class="alert alert-info">{{.flash.notice}}</div>
+        {{end}}
+      </div>
       {{.LayoutContent}}
       <!-- bower:js -->
       <script src="../../static/bower_components/jquery/dist/jquery.js"></script>
