@@ -19,7 +19,7 @@ func (this *UsersController) Prepare() {
 
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.tpl.html"
-	users := models.AllUsers()
+	users := models.Users().All()
 	paginator := utils.NewPaginator(this.Ctx.Request, 3, len(users))
 	this.Data["paginator"] = paginator
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
@@ -28,12 +28,12 @@ func (this *UsersController) Index() {
 func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.tpl.html"
 	id, _ := this.GetInt(":id")
-	this.Data["user"] = models.FindUser(int(id))
+	this.Data["user"] = models.Users().Find(int(id))
 }
 
 func (this *UsersController) Update() {
 	id, _ := this.GetInt(":id")
-	user := models.FindUser(int(id))
+	user := models.Users().Find(int(id))
 	flash := beego.NewFlash()
 	flash.Notice("Updated user " + user.Email)
 	flash.Store(&this.Controller)
@@ -42,7 +42,7 @@ func (this *UsersController) Update() {
 
 func (this *UsersController) Destroy() {
 	id, _ := this.GetInt(":id")
-	user := models.FindUser(int(id))
+	user := models.Users().Find(int(id))
 	flash := beego.NewFlash()
 	flash.Notice("Deleted user " + user.Email)
 	flash.Store(&this.Controller)
