@@ -36,6 +36,6 @@ func (this *SessionsController) Create() {
 }
 
 func (this *SessionsController) Destroy() {
-	this.DelSession("username")
+	this.DestroySession()
 	this.Redirect(beego.UrlFor("SessionsController.New"), 302)
 }
