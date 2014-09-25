@@ -2,10 +2,20 @@
 
 Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go](http://go-lang.org) using the [Beego](http://beego.me/) web framework.
 
-## Audience
+## Features
 
-* User (signup, login, reset password, ...)
-* Customer/Administrator/Developer (activate, lock, notify, logs, API-calls, test, logs, debugging, ...)
+* User Account
+    * CRUD
+    * Lock/Unlock
+    * Activation
+    * Reset Password
+    * Assign/Unassign Groups
+    * Assign/Unassign Permissions
+* Groups
+    * CRUD
+    * Assign/Unassign Permissions
+* Permissions
+    * CRUD
 
 ## Development
 
