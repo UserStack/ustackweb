@@ -5,7 +5,7 @@
         {{.xsrf_html | str2html}}
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
-            <p>Change User</p>
+            <h1>Change User</h1>
           </div>
         </div>
         <div class="form-group">

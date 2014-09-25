@@ -5,7 +5,7 @@
         {{.xsrf_html | str2html}}
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
-            <p>Create User</p>
+            <h1>Create User</h1>
             {{template "shared/form_errors.html.tpl" .}}
           </div>
         </div>
