@@ -19,7 +19,6 @@ import (
 func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
-	beego.SessionOn = true
 	beego.TestBeegoInit(apppath)
 }
 

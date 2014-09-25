@@ -21,7 +21,6 @@ func loadLocales() {
 
 func main() {
 	loadLocales()
-	beego.SessionOn = true
 	beego.EnableAdmin = true
 	beego.EnableXSRF = true
 	beego.XSRFKEY = "63oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o"
