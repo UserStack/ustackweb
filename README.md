@@ -2,6 +2,12 @@
 
 Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go](http://go-lang.org) using the [Beego](http://beego.me/) web framework.
 
+## Audience
+
+* End User
+* Administrator
+* Developer
+
 ## Features
 
 * User Account
