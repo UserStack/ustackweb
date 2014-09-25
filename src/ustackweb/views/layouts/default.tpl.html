@@ -13,6 +13,9 @@
       {{if .flash.error}}
         <div class="alert alert-danger">{{.flash.error}}</div>
       {{end}}
+      {{if .flash.notice}}
+        <div class="alert alert-info">{{.flash.notice}}</div>
+      {{end}}
       {{if .loggedIn}}
       <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container">

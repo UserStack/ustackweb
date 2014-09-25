@@ -3,6 +3,7 @@ package controllers
 import (
   "ustackweb/utils"
   "github.com/UserStack/ustackd/backends"
+  "github.com/astaxie/beego"
 )
 
 type UsersController struct {
@@ -32,6 +33,15 @@ func (this *UsersController) Index() {
 }
 
 func (this *UsersController) Edit() {
+  // this.GetString(":id")
   this.TplNames = "users/edit.tpl.html"
-  this.Data["user"] = this.GetString(":id")
+  this.Data["user"] = backends.User{Uid:1,Email:"foo"}
+}
+
+func (this *UsersController) Update() {
+  // this.GetString(":id")
+  flash := beego.NewFlash()
+  flash.Notice("Updated")
+  flash.Store(&this.Controller)
+  this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }
