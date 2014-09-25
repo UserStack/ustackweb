@@ -100,14 +100,18 @@ func (p *Paginator) Pages() []int {
 
 func (p *Paginator) PageLink(page int) string {
 	link, _ := url.ParseRequestURI(p.Request.RequestURI)
-	values := link.Query()
-	if page == 1 {
-		values.Del("p")
+	if link != nil {
+		values := link.Query()
+		if page == 1 {
+			values.Del("p")
+		} else {
+			values.Set("p", strconv.Itoa(page))
+		}
+		link.RawQuery = values.Encode()
+		return link.String()
 	} else {
-		values.Set("p", strconv.Itoa(page))
+		return ""
 	}
-	link.RawQuery = values.Encode()
-	return link.String()
 }
 
 func (p *Paginator) PageLinkPrev() (link string) {

@@ -13,12 +13,14 @@ import (
 	_ "ustackweb/routers"
 
 	"github.com/astaxie/beego"
+	"github.com/beego/i18n"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
+	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.TestBeegoInit(apppath)
 }
 
@@ -101,6 +103,21 @@ func TestMain(t *testing.T) {
 		Convey("Redirect", func() {
 			So(response.Code, ShouldEqual, 302)
 			So(response.HeaderMap.Get("Location"), ShouldEqual, "/sign_in")
+		})
+	})
+
+	Convey("Users without Sign In\n", t, func() {
+		response := postRequest("GET", "/users", &url.Values{}, nilSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldEqual, "/sign_in")
+		})
+	})
+
+	Convey("Users\n", t, func() {
+		response := postRequest("GET", "/users", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 200)
 		})
 	})
 }
