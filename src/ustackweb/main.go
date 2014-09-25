@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
-	"strconv"
 	"strings"
 	_ "ustackweb/routers"
 )
@@ -28,6 +27,5 @@ func main() {
 	beego.XSRFKEY = "63oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o"
 	beego.XSRFExpire = 3600
 	beego.AddFuncMap("i18n", i18n.Tr)
-	beego.AddFuncMap("intToStr", strconv.Itoa)
 	beego.Run()
 }

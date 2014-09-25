@@ -18,17 +18,17 @@
           </tr>
         </thead>
         <tbody>
-        {{range $key, $val := .users}}
+        {{range .users}}
           <tr>
-            <td>{{$val.Uid}}</td>
-            <td>{{$val.Name}}</td>
+            <td>{{.Uid}}</td>
+            <td>{{.Name}}</td>
             <td>
               <div class="btn-group">
-                <a href="{{urlfor "UsersController.Edit" ":id" (intToStr $val.Uid) }}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Edit" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-pencil"></span>
                   Change
                 </a>
-                <a href="{{urlfor "UsersController.Destroy" ":id" (intToStr $val.Uid) }}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Destroy" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-remove"></span>
                   Delete
                 </a>

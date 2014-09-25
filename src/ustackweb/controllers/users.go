@@ -28,12 +28,12 @@ func (this *UsersController) Index() {
 func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.tpl.html"
 	id, _ := this.GetInt(":id")
-	this.Data["user"] = models.Users().Find(int(id))
+	this.Data["user"] = models.Users().Find(id)
 }
 
 func (this *UsersController) Update() {
 	id, _ := this.GetInt(":id")
-	user := models.Users().Find(int(id))
+	user := models.Users().Find(id)
 	flash := beego.NewFlash()
 	flash.Notice("Updated user " + user.Email)
 	flash.Store(&this.Controller)
@@ -42,7 +42,7 @@ func (this *UsersController) Update() {
 
 func (this *UsersController) Destroy() {
 	id, _ := this.GetInt(":id")
-	user := models.Users().Find(int(id))
+	user := models.Users().Find(id)
 	flash := beego.NewFlash()
 	flash.Notice("Deleted user " + user.Email)
 	flash.Store(&this.Controller)

@@ -19,13 +19,13 @@ func (this UserCollection) All() []User {
 		User{&backends.User{Uid: 8, Email: "xyz"}}}
 }
 
-func (this UserCollection) Find(uid int) User {
+func (this UserCollection) Find(uid int64) *User {
 	for _, user := range this.All() {
 		if user.Uid == uid {
-			return user
+			return &user
 		}
 	}
-	return User{}
+	return &User{}
 }
 
 func Users() UserCollection {
