@@ -1,10 +1,14 @@
 package test
 
 import (
+	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"testing"
 	_ "ustackweb/routers"
 
@@ -19,18 +23,47 @@ func init() {
 	beego.TestBeegoInit(apppath)
 }
 
-// TestMain is a sample to run an endpoint test
-func TestMain(t *testing.T) {
-	r, _ := http.NewRequest("GET", "/", nil)
+func getRequest(method string, urlStr string) *httptest.ResponseRecorder {
+	r, _ := http.NewRequest(method, urlStr, nil)
 	w := httptest.NewRecorder()
 	beego.BeeApp.Handlers.ServeHTTP(w, r)
-
 	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
+	return w
+}
 
-	Convey("Subject: Root Endpoint without sign in\n", t, func() {
+func postRequest(method string, resourcePath string, data *url.Values) *httptest.ResponseRecorder {
+	u, _ := url.ParseRequestURI("/")
+	u.Path = resourcePath
+	urlStr := fmt.Sprintf("%v", u)
+
+	r, _ := http.NewRequest(method, urlStr, bytes.NewBufferString(data.Encode()))
+	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	r.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
+
+	w := httptest.NewRecorder()
+	beego.BeeApp.Handlers.ServeHTTP(w, r)
+	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
+	return w
+}
+
+// TestMain is a sample to run an endpoint test
+func TestMain(t *testing.T) {
+	Convey("Redirect to Sign In\n", t, func() {
+		w := getRequest("GET", "/")
 		Convey("Redirect", func() {
 			So(w.Code, ShouldEqual, 302)
 			So(w.HeaderMap.Get("Location"), ShouldEqual, "/sign_in")
+		})
+	})
+
+	Convey("Successful Sign In\n", t, func() {
+		data := url.Values{}
+		data.Add("Username", "admin")
+		data.Add("Password", "bar")
+		response := postRequest("POST", "/sign_in", &data)
+		Convey("Redirect", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldEqual, "/profile")
 		})
 	})
 }
