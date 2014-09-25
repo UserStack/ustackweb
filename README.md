@@ -9,6 +9,8 @@ Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go]
 
 ## Development
 
+Please make sure you have [Go](http://golang.org/), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) installed.
+
 1. Setup dependencies
 
         $ make prepare 
