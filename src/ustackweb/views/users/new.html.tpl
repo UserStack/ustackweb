@@ -6,14 +6,7 @@
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <p>Create User</p>
-            <ul>
-              {{range .Errors }}
-              <li>
-                <mark>{{ .Key  }}</mark>
-                {{ .Message  }}
-              </li>
-              {{end}}
-            </ul>
+            {{template "shared/form_errors.html.tpl" .}}
           </div>
         </div>
         <div class="form-group">
