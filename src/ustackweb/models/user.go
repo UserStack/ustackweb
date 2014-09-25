@@ -5,5 +5,5 @@ import (
 )
 
 type User struct {
-	*backends.User
+	backends.User
 }

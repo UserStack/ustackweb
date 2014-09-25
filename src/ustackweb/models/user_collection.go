@@ -1,22 +1,26 @@
 package models
 
 import (
+	"fmt"
 	"github.com/UserStack/ustackd/backends"
 )
 
 type UserCollection struct {
+	backend backends.Abstract
 }
 
 func (this *UserCollection) All() []User {
-	return []User{
-		User{&backends.User{Uid: 1, Name: "foo"}},
-		User{&backends.User{Uid: 2, Name: "admin"}},
-		User{&backends.User{Uid: 3, Name: "abc"}},
-		User{&backends.User{Uid: 4, Name: "def"}},
-		User{&backends.User{Uid: 5, Name: "hij"}},
-		User{&backends.User{Uid: 6, Name: "glk"}},
-		User{&backends.User{Uid: 7, Name: "uvw"}},
-		User{&backends.User{Uid: 8, Name: "xyz"}}}
+	var err *backends.Error
+	fmt.Println(err)
+	_, err = this.backend.CreateUser("pauluxxxks", "barssx")
+	fmt.Println(err)
+	backendUsers, _ := this.backend.Users()
+	users := make([]User, len(backendUsers))
+	for idx, backendUser := range backendUsers {
+		users[idx] = User{backendUser}
+	}
+	fmt.Println(users)
+	return users
 }
 
 func (this *UserCollection) Find(uid int64) *User {
@@ -29,5 +33,6 @@ func (this *UserCollection) Find(uid int64) *User {
 }
 
 func Users() *UserCollection {
-	return &UserCollection{}
+	backend, _ := backends.NewSqliteBackend("./tmp.db")
+	return &UserCollection{backend: &backend}
 }
