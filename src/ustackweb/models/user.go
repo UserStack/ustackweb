@@ -5,5 +5,9 @@ import (
 )
 
 type User struct {
-	backends.User
+	*backends.User
+}
+
+func (this *User) Name() string {
+	return this.Email
 }
