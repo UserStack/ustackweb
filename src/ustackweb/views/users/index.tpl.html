@@ -24,7 +24,7 @@
             <td>{{$val.Email}}</td>
             <td>
               <div class="btn-group">
-                <a href="{{urlfor "UsersController.Edit" ":id" $val.Email }}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Edit" ":id" (intToStr $val.Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-pencil"></span>
                   Change
                 </a>
