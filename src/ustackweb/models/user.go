@@ -7,7 +7,3 @@ import (
 type User struct {
 	*backends.User
 }
-
-func (this *User) Name() string {
-	return this.Email
-}

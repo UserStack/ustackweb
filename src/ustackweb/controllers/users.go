@@ -64,7 +64,7 @@ func (this *UsersController) Update() {
 	id, _ := this.GetInt(":id")
 	user := models.Users().Find(id)
 	flash := beego.NewFlash()
-	flash.Notice("Updated user " + user.Email)
+	flash.Notice("Updated user " + user.Name)
 	flash.Store(&this.Controller)
 	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }
@@ -73,7 +73,7 @@ func (this *UsersController) Destroy() {
 	id, _ := this.GetInt(":id")
 	user := models.Users().Find(id)
 	flash := beego.NewFlash()
-	flash.Notice("Deleted user " + user.Email)
+	flash.Notice("Deleted user " + user.Name)
 	flash.Store(&this.Controller)
 	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }

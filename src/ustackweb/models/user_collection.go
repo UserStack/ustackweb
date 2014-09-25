@@ -9,14 +9,14 @@ type UserCollection struct {
 
 func (this *UserCollection) All() []User {
 	return []User{
-		User{&backends.User{Uid: 1, Email: "foo"}},
-		User{&backends.User{Uid: 2, Email: "admin"}},
-		User{&backends.User{Uid: 3, Email: "abc"}},
-		User{&backends.User{Uid: 4, Email: "def"}},
-		User{&backends.User{Uid: 5, Email: "hij"}},
-		User{&backends.User{Uid: 6, Email: "glk"}},
-		User{&backends.User{Uid: 7, Email: "uvw"}},
-		User{&backends.User{Uid: 8, Email: "xyz"}}}
+		User{&backends.User{Uid: 1, Name: "foo"}},
+		User{&backends.User{Uid: 2, Name: "admin"}},
+		User{&backends.User{Uid: 3, Name: "abc"}},
+		User{&backends.User{Uid: 4, Name: "def"}},
+		User{&backends.User{Uid: 5, Name: "hij"}},
+		User{&backends.User{Uid: 6, Name: "glk"}},
+		User{&backends.User{Uid: 7, Name: "uvw"}},
+		User{&backends.User{Uid: 8, Name: "xyz"}}}
 }
 
 func (this *UserCollection) Find(uid int64) *User {
