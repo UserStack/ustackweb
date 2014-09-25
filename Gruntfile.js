@@ -43,6 +43,13 @@ module.exports = function(grunt) {
         options: {
           debounceDelay: 250
         }
+      },
+      go: {
+        files: 'src/**/*.go',
+        tasks: ['shell:fmt'],
+        options: {
+          debounceDelay: 250
+        }
       }
     },
     shell: {
