@@ -1,7 +1,7 @@
 package controllers
 
 import (
-  "github.com/astaxie/beego"
+	"github.com/astaxie/beego"
 )
 
 type HomeController struct {
@@ -9,11 +9,11 @@ type HomeController struct {
 }
 
 func (this *HomeController) Prepare() {
-  this.PrepareXsrf()
-  this.RequireAuth()
-  this.PrepareLayout()
+	this.PrepareXsrf()
+	this.RequireAuth()
+	this.PrepareLayout()
 }
 
 func (this *HomeController) Get() {
-  this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
+	this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
 }
