@@ -6,12 +6,20 @@
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <p>Create User</p>
+            <ul>
+              {{range .Errors }}
+              <li>
+                <mark>{{ .Key  }}</mark>
+                {{ .Message  }}
+              </li>
+              {{end}}
+            </ul>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label" for="inputUser-username">Username</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="inputUser-username" name="username" placeholder="Username">
+            <input type="text" class="form-control" id="inputUser-username" name="Username" placeholder="Username">
           </div>
         </div>
         <div class="form-group">

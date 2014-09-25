@@ -2,9 +2,14 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/validation"
 	"ustackweb/models"
 	"ustackweb/utils"
 )
+
+type UserForm struct {
+	Username string
+}
 
 type UsersController struct {
 	BaseController
@@ -30,10 +35,23 @@ func (this *UsersController) New() {
 }
 
 func (this *UsersController) Create() {
-	flash := beego.NewFlash()
-	flash.Notice("Updated user " + this.GetString("username"))
-	flash.Store(&this.Controller)
-	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	userForm := UserForm{}
+	err := this.ParseForm(&userForm)
+	if err == nil {
+		valid := validation.Validation{}
+		valid.Required(userForm.Username, "Username")
+		if valid.HasErrors() {
+			this.Data["Errors"] = valid.Errors
+			flash := beego.NewFlash()
+			flash.Error("Insufficient data!")
+			flash.Store(&this.Controller)
+			this.TplNames = "users/new.html.tpl"
+		} else {
+			this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+		}
+	} else {
+		this.TplNames = "users/new.html.tpl"
+	}
 }
 
 func (this *UsersController) Edit() {
