@@ -66,4 +66,15 @@ func TestMain(t *testing.T) {
 			So(response.HeaderMap.Get("Location"), ShouldEqual, "/profile")
 		})
 	})
+
+	Convey("Failed Sign In\n", t, func() {
+		data := url.Values{}
+		data.Add("Username", "adminx")
+		data.Add("Password", "barx")
+		response := postRequest("POST", "/sign_in", &data)
+		Convey("Redirect", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldEqual, "/sign_in")
+		})
+	})
 }
