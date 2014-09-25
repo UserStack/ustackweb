@@ -11,3 +11,5 @@ prepare:
 				    github.com/UserStack/ustackd
 	npm install
 	npm run bower
+test:
+	cd src/ustackweb && go test tests/default_test.go
