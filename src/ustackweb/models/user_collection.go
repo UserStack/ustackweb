@@ -32,6 +32,12 @@ func (this *UserCollection) Find(uid int64) *User {
 	return &User{}
 }
 
+func (this *UserCollection) Login(username string, password string) (loggedIn bool) {
+	uid, _ := this.backend.LoginUser(username, password)
+	loggedIn = uid > 0
+	return
+}
+
 func Users() *UserCollection {
 	backend, _ := backends.NewSqliteBackend("./tmp.db")
 	return &UserCollection{backend: &backend}

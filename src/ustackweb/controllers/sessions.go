@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"ustackweb/models"
 )
 
 type SessionsController struct {
@@ -26,7 +27,7 @@ func (this *SessionsController) New() {
 func (this *SessionsController) Create() {
 	login := Login{}
 	err := this.ParseForm(&login)
-	if err == nil && (login.Username == "foo" || login.Username == "admin") && login.Password == "bar" {
+	if err == nil && models.Users().Login(login.Username, login.Password) {
 		this.SetSession("username", login.Username)
 		this.RequireAuth()
 		this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
