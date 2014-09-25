@@ -23,12 +23,16 @@ func init() {
 	beego.TestBeegoInit(apppath)
 }
 
-func getRequest(method string, urlStr string) *httptest.ResponseRecorder {
-	r, _ := http.NewRequest(method, urlStr, nil)
+func recordRequest(request *http.Request) *httptest.ResponseRecorder {
 	w := httptest.NewRecorder()
-	beego.BeeApp.Handlers.ServeHTTP(w, r)
+	beego.BeeApp.Handlers.ServeHTTP(w, request)
 	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
 	return w
+}
+
+func getRequest(method string, urlStr string) *httptest.ResponseRecorder {
+	r, _ := http.NewRequest(method, urlStr, nil)
+	return recordRequest(r)
 }
 
 func postRequest(method string, resourcePath string, data *url.Values) *httptest.ResponseRecorder {
@@ -39,11 +43,7 @@ func postRequest(method string, resourcePath string, data *url.Values) *httptest
 	r, _ := http.NewRequest(method, urlStr, bytes.NewBufferString(data.Encode()))
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
-
-	w := httptest.NewRecorder()
-	beego.BeeApp.Handlers.ServeHTTP(w, r)
-	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
-	return w
+	return recordRequest(r)
 }
 
 // TestMain is a sample to run an endpoint test
