@@ -7,7 +7,7 @@ import (
 type UserCollection struct {
 }
 
-func (this UserCollection) All() []User {
+func (this *UserCollection) All() []User {
 	return []User{
 		User{&backends.User{Uid: 1, Email: "foo"}},
 		User{&backends.User{Uid: 2, Email: "admin"}},
@@ -19,7 +19,7 @@ func (this UserCollection) All() []User {
 		User{&backends.User{Uid: 8, Email: "xyz"}}}
 }
 
-func (this UserCollection) Find(uid int64) *User {
+func (this *UserCollection) Find(uid int64) *User {
 	for _, user := range this.All() {
 		if user.Uid == uid {
 			return &user
@@ -28,6 +28,6 @@ func (this UserCollection) Find(uid int64) *User {
 	return &User{}
 }
 
-func Users() UserCollection {
-	return UserCollection{}
+func Users() *UserCollection {
+	return &UserCollection{}
 }
