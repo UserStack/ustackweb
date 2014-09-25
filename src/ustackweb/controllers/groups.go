@@ -18,7 +18,8 @@ func (this *GroupsController) Prepare() {
 
 func (this *GroupsController) Get() {
 	this.TplNames = "groups/index.tpl.html"
-	groups := []backends.Group{backends.Group{Gid: 1, Name: "Administrator"},
+	groups := []backends.Group{
+		backends.Group{Gid: 1, Name: "Administrator"},
 		backends.Group{Gid: 2, Name: "Customer"},
 		backends.Group{Gid: 3, Name: "Support"},
 		backends.Group{Gid: 4, Name: "Developer"},
