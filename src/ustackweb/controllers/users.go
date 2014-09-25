@@ -25,6 +25,17 @@ func (this *UsersController) Index() {
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
 
+func (this *UsersController) New() {
+	this.TplNames = "users/new.tpl.html"
+}
+
+func (this *UsersController) Create() {
+	flash := beego.NewFlash()
+	flash.Notice("Updated user " + this.GetString("username"))
+	flash.Store(&this.Controller)
+	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+}
+
 func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.tpl.html"
 	id, _ := this.GetInt(":id")
