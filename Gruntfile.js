@@ -48,6 +48,9 @@ module.exports = function(grunt) {
     shell: {
         bower: {
             command: 'bower install'
+        },
+        fmt: {
+            command: 'go fmt ./...'
         }
     }
   });
