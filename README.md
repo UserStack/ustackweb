@@ -2,6 +2,8 @@
 
 Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go](http://go-lang.org) using the [Beego](http://beego.me/) web framework.
 
+Project to learn golang.org in the context of user lifecycle management.
+
 ## Audience
 
 * End User
@@ -46,7 +48,7 @@ Please make sure you have [Go](http://golang.org/), [Node.js](http://nodejs.org/
 
 ## Alternatives
 
- * [Stormpath](https://stormpath.com/ (commercial)
+ * [Stormpath](https://stormpath.com/) (commercial)
 
 ## License
 
