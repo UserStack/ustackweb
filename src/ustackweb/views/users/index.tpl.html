@@ -28,7 +28,7 @@
                   <span class="glyphicon glyphicon-pencil"></span>
                   Change
                 </a>
-                <a href="{{urlfor "UsersController.Destroy"}}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Destroy" ":id" (intToStr $val.Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-remove"></span>
                   Delete
                 </a>

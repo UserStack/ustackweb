@@ -52,9 +52,19 @@ func (this *UsersController) Edit() {
 }
 
 func (this *UsersController) Update() {
-	// this.GetInt(":id")
+	id, _ := this.GetInt(":id")
+	user := this.findUser(int(id))
 	flash := beego.NewFlash()
-	flash.Notice("Updated")
+	flash.Notice("Updated user " + user.Email)
+	flash.Store(&this.Controller)
+	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+}
+
+func (this *UsersController) Destroy() {
+	id, _ := this.GetInt(":id")
+	user := this.findUser(int(id))
+	flash := beego.NewFlash()
+	flash.Notice("Deleted user " + user.Email)
 	flash.Store(&this.Controller)
 	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }
