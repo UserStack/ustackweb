@@ -45,7 +45,7 @@ func (this *UsersController) Create() {
 		if valid.HasErrors() {
 			this.Data["Errors"] = valid.Errors
 			flash := beego.NewFlash()
-			flash.Error("Insufficient data!")
+			flash.Error("Could not create user.")
 			flash.Store(&this.Controller)
 			this.TplNames = "users/new.html.tpl"
 		} else {
@@ -83,7 +83,7 @@ func (this *UsersController) UpdateUsername() {
 		if valid.HasErrors() {
 			this.Data["UpdateUsernameErrors"] = valid.Errors
 			flash := beego.NewFlash()
-			flash.Error("Insufficient data!")
+			flash.Error("Could not change username.")
 			flash.Store(&this.Controller)
 			this.TplNames = "users/edit.html.tpl"
 		} else {
@@ -115,7 +115,7 @@ func (this *UsersController) UpdatePassword() {
 		if valid.HasErrors() {
 			this.Data["UpdatePasswordErrors"] = valid.Errors
 			flash := beego.NewFlash()
-			flash.Error("Insufficient data!")
+			flash.Error("Could not change password.")
 			flash.Store(&this.Controller)
 			this.TplNames = "users/edit.html.tpl"
 		} else {
