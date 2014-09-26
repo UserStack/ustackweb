@@ -16,6 +16,12 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="col-md-3 control-label" for="inputUser-password">Password</label>
+          <div class="col-md-6">
+            <input type="password" class="form-control" id="inputUser-password" name="Password">
+          </div>
+        </div>
+        <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <button type="submit" class="btn btn-default">Create</button>
           </div>

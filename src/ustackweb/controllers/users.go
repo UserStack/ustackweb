@@ -9,6 +9,7 @@ import (
 
 type UserForm struct {
 	Username string
+	Password string
 }
 
 type UsersController struct {
@@ -47,7 +48,7 @@ func (this *UsersController) Create() {
 			flash.Store(&this.Controller)
 			this.TplNames = "users/new.html.tpl"
 		} else {
-			created, id := models.Users().Create(userForm.Username, "foo")
+			created, id := models.Users().Create(userForm.Username, userForm.Password)
 			if created {
 				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
 			} else {
