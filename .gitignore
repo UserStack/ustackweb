@@ -32,3 +32,6 @@ src/ustackweb/static/css
 .sass-cache
 
 src/ustackweb/ustackweb
+
+ustack.db
+ustackd.pid
