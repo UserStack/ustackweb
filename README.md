@@ -4,6 +4,8 @@ Web frontend for [ustackd](https://github.com/UserStack/ustackd) written in [Go]
 
 Project to learn golang.org in the context of user lifecycle management.
 
+![https://travis-ci.org/UserStack/ustackweb.svg?branch=master](https://travis-ci.org/UserStack/ustackweb.svg?branch=master)
+
 ## Audience
 
 * End User
