@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"ustackweb/utils"
+	"github.com/UserStack/ustackweb/utils"
 )
 
 type Permissions struct {

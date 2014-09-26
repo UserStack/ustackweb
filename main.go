@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
-	"ustackweb/backend"
-	_ "ustackweb/routers"
-	"ustackweb/utils"
+	"github.com/UserStack/ustackweb/backend"
+	_ "github.com/UserStack/ustackweb/routers"
+	"github.com/UserStack/ustackweb/utils"
 )
 
 func main() {

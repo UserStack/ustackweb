@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"ustackweb/controllers"
+	"github.com/UserStack/ustackweb/controllers"
 )
 
 func init() {

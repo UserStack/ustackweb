@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/UserStack/ustackd/backends"
 	wetalkutils "github.com/beego/wetalk/modules/utils"
-	"ustackweb/utils"
+	"github.com/UserStack/ustackweb/utils"
 )
 
 type GroupsController struct {

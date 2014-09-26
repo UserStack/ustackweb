@@ -3,7 +3,7 @@ package models
 import (
 	"fmt"
 	"github.com/UserStack/ustackd/backends"
-	"ustackweb/backend"
+	"github.com/UserStack/ustackweb/backend"
 )
 
 type UserCollection struct {

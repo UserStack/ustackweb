@@ -5,8 +5,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
 	wetalkutils "github.com/beego/wetalk/modules/utils"
-	"ustackweb/models"
-	"ustackweb/utils"
+	"github.com/UserStack/ustackweb/models"
+	"github.com/UserStack/ustackweb/utils"
 )
 
 type UserForm struct {

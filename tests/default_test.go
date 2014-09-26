@@ -10,13 +10,13 @@ import (
 	"runtime"
 	"strconv"
 	"testing"
-	_ "ustackweb/routers"
+	_ "github.com/UserStack/ustackweb/routers"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 	. "github.com/smartystreets/goconvey/convey"
-	"ustackweb/backend"
-	"ustackweb/models"
+	"github.com/UserStack/ustackweb/backend"
+	"github.com/UserStack/ustackweb/models"
 )
 
 func init() {

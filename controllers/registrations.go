@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"ustackweb/models"
+	"github.com/UserStack/ustackweb/models"
 )
 
 type Registration struct {
