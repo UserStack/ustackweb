@@ -7,9 +7,11 @@ prepare:
 	go get -u github.com/astaxie/beego \
 				    github.com/beego/bee \
 				    github.com/beego/i18n \
-				    github.com/codegangsta/gin \
-				    github.com/UserStack/ustackd
+				    github.com/codegangsta/gin
+	make backend
 	npm install
 	npm run bower
+backend:
+	go get -u github.com/UserStack/ustackd
 test:
 	go test ./src/ustackweb/...
