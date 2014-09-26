@@ -48,6 +48,7 @@ func (this *UserCollection) Destroy(name_or_uid string) (deleted bool) {
 }
 
 func Users() *UserCollection {
+	//backend, _ := backends.NewSqliteBackend(":memory:")
 	backend, _ := client.Dial("127.0.0.1:7654")
 	return &UserCollection{backend: backend}
 }
