@@ -33,8 +33,20 @@ func (this *UserCollection) Find(uid int64) *User {
 }
 
 func (this *UserCollection) Login(username string, password string) (loggedIn bool) {
-	uid, _ := this.backend.LoginUser(username, password)
-	loggedIn = uid > 0
+	id, _ := this.backend.LoginUser(username, password)
+	loggedIn = id > 0
+	return
+}
+
+func (this *UserCollection) Create(username string, password string) (created bool, id int64) {
+	id, _ = this.backend.CreateUser(username, password)
+	created = id > 0
+	return
+}
+
+func (this *UserCollection) Destroy(username string) (deleted bool) {
+	err := this.backend.DeleteUser(username)
+	deleted = err == nil
 	return
 }
 

@@ -47,7 +47,15 @@ func (this *UsersController) Create() {
 			flash.Store(&this.Controller)
 			this.TplNames = "users/new.html.tpl"
 		} else {
-			this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+			created, id := models.Users().Create(userForm.Username, "foo")
+			if created {
+				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+			} else {
+				flash := beego.NewFlash()
+				flash.Error("Could not create user!")
+				flash.Store(&this.Controller)
+				this.TplNames = "users/new.html.tpl"
+			}
 		}
 	} else {
 		this.TplNames = "users/new.html.tpl"
@@ -72,6 +80,7 @@ func (this *UsersController) Update() {
 func (this *UsersController) Destroy() {
 	id, _ := this.GetInt(":id")
 	user := models.Users().Find(id)
+	models.Users().Destroy(user.Name)
 	flash := beego.NewFlash()
 	flash.Notice("Deleted user " + user.Name)
 	flash.Store(&this.Controller)
