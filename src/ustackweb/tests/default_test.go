@@ -10,6 +10,7 @@ import (
 	"runtime"
 	"strconv"
 	"testing"
+	"time"
 	_ "ustackweb/routers"
 
 	"github.com/astaxie/beego"
@@ -35,7 +36,7 @@ func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder
 		s.Set("username", session.username)
 	}
 	beego.BeeApp.Handlers.ServeHTTP(w, r)
-	beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
+	// beego.Trace("testing", "TestMain", "Code[%d]\n%s", w.Code, w.Body.String())
 	return w
 }
 
@@ -118,6 +119,25 @@ func TestMain(t *testing.T) {
 		response := postRequest("GET", "/users", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
+		})
+	})
+
+	Convey("Create User\n", t, func() {
+		data := url.Values{}
+		data.Add("Username", fmt.Sprintf("mikes%d", time.Now().UnixNano()))
+		data.Add("Password", "micke")
+		response := postRequest("POST", "/users", &data, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldStartWith, "/users/")
+		})
+	})
+
+	Convey("Create User Error\n", t, func() {
+		response := postRequest("POST", "/users", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 200)
+			So(response.Body.String(), ShouldContainSubstring, "Could not create user")
 		})
 	})
 }

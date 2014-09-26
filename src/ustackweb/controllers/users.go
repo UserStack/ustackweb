@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
 	wetalkutils "github.com/beego/wetalk/modules/utils"
@@ -52,7 +53,7 @@ func (this *UsersController) Create() {
 		} else {
 			created, id := models.Users().Create(userForm.Username, userForm.Password)
 			if created {
-				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", fmt.Sprintf("%d", id)), 302)
 			} else {
 				flash := beego.NewFlash()
 				flash.Error("Could not create user!")
