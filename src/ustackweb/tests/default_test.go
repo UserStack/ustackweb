@@ -71,8 +71,8 @@ func TestMain(t *testing.T) {
 	Convey("Redirect to Profile when already Signed In\n", t, func() {
 		response := getRequest("GET", "/", adminSession)
 		Convey("Redirect", func() {
-			So(response.Code, ShouldEqual, 302)
-			So(response.HeaderMap.Get("Location"), ShouldEqual, "/profile")
+			So(response.Code, ShouldEqual, 200)
+			So(response.Body.String(), ShouldContainSubstring, "Home")
 		})
 	})
 
@@ -87,11 +87,11 @@ func TestMain(t *testing.T) {
 	Convey("Successful Sign In\n", t, func() {
 		data := url.Values{}
 		data.Add("Username", "admin")
-		data.Add("Password", "bar")
+		data.Add("Password", "admin")
 		response := postRequest("POST", "/sign_in", &data, nilSession)
 		Convey("Redirect", func() {
 			So(response.Code, ShouldEqual, 302)
-			So(response.HeaderMap.Get("Location"), ShouldEqual, "/profile")
+			So(response.HeaderMap.Get("Location"), ShouldEqual, "/")
 		})
 	})
 
