@@ -27,7 +27,7 @@ func (this *UsersController) Prepare() {
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.html.tpl"
 	users := models.Users().All()
-	paginator := utils.NewPaginator(this.Ctx.Request, 3, len(users))
+	paginator := utils.NewPaginator(this.Ctx.Request, 25, len(users))
 	this.Data["paginator"] = paginator
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
