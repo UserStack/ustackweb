@@ -21,3 +21,5 @@ backend:
 	ustackd -f
 test:
 	go test ./src/ustackweb/...
+testrunner:
+	goconvey -depth=10 -host="0.0.0.0" -port="8081"
