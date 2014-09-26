@@ -6,7 +6,7 @@
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <h1>Create User</h1>
-            {{template "shared/form_errors.html.tpl" .}}
+            {{template "shared/form_errors.html.tpl" .Errors}}
           </div>
         </div>
         <div class="form-group">
