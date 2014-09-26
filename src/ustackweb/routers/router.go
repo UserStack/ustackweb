@@ -18,8 +18,10 @@ func init() {
 	beego.Router("/users/new", &controllers.UsersController{}, "get:New")
 	beego.Router("/users", &controllers.UsersController{}, "post:Create")
 	beego.Router("/users/:id/update_username", &controllers.UsersController{}, "post:UpdateUsername")
+	beego.Router("/users/:id/update_username", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/users/:id/update_password", &controllers.UsersController{}, "post:UpdatePassword")
-	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
+	beego.Router("/users/:id/update_password", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/users/:id", &controllers.UsersController{}, "get:Edit")
+	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
 	beego.Router("/groups", &controllers.GroupsController{})
 }
