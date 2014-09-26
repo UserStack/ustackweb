@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
+	wetalkutils "github.com/beego/wetalk/modules/utils"
 	"ustackweb/models"
 	"ustackweb/utils"
 )
@@ -27,7 +28,7 @@ func (this *UsersController) Prepare() {
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.html.tpl"
 	users := models.Users().All()
-	paginator := utils.NewPaginator(this.Ctx.Request, 25, len(users))
+	paginator := wetalkutils.NewPaginator(this.Ctx.Request, 25, len(users))
 	this.Data["paginator"] = paginator
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }

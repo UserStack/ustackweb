@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/UserStack/ustackd/backends"
+	wetalkutils "github.com/beego/wetalk/modules/utils"
 	"ustackweb/utils"
 )
 
@@ -27,7 +28,7 @@ func (this *GroupsController) Get() {
 		backends.Group{Gid: 6, Name: "Guest"},
 		backends.Group{Gid: 7, Name: "Janitor"},
 		backends.Group{Gid: 8, Name: "Jupitor"}}
-	paginator := utils.NewPaginator(this.Ctx.Request, 3, len(groups))
+	paginator := wetalkutils.NewPaginator(this.Ctx.Request, 3, len(groups))
 	this.Data["paginator"] = paginator
 	this.Data["groups"] = groups[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(groups))]
 }

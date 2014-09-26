@@ -9,6 +9,7 @@ prepare:
 	go get -u github.com/astaxie/beego \
 				    github.com/beego/bee \
 				    github.com/beego/i18n \
+				    github.com/beego/wetalk \
 				    github.com/codegangsta/gin \
 				    ${BACKEND}
 	make backend
