@@ -10,17 +10,20 @@ import (
 	"runtime"
 	"strconv"
 	"testing"
-	"time"
 	_ "ustackweb/routers"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 	. "github.com/smartystreets/goconvey/convey"
+	"ustackweb/backend"
+	"ustackweb/models"
 )
 
 func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
+	backend.Type = backend.Remote
+	models.Users().Create("admin", "admin")
 	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.TestBeegoInit(apppath)
 }
@@ -124,7 +127,7 @@ func TestMain(t *testing.T) {
 
 	Convey("Create User\n", t, func() {
 		data := url.Values{}
-		data.Add("Username", fmt.Sprintf("mikes%d", time.Now().UnixNano()))
+		data.Add("Username", "mikes")
 		data.Add("Password", "micke")
 		response := postRequest("POST", "/users", &data, adminSession)
 		Convey("Render", func() {

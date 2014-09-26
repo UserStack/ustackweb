@@ -3,11 +3,13 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
+	"ustackweb/backend"
 	_ "ustackweb/routers"
 	"ustackweb/utils"
 )
 
 func main() {
+	backend.Type = backend.Remote
 	utils.LoadLocales()
 	beego.EnableAdmin = true
 	beego.EnableXSRF = true
