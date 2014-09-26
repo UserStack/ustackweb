@@ -1,5 +1,5 @@
 <ul>
-  {{range .Errors }}
+  {{range . }}
   <li>
     <mark>{{ .Key  }}</mark>
     {{ .Message  }}

@@ -47,6 +47,12 @@ func (this *UserCollection) UpdateUsername(name_or_uid string, password string, 
 	return
 }
 
+func (this *UserCollection) UpdatePassword(name_or_uid string, password string, newPassword string) (updated bool) {
+	err := this.backend.ChangeUserPassword(name_or_uid, password, newPassword)
+	updated = err == nil
+	return
+}
+
 func (this *UserCollection) Destroy(name_or_uid string) (deleted bool) {
 	err := this.backend.DeleteUser(name_or_uid)
 	deleted = err == nil

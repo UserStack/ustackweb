@@ -8,8 +8,9 @@ import (
 )
 
 type UserForm struct {
-	Username string
-	Password string
+	Username    string
+	Password    string
+	OldPassword string
 }
 
 type UsersController struct {
@@ -69,8 +70,10 @@ func (this *UsersController) Edit() {
 	this.Data["user"] = models.Users().Find(id)
 }
 
-func (this *UsersController) Update() {
+func (this *UsersController) UpdateUsername() {
 	id := this.GetString(":id")
+	intId, _ := this.GetInt(":id")
+	this.Data["user"] = models.Users().Find(intId)
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
 	if err == nil {
@@ -78,7 +81,7 @@ func (this *UsersController) Update() {
 		valid.Required(userForm.Username, "Username")
 		valid.Required(userForm.Password, "Password")
 		if valid.HasErrors() {
-			this.Data["Errors"] = valid.Errors
+			this.Data["UpdateUsernameErrors"] = valid.Errors
 			flash := beego.NewFlash()
 			flash.Error("Insufficient data!")
 			flash.Store(&this.Controller)
@@ -97,7 +100,38 @@ func (this *UsersController) Update() {
 	} else {
 		this.TplNames = "users/edit.html.tpl"
 	}
-	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+}
+
+func (this *UsersController) UpdatePassword() {
+	id := this.GetString(":id")
+	intId, _ := this.GetInt(":id")
+	this.Data["user"] = models.Users().Find(intId)
+	userForm := UserForm{}
+	err := this.ParseForm(&userForm)
+	if err == nil {
+		valid := validation.Validation{}
+		valid.Required(userForm.Password, "Password")
+		valid.Required(userForm.OldPassword, "OldPassword")
+		if valid.HasErrors() {
+			this.Data["UpdatePasswordErrors"] = valid.Errors
+			flash := beego.NewFlash()
+			flash.Error("Insufficient data!")
+			flash.Store(&this.Controller)
+			this.TplNames = "users/edit.html.tpl"
+		} else {
+			updated := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
+			if updated {
+				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+			} else {
+				flash := beego.NewFlash()
+				flash.Error("Could not update user!")
+				flash.Store(&this.Controller)
+				this.TplNames = "users/edit.html.tpl"
+			}
+		}
+	} else {
+		this.TplNames = "users/edit.html.tpl"
+	}
 }
 
 func (this *UsersController) Destroy() {
