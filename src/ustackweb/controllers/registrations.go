@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"ustackweb/models"
 )
 
 type Registration struct {
@@ -26,10 +27,9 @@ func (this *RegistrationsController) New() {
 func (this *RegistrationsController) Create() {
 	registration := Registration{}
 	err := this.ParseForm(&registration)
-	if err == nil && registration.Username != "foo" && registration.Username != "admin" {
-		this.SetSession("username", registration.Username)
-		this.RequireAuth()
-		this.Redirect(beego.UrlFor("HomeController.Get"), 302)
+	if err == nil {
+		models.Users().Create(registration.Username, registration.Password)
+		this.Redirect(beego.UrlFor("SessionsController.New"), 302)
 	} else {
 		this.Redirect(beego.UrlFor("RegistrationsController.New"), 302)
 	}
