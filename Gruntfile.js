@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         // Point to the files that should be updated when
         // you run `grunt wiredep`
         src: [
-          'src/ustackweb/views/layouts/*'
+          'views/layouts/*'
         ]
       }
     },
@@ -15,9 +15,9 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'src/ustackweb/static/scss',
+          cwd: 'static/scss',
           src: ['*.scss'],
-          dest: 'src/ustackweb/static/css',
+          dest: 'static/css',
           ext: '.css'
         }]
       }
@@ -31,21 +31,21 @@ module.exports = function(grunt) {
         }
       },
       livereload: {
-        files: 'src/ustackweb/**/*',
+        files: '**/*',
         options: {
           debounceDelay: 250,
           livereload: true
         }
       },
       static: {
-        files: 'src/ustackweb/static/**/*',
+        files: 'static/**/*',
         tasks: ['sass'],
         options: {
           debounceDelay: 250
         }
       },
       go: {
-        files: 'src/**/*.go',
+        files: './**/*.go',
         tasks: ['shell:fmt'],
         options: {
           debounceDelay: 250

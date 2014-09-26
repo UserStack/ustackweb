@@ -12,7 +12,7 @@
     "bower_components",
     "test",
     "tests",
-    "src/ustackweb/static/bower_components"
+    "static/bower_components"
   ],
   "dependencies": {
     "bootstrap-sass": ""

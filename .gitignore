@@ -25,13 +25,13 @@ _testmain.go
 
 # Node.js
 node_modules
-src/ustackweb/static/bower_components
+static/bower_components
 
 # Sass
-src/ustackweb/static/css
+static/css
 .sass-cache
 
-src/ustackweb/ustackweb
+ustackweb
 
 ustack.db
 ustackd.pid

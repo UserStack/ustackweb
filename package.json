@@ -25,6 +25,7 @@
   "devDependencies": {},
   "scripts": {
     "watch": "grunt watch",
-    "bower": "grunt shell:bower"
+    "bower": "grunt shell:bower",
+    "compile": "grunt sass"
   }
 }
