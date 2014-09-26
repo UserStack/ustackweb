@@ -5,13 +5,19 @@
         {{.xsrf_html | str2html}}
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
-            <h1>Change User</h1>
+            <h1>Change Username</h1>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label" for="inputUser-username">Username</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="inputUser-username" name="username" value="{{.user.Name }}" placeholder="Username">
+            <input type="text" class="form-control" id="inputUser-username" name="Username" value="{{.user.Name }}" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label" for="inputUser-password">Confirm Password</label>
+          <div class="col-md-6">
+            <input type="password" class="form-control" id="inputUser-password" name="Password">
           </div>
         </div>
         <div class="form-group">

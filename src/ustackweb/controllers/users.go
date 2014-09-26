@@ -70,11 +70,33 @@ func (this *UsersController) Edit() {
 }
 
 func (this *UsersController) Update() {
-	id, _ := this.GetInt(":id")
-	user := models.Users().Find(id)
-	flash := beego.NewFlash()
-	flash.Notice("Updated user " + user.Name)
-	flash.Store(&this.Controller)
+	id := this.GetString(":id")
+	userForm := UserForm{}
+	err := this.ParseForm(&userForm)
+	if err == nil {
+		valid := validation.Validation{}
+		valid.Required(userForm.Username, "Username")
+		valid.Required(userForm.Password, "Password")
+		if valid.HasErrors() {
+			this.Data["Errors"] = valid.Errors
+			flash := beego.NewFlash()
+			flash.Error("Insufficient data!")
+			flash.Store(&this.Controller)
+			this.TplNames = "users/edit.html.tpl"
+		} else {
+			updated := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
+			if updated {
+				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+			} else {
+				flash := beego.NewFlash()
+				flash.Error("Could not update user!")
+				flash.Store(&this.Controller)
+				this.TplNames = "users/edit.html.tpl"
+			}
+		}
+	} else {
+		this.TplNames = "users/edit.html.tpl"
+	}
 	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }
 
