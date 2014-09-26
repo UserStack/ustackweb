@@ -20,5 +20,4 @@ func init() {
 	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
 	beego.Router("/users/:id", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/groups", &controllers.GroupsController{})
-	beego.Router("/*", &controllers.HomeController{})
 }

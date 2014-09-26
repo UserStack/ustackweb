@@ -1,9 +1,5 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
 type HomeController struct {
 	BaseController
 }
@@ -15,5 +11,6 @@ func (this *HomeController) Prepare() {
 }
 
 func (this *HomeController) Get() {
-	this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
+	this.Layout = "layouts/default.html.tpl"
+	this.TplNames = "home/index.html.tpl"
 }
