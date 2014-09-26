@@ -30,7 +30,7 @@ func (this *SessionsController) Create() {
 	if err == nil && models.Users().Login(login.Username, login.Password) {
 		this.SetSession("username", login.Username)
 		this.RequireAuth()
-		this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
+		this.Redirect(beego.UrlFor("HomeController.Get"), 302)
 	} else {
 		this.RequireAuthFailed()
 	}

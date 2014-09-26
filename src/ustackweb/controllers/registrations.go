@@ -29,7 +29,7 @@ func (this *RegistrationsController) Create() {
 	if err == nil && registration.Username != "foo" && registration.Username != "admin" {
 		this.SetSession("username", registration.Username)
 		this.RequireAuth()
-		this.Redirect(beego.UrlFor("ProfileController.Get"), 302)
+		this.Redirect(beego.UrlFor("HomeController.Get"), 302)
 	} else {
 		this.Redirect(beego.UrlFor("RegistrationsController.New"), 302)
 	}

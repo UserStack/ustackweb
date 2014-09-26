@@ -10,10 +10,6 @@ type UserCollection struct {
 }
 
 func (this *UserCollection) All() []User {
-	var err *backends.Error
-	fmt.Println(err)
-	_, err = this.backend.CreateUser("pauluxxxks", "barssx")
-	fmt.Println(err)
 	backendUsers, _ := this.backend.Users()
 	users := make([]User, len(backendUsers))
 	for idx, backendUser := range backendUsers {
