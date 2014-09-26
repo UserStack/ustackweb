@@ -44,8 +44,8 @@ func (this *UserCollection) Create(username string, password string) (created bo
 	return
 }
 
-func (this *UserCollection) Destroy(username string) (deleted bool) {
-	err := this.backend.DeleteUser(username)
+func (this *UserCollection) Destroy(name_or_uid string) (deleted bool) {
+	err := this.backend.DeleteUser(name_or_uid)
 	deleted = err == nil
 	return
 }
