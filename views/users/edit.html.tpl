@@ -9,13 +9,13 @@
             {{ template "shared/form_errors.html.tpl" .UpdateUsernameErrors }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group {{hasFormError .UpdateUsernameErrors "Username"}}">
           <label class="col-md-3 control-label" for="inputUser-username">New Username</label>
           <div class="col-md-6">
             <input type="text" class="form-control" id="inputUser-username" name="Username" value="{{.user.Name }}" placeholder="Username">
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group {{hasFormError .UpdateUsernameErrors "Password"}}">
           <label class="col-md-3 control-label" for="inputUser-password">Confirm</label>
           <div class="col-md-6">
             <input type="password" class="form-control" id="inputUser-password" name="Password" placeholder="Password">
@@ -35,13 +35,13 @@
             {{ template "shared/form_errors.html.tpl" .UpdatePasswordErrors }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group {{hasFormError .UpdatePasswordErrors "Password"}}">
           <label class="col-md-3 control-label" for="inputUser-password">New Password</label>
           <div class="col-md-6">
             <input type="password" class="form-control" id="inputUser-password" name="Password" placeholder="Password">
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group {{hasFormError .UpdatePasswordErrors "OldPassword"}}">
           <label class="col-md-3 control-label" for="inputUser-oldPassword">Confirm</label>
           <div class="col-md-6">
             <input type="password" class="form-control" id="inputUser-oldPassword" name="OldPassword" placeholder="Old Password">

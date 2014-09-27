@@ -16,5 +16,6 @@ func main() {
 	beego.XSRFKEY = "63oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o"
 	beego.XSRFExpire = 3600
 	beego.AddFuncMap("i18n", i18n.Tr)
+	beego.AddFuncMap("hasFormError", utils.HasFormError)
 	beego.Run()
 }
