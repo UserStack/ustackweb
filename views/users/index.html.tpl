@@ -20,8 +20,15 @@
         <tbody>
         {{range .users}}
           <tr>
-            <td>{{.Uid}}</td>
-            <td>{{.Name}}</td>
+            <td>
+              <a href="{{urlfor "UsersController.Edit" ":id" (printf "%d" .Uid) }}">
+                {{.Uid}}
+              </a>
+            </td>
+            <td>
+              <a href="{{urlfor "UsersController.Edit" ":id" (printf "%d" .Uid) }}">
+                {{.Name}}
+              </a>
             <td>
               <div class="btn-group">
                 <a href="{{urlfor "UsersController.Edit" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
