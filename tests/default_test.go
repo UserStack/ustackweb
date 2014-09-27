@@ -13,7 +13,6 @@ import (
 	_ "github.com/UserStack/ustackweb/routers"
 
 	"github.com/astaxie/beego"
-	"github.com/beego/i18n"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/UserStack/ustackweb/backend"
 	"github.com/UserStack/ustackweb/models"
@@ -24,7 +23,6 @@ func init() {
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	backend.Type = backend.Remote
 	models.Users().Create("admin", "admin")
-	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.TestBeegoInit(apppath)
 }
 

@@ -3,9 +3,14 @@ package routers
 import (
 	"github.com/astaxie/beego"
 	"github.com/UserStack/ustackweb/controllers"
+	"github.com/UserStack/ustackweb/utils"
+	"github.com/beego/i18n"
 )
 
 func init() {
+	beego.AddFuncMap("i18n", i18n.Tr)
+	beego.AddFuncMap("hasFormError", utils.HasFormError)
+
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/configure", &controllers.ConfigController{}, "get:CreateAdmin")
 	beego.Router("/register", &controllers.RegistrationsController{}, "get:New")
