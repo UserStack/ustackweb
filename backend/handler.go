@@ -13,14 +13,16 @@ const (
 var Type int
 var backend backends.Abstract
 
-func build() backends.Abstract {
+func build() (backend backends.Abstract) {
 	if Type == Memory {
-		backend, _ := backends.NewSqliteBackend(":memory:")
-		return &backend
+		b, err := backends.NewSqliteBackend(":memory:")
+		if err == nil {
+			backend = &b
+		}
 	} else {
-		backend, _ := client.Dial("127.0.0.1:7654")
-		return backend
+		backend, _ = client.Dial("127.0.0.1:7654")
 	}
+	return
 }
 
 func Current() backends.Abstract {
