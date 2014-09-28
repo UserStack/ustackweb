@@ -17,6 +17,7 @@ deps:
 				    github.com/smartystreets/goconvey \
 				    ${BACKEND}
 assets:
+	bundle install
 	npm install
 	npm run bower
 	npm run compile
