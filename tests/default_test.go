@@ -21,7 +21,7 @@ import (
 func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
-	backend.Type = backend.Remote
+	backend.Type = backend.Memory
 	models.Users().Create("admin", "admin")
 	beego.TestBeegoInit(apppath)
 }
