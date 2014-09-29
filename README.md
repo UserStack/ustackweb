@@ -29,7 +29,7 @@ Project to learn golang.org in the context of user lifecycle management.
 
 ## Development
 
-Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) installed.
+Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org) (for [Sass](http://sass-lang.org)), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) (for asset management via [Bower](http://bower.io) [Livereload](http://livereload.com/)) installed.
 
 1. Setup dependencies
 
