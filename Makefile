@@ -21,7 +21,7 @@ assets:
 	npm install
 	npm run bower
 	npm run compile
-backend:
+ustackd:
 	go get -u ${BACKEND}
 	go install ${BACKEND}
 	ustackd -f
