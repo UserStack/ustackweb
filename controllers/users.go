@@ -86,8 +86,6 @@ func (this *UsersController) Edit() {
 	user, error := models.Users().Find(id)
 	if error == nil {
 		this.Data["user"] = user
-		this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
-		this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 	} else {
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
