@@ -24,7 +24,7 @@ assets:
 ustackd:
 	go get -u ${BACKEND}
 	go install ${BACKEND}
-	ustackd -f
+	ustackd --foreground --config '../ustackd/config/ustackd.conf'
 test:
 	go test ./...
 convey:
