@@ -51,6 +51,8 @@
       {{.LayoutContent}}
       <!-- bower:js -->
       <script src="../../static/bower_components/jquery/dist/jquery.js"></script>
+      <script src="../../static/bower_components/bootstrap-sass/dist/js/bootstrap.js"></script>
       <!-- endbower -->
+      <script src="../../static/scripts/app.js"></script>
     </body>
 </html>

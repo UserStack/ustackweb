@@ -16,5 +16,10 @@
   ],
   "dependencies": {
     "bootstrap-sass": ""
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": ["./dist/js/bootstrap.js", "./dist/fonts/*"]
+    }
   }
 }
