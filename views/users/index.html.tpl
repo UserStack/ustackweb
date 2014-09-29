@@ -43,12 +43,12 @@
                   Change
                 </a>
                 {{if .Active }}
-                <a href="{{urlfor "UsersController.Unlock" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Disable" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-eye-close"></span>
                   Lock
                 </a>
                 {{else}}
-                <a href="{{urlfor "UsersController.Lock" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
+                <a href="{{urlfor "UsersController.Enable" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
                   <span class="glyphicon glyphicon-eye-open"></span>
                   Unlock
                 </a>

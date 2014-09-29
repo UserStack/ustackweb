@@ -101,6 +101,32 @@ func (this *UserCollection) Destroy(name_or_uid string) (deleted bool, err *back
 	return
 }
 
+func (this *UserCollection) Enable(name_or_uid string) (deleted bool, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	backendError := connection.EnableUser(name_or_uid)
+	backend.VerifyConnection(backendError)
+	if backendError == nil {
+		deleted = err == nil
+	}
+	return
+}
+
+func (this *UserCollection) Disable(name_or_uid string) (deleted bool, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	backendError := connection.DisableUser(name_or_uid)
+	backend.VerifyConnection(backendError)
+	if backendError == nil {
+		deleted = err == nil
+	}
+	return
+}
+
 func Users() *UserCollection {
 	return &UserCollection{}
 }

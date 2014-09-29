@@ -156,3 +156,17 @@ func (this *UsersController) Destroy() {
 	flash.Store(&this.Controller)
 	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 }
+
+func (this *UsersController) Enable() {
+	id, _ := this.GetInt(":id")
+	user, _ := models.Users().Find(id)
+	models.Users().Enable(user.Name)
+	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+}
+
+func (this *UsersController) Disable() {
+	id, _ := this.GetInt(":id")
+	user, _ := models.Users().Find(id)
+	models.Users().Disable(user.Name)
+	this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+}

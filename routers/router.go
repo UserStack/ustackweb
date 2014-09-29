@@ -1,9 +1,9 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/UserStack/ustackweb/controllers"
 	"github.com/UserStack/ustackweb/utils"
+	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 )
 
@@ -26,6 +26,8 @@ func init() {
 	beego.Router("/users/:id/username", &controllers.UsersController{}, "get:UpdateUsername")
 	beego.Router("/users/:id/password", &controllers.UsersController{}, "post:UpdatePassword")
 	beego.Router("/users/:id/password", &controllers.UsersController{}, "get:UpdatePassword")
+	beego.Router("/users/:id/enable", &controllers.UsersController{}, "get:Enable")
+	beego.Router("/users/:id/disable", &controllers.UsersController{}, "get:Disable")
 	beego.Router("/users/:id", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
 	beego.Router("/groups", &controllers.GroupsController{})
