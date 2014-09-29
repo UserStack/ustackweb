@@ -28,9 +28,10 @@ func (this *SessionsController) Create() {
 	login := Login{}
 	formError := this.ParseForm(&login)
 	if formError == nil {
-		loggedIn, _ := models.Users().Login(login.Username, login.Password)
+		loggedIn, uid, _ := models.Users().Login(login.Username, login.Password)
 		if loggedIn {
 			this.SetSession("username", login.Username)
+			this.SetSession("uid", uid)
 			this.RequireAuth()
 			this.Redirect(beego.UrlFor("HomeController.Get"), 302)
 			return

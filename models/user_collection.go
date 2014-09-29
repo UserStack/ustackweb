@@ -36,7 +36,7 @@ func (this *UserCollection) Find(uid int64) (user *User, err *backend.Error) {
 	return
 }
 
-func (this *UserCollection) Login(username string, password string) (loggedIn bool, err *backend.Error) {
+func (this *UserCollection) Login(username string, password string) (loggedIn bool, id int64, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
 		return
