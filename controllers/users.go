@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/UserStack/ustackweb/forms"
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
@@ -13,20 +14,6 @@ type UserForm struct {
 	Username    string
 	Password    string
 	OldPassword string
-}
-
-type UsernameForm struct {
-	XsrfHtml         string
-	ValidationErrors []*validation.ValidationError
-	User             *models.User
-}
-
-type PasswordForm struct {
-	XsrfHtml         string
-	ValidationErrors []*validation.ValidationError
-	User             *models.User
-	Password         string
-	OldPassword      string
 }
 
 type UsersController struct {
@@ -97,7 +84,7 @@ func (this *UsersController) EditUsername() {
 	user, error := models.Users().Find(id)
 	if error == nil {
 		this.Data["user"] = user
-		this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+		this.Data["UsernameForm"] = forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: user}
 	} else {
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
@@ -109,7 +96,7 @@ func (this *UsersController) EditPassword() {
 	user, error := models.Users().Find(id)
 	if error == nil {
 		this.Data["user"] = user
-		this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+		this.Data["PasswordForm"] = forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: user}
 	} else {
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
@@ -119,10 +106,10 @@ func (this *UsersController) UpdateUsername() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
 	user, error := models.Users().Find(intId)
-	var usernameForm UsernameForm
+	var usernameForm forms.EditUsername
 	if error == nil {
 		this.Data["user"] = user
-		usernameForm = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+		usernameForm = forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: user}
 	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
@@ -157,10 +144,10 @@ func (this *UsersController) UpdatePassword() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
 	user, error := models.Users().Find(intId)
-	var passwordForm PasswordForm
+	var passwordForm forms.EditPassword
 	if error == nil {
 		this.Data["user"] = user
-		passwordForm = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+		passwordForm = forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: user}
 	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
