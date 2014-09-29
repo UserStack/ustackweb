@@ -18,6 +18,7 @@ type UserForm struct {
 
 type UsersController struct {
 	BaseController
+	User *models.User
 }
 
 func (this *UsersController) Prepare() {
@@ -102,19 +103,34 @@ func (this *UsersController) EditPassword() {
 	}
 }
 
-func (this *UsersController) UpdateUsername() {
-	id := this.GetString(":id")
+func (this *UsersController) loadUser() (userLoaded bool) {
 	intId, _ := this.GetInt(":id")
-	user, error := models.Users().Find(intId)
-	if error != nil { // user not found
+	user, err := models.Users().Find(intId)
+	this.User = user
+	userLoaded = err == nil
+	if !userLoaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+	return
+}
+
+func (this *UsersController) parseUserForm() (userForm *UserForm) {
+	userForm = &UserForm{}
+	err := this.ParseForm(&userForm)
+	if err != nil { // form broken / hacked
+		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
+		return
+	}
+	return
+}
+
+func (this *UsersController) UpdateUsername() {
+	if !this.loadUser() {
 		return
 	}
 
-	userForm := UserForm{}
-	err := this.ParseForm(&userForm)
-	if err != nil { // form broken / hacked
-		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+	userForm := this.parseUserForm()
+	if userForm == nil {
 		return
 	}
 
@@ -122,8 +138,8 @@ func (this *UsersController) UpdateUsername() {
 	valid.Required(userForm.Username, "Username")
 	valid.Required(userForm.Password, "Password")
 	if valid.HasErrors() { // validation errors
-		usernameForm := forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: user, ValidationErrors: valid.Errors}
-		this.Data["user"] = user
+		usernameForm := forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: this.User, ValidationErrors: valid.Errors}
+		this.Data["user"] = this.User
 		this.Data["UsernameForm"] = usernameForm
 		flash := beego.NewFlash()
 		flash.Error("Could not change username.")
@@ -132,9 +148,9 @@ func (this *UsersController) UpdateUsername() {
 		return
 	}
 
-	updated, backendErr := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
+	updated, backendErr := models.Users().UpdateUsername(this.GetString(":id"), userForm.Password, userForm.Username)
 	if updated { // success
-		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
+		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
 	} else {
 		flash := beego.NewFlash()
 		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
@@ -144,39 +160,36 @@ func (this *UsersController) UpdateUsername() {
 }
 
 func (this *UsersController) UpdatePassword() {
-	id := this.GetString(":id")
-	intId, _ := this.GetInt(":id")
-	user, error := models.Users().Find(intId)
-	var passwordForm forms.EditPassword
-	if error == nil {
-		this.Data["user"] = user
-		passwordForm = forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: user}
+	if !this.loadUser() {
+		return
 	}
-	userForm := UserForm{}
-	err := this.ParseForm(&userForm)
-	if err == nil {
-		valid := validation.Validation{}
-		valid.Required(userForm.Password, "Password")
-		valid.Required(userForm.OldPassword, "OldPassword")
-		if valid.HasErrors() {
-			passwordForm.ValidationErrors = valid.Errors
-			flash := beego.NewFlash()
-			flash.Error("Could not change password.")
-			flash.Store(&this.Controller)
-			this.Data["PasswordForm"] = passwordForm
-			this.TplNames = "users/password.html.tpl"
-		} else {
-			updated, _ := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
-			if updated {
-				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
-			} else {
-				flash := beego.NewFlash()
-				flash.Error("Could not update user!")
-				flash.Store(&this.Controller)
-				this.TplNames = "users/password.html.tpl"
-			}
-		}
+
+	userForm := this.parseUserForm()
+	if userForm == nil {
+		return
+	}
+
+	valid := validation.Validation{}
+	valid.Required(userForm.Password, "Password")
+	valid.Required(userForm.OldPassword, "OldPassword")
+	if valid.HasErrors() { // validation errors
+		passwordForm := forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: this.User, ValidationErrors: valid.Errors}
+		this.Data["user"] = this.User
+		this.Data["PasswordForm"] = passwordForm
+		flash := beego.NewFlash()
+		flash.Error("Could not change password.")
+		flash.Store(&this.Controller)
+		this.TplNames = "users/password.html.tpl"
+		return
+	}
+
+	updated, backendErr := models.Users().UpdateUsername(this.GetString(":id"), userForm.Password, userForm.Username)
+	if updated { // success
+		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
 	} else {
+		flash := beego.NewFlash()
+		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
+		flash.Store(&this.Controller)
 		this.TplNames = "users/password.html.tpl"
 	}
 }
