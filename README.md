@@ -29,7 +29,7 @@ Project to learn golang.org in the context of user lifecycle management.
 
 ## Development
 
-Please make sure you have [Go](http://golang.org/), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) installed.
+Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) installed.
 
 1. Setup dependencies
 
