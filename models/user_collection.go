@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/UserStack/ustackd/backends"
 	"github.com/UserStack/ustackweb/backend"
 )
 
@@ -49,7 +50,8 @@ func (this *UserCollection) Login(username string, password string) (loggedIn bo
 func (this *UserCollection) Create(username string, password string) (created bool, id int64, error *backend.Error) {
 	connection, error := backend.Connection()
 	if error == nil {
-		id, backendError := connection.CreateUser(username, password)
+		var backendError *backends.Error
+		id, backendError = connection.CreateUser(username, password)
 		backend.VerifyConnection(backendError)
 		if backendError == nil {
 			created = id > 0
