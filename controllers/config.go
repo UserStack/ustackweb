@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/UserStack/ustackweb/models"
+	"github.com/astaxie/beego"
 )
 
 type ConfigController struct {
@@ -10,7 +10,7 @@ type ConfigController struct {
 }
 
 func (this *ConfigController) CreateAdmin() {
-	users := models.Users().All()
+	users, _ := models.Users().All()
 	if len(users) == 0 {
 		models.Users().Create("admin", "admin")
 	}

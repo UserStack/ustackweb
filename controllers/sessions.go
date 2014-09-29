@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/UserStack/ustackweb/models"
+	"github.com/astaxie/beego"
 )
 
 type SessionsController struct {
@@ -26,14 +26,17 @@ func (this *SessionsController) New() {
 
 func (this *SessionsController) Create() {
 	login := Login{}
-	err := this.ParseForm(&login)
-	if err == nil && models.Users().Login(login.Username, login.Password) {
-		this.SetSession("username", login.Username)
-		this.RequireAuth()
-		this.Redirect(beego.UrlFor("HomeController.Get"), 302)
-	} else {
-		this.RequireAuthFailed()
+	formError := this.ParseForm(&login)
+	if formError == nil {
+		loggedIn, _ := models.Users().Login(login.Username, login.Password)
+		if loggedIn {
+			this.SetSession("username", login.Username)
+			this.RequireAuth()
+			this.Redirect(beego.UrlFor("HomeController.Get"), 302)
+			return
+		}
 	}
+	this.RequireAuthFailed()
 }
 
 func (this *SessionsController) Destroy() {

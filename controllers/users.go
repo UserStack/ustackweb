@@ -2,11 +2,11 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/UserStack/ustackweb/models"
+	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
 	wetalkutils "github.com/beego/wetalk/modules/utils"
-	"github.com/UserStack/ustackweb/models"
-	"github.com/UserStack/ustackweb/utils"
 )
 
 type UserForm struct {
@@ -28,7 +28,7 @@ func (this *UsersController) Prepare() {
 
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.html.tpl"
-	users := models.Users().All()
+	users, _ := models.Users().All()
 	paginator := wetalkutils.NewPaginator(this.Ctx.Request, 25, len(users))
 	this.Data["paginator"] = paginator
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
@@ -51,7 +51,7 @@ func (this *UsersController) Create() {
 			flash.Store(&this.Controller)
 			this.TplNames = "users/new.html.tpl"
 		} else {
-			created, id := models.Users().Create(userForm.Username, userForm.Password)
+			created, id, _ := models.Users().Create(userForm.Username, userForm.Password)
 			if created {
 				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", fmt.Sprintf("%d", id)), 302)
 			} else {
@@ -69,13 +69,19 @@ func (this *UsersController) Create() {
 func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.html.tpl"
 	id, _ := this.GetInt(":id")
-	this.Data["user"] = models.Users().Find(id)
+	user, error := models.Users().Find(id)
+	if error == nil {
+		this.Data["user"] = user
+	}
 }
 
 func (this *UsersController) UpdateUsername() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
-	this.Data["user"] = models.Users().Find(intId)
+	user, error := models.Users().Find(intId)
+	if error == nil {
+		this.Data["user"] = user
+	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
 	if err == nil {
@@ -89,7 +95,7 @@ func (this *UsersController) UpdateUsername() {
 			flash.Store(&this.Controller)
 			this.TplNames = "users/edit.html.tpl"
 		} else {
-			updated := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
+			updated, _ := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
 			if updated {
 				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
 			} else {
@@ -107,7 +113,10 @@ func (this *UsersController) UpdateUsername() {
 func (this *UsersController) UpdatePassword() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
-	this.Data["user"] = models.Users().Find(intId)
+	user, error := models.Users().Find(intId)
+	if error == nil {
+		this.Data["user"] = user
+	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
 	if err == nil {
@@ -121,7 +130,7 @@ func (this *UsersController) UpdatePassword() {
 			flash.Store(&this.Controller)
 			this.TplNames = "users/edit.html.tpl"
 		} else {
-			updated := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
+			updated, _ := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
 			if updated {
 				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", string(id)), 302)
 			} else {
@@ -138,7 +147,7 @@ func (this *UsersController) UpdatePassword() {
 
 func (this *UsersController) Destroy() {
 	id, _ := this.GetInt(":id")
-	user := models.Users().Find(id)
+	user, _ := models.Users().Find(id)
 	models.Users().Destroy(user.Name)
 	flash := beego.NewFlash()
 	flash.Notice("Deleted user " + user.Name)
