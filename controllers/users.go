@@ -15,6 +15,20 @@ type UserForm struct {
 	OldPassword string
 }
 
+type UsernameForm struct {
+	XsrfHtml         string
+	User             *models.User
+	ValidationErrors []*validation.ValidationError
+}
+
+type PasswordForm struct {
+	XsrfHtml         string
+	User             *models.User
+	Password         string
+	OldPassword      string
+	ValidationErrors []*validation.ValidationError
+}
+
 type UsersController struct {
 	BaseController
 }
@@ -72,6 +86,8 @@ func (this *UsersController) Edit() {
 	user, error := models.Users().Find(id)
 	if error == nil {
 		this.Data["user"] = user
+		this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+		this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 	} else {
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
@@ -81,8 +97,10 @@ func (this *UsersController) UpdateUsername() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
 	user, error := models.Users().Find(intId)
+	var usernameForm UsernameForm
 	if error == nil {
 		this.Data["user"] = user
+		usernameForm = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
@@ -91,10 +109,12 @@ func (this *UsersController) UpdateUsername() {
 		valid.Required(userForm.Username, "Username")
 		valid.Required(userForm.Password, "Password")
 		if valid.HasErrors() {
-			this.Data["UpdateUsernameErrors"] = valid.Errors
+			usernameForm.ValidationErrors = valid.Errors
 			flash := beego.NewFlash()
 			flash.Error("Could not change username.")
 			flash.Store(&this.Controller)
+			this.Data["UsernameForm"] = usernameForm
+			this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 			this.TplNames = "users/edit.html.tpl"
 		} else {
 			updated, _ := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
@@ -116,8 +136,10 @@ func (this *UsersController) UpdatePassword() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
 	user, error := models.Users().Find(intId)
+	var passwordForm PasswordForm
 	if error == nil {
 		this.Data["user"] = user
+		passwordForm = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 	}
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
@@ -126,10 +148,12 @@ func (this *UsersController) UpdatePassword() {
 		valid.Required(userForm.Password, "Password")
 		valid.Required(userForm.OldPassword, "OldPassword")
 		if valid.HasErrors() {
-			this.Data["UpdatePasswordErrors"] = valid.Errors
+			passwordForm.ValidationErrors = valid.Errors
 			flash := beego.NewFlash()
 			flash.Error("Could not change password.")
 			flash.Store(&this.Controller)
+			this.Data["PasswordForm"] = passwordForm
+			this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
 			this.TplNames = "users/edit.html.tpl"
 		} else {
 			updated, _ := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
