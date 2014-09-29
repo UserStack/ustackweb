@@ -29,7 +29,7 @@
             </td>
             <td>
               {{if .Active }}{{else}}
-                <span class="text-muted glyphicon glyphicon-eye-close" data-placement="top" title="User is Locked."></span>
+                <span class="text-muted glyphicon glyphicon-eye-close" data-placement="top" title="User is locked and cannot sign in."></span>
               {{end}}
             </td>
             <td>
