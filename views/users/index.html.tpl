@@ -53,7 +53,14 @@
                   Unlock
                 </a>
                 {{end}}
-                <a href="{{urlfor "UsersController.Destroy" ":id" (printf "%d" .Uid) }}" class="btn btn-link btn-xs">
+                <a href="#"
+                  class="btn btn-link btn-xs"
+                  tabindex="0"
+                  data-toggle="popover"
+                  data-trigger="focus"
+                  data-placement="left"
+                  data-html="true"
+                  data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "UsersController.Destroy" ":id" (printf "%d" .Uid) }}'>Yes</a> <a class='btn btn-xs btn-success' href='#'>No</a>">
                   <span class="glyphicon glyphicon-remove"></span>
                   Delete
                 </a>
