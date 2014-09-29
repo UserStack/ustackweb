@@ -60,7 +60,7 @@
                   data-trigger="focus"
                   data-placement="left"
                   data-html="true"
-                  data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "UsersController.Destroy" ":id" (printf "%d" .Uid) }}'>Yes</a> <a class='btn btn-xs btn-success' href='#'>No</a>">
+                  data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "UsersController.Destroy" ":id" (printf "%d" .Uid) }}'>Yes</a> <a class='btn btn-xs btn-default' href='#'>No</a>">
                   <span class="glyphicon glyphicon-remove"></span>
                   Delete
                 </a>
