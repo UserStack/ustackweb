@@ -27,13 +27,13 @@ func NewConnection() (connection backends.Abstract, error *Error) {
 		if anError == nil {
 			connection = &aConnection
 		} else {
-			error = &Error{Raw: fmt.Sprintf("%s", anError)}
+			error = &Error{backends.Error{Message: anError.Error()}}
 		}
 		return connection, error
 	} else {
 		connection, anError := client.Dial("127.0.0.1:7654")
 		if anError != nil {
-			error = &Error{Raw: fmt.Sprintf("%s", anError)}
+			error = &Error{backends.Error{Message: anError.Error()}}
 		}
 		return connection, error
 	}

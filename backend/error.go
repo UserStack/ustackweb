@@ -6,5 +6,4 @@ import (
 
 type Error struct {
 	backends.Error
-	Raw string
 }
