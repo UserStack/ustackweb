@@ -71,6 +71,8 @@ func (this *UsersController) Edit() {
 	id, _ := this.GetInt(":id")
 	user, error := models.Users().Find(id)
 	if error == nil {
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	} else {
 		this.Data["user"] = user
 	}
 }
