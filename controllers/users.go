@@ -17,16 +17,16 @@ type UserForm struct {
 
 type UsernameForm struct {
 	XsrfHtml         string
-	User             *models.User
 	ValidationErrors []*validation.ValidationError
+	User             *models.User
 }
 
 type PasswordForm struct {
 	XsrfHtml         string
+	ValidationErrors []*validation.ValidationError
 	User             *models.User
 	Password         string
 	OldPassword      string
-	ValidationErrors []*validation.ValidationError
 }
 
 type UsersController struct {
@@ -93,6 +93,30 @@ func (this *UsersController) Edit() {
 	}
 }
 
+func (this *UsersController) EditUsername() {
+	this.TplNames = "users/username.html.tpl"
+	id, _ := this.GetInt(":id")
+	user, error := models.Users().Find(id)
+	if error == nil {
+		this.Data["user"] = user
+		this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+	} else {
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+}
+
+func (this *UsersController) EditPassword() {
+	this.TplNames = "users/password.html.tpl"
+	id, _ := this.GetInt(":id")
+	user, error := models.Users().Find(id)
+	if error == nil {
+		this.Data["user"] = user
+		this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
+	} else {
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+}
+
 func (this *UsersController) UpdateUsername() {
 	id := this.GetString(":id")
 	intId, _ := this.GetInt(":id")
@@ -114,8 +138,7 @@ func (this *UsersController) UpdateUsername() {
 			flash.Error("Could not change username.")
 			flash.Store(&this.Controller)
 			this.Data["UsernameForm"] = usernameForm
-			this.Data["PasswordForm"] = PasswordForm{XsrfHtml: this.XsrfFormHtml(), User: user}
-			this.TplNames = "users/edit.html.tpl"
+			this.TplNames = "users/username.html.tpl"
 		} else {
 			updated, _ := models.Users().UpdateUsername(id, userForm.Password, userForm.Username)
 			if updated {
@@ -124,11 +147,11 @@ func (this *UsersController) UpdateUsername() {
 				flash := beego.NewFlash()
 				flash.Error("Could not update user!")
 				flash.Store(&this.Controller)
-				this.TplNames = "users/edit.html.tpl"
+				this.TplNames = "users/username.html.tpl"
 			}
 		}
 	} else {
-		this.TplNames = "users/edit.html.tpl"
+		this.TplNames = "users/username.html.tpl"
 	}
 }
 
@@ -153,8 +176,7 @@ func (this *UsersController) UpdatePassword() {
 			flash.Error("Could not change password.")
 			flash.Store(&this.Controller)
 			this.Data["PasswordForm"] = passwordForm
-			this.Data["UsernameForm"] = UsernameForm{XsrfHtml: this.XsrfFormHtml(), User: user}
-			this.TplNames = "users/edit.html.tpl"
+			this.TplNames = "users/password.html.tpl"
 		} else {
 			updated, _ := models.Users().UpdatePassword(id, userForm.OldPassword, userForm.Password)
 			if updated {
@@ -163,11 +185,11 @@ func (this *UsersController) UpdatePassword() {
 				flash := beego.NewFlash()
 				flash.Error("Could not update user!")
 				flash.Store(&this.Controller)
-				this.TplNames = "users/edit.html.tpl"
+				this.TplNames = "users/password.html.tpl"
 			}
 		}
 	} else {
-		this.TplNames = "users/edit.html.tpl"
+		this.TplNames = "users/password.html.tpl"
 	}
 }
 
