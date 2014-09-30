@@ -17,11 +17,12 @@
           </tr>
         </thead>
         <tbody>
-        {{range $key, $val := .groups}}
+        {{range .groups}}
           <tr>
-            <td>{{$val.Gid}}</td>
-            <td>{{$val.Name}}</td>
-            <td></td>
+            <td>{{.Gid}}</td>
+            <td>{{.Name}}</td>
+            <td>
+            </td>
           </tr>
         {{end}}
         </tbody>
