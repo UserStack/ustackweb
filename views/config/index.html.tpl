@@ -10,52 +10,47 @@
   </div>
   <div class="row">
     <div class="col-md-offset-3 col-md-6">
+      <h4>
+        Root User
+        <a href="{{urlfor "InstallController.CreateRootUser" }}" class="btn btn-xs btn-default pull-right">
+          Recreate Root User
+        </a>
+      </h4>
       <div class="list-group">
         {{if compare .rootUserError nil}}
-        <div class="list-group-item success">
-          <h4 class="list-group-item-heading">
-            <span class="glyphicon glyphicon-ok-sign"></span>
-            Root User
-          </h4>
-          <p class="list-group-item-text">
-            {{.rootUser.Name}}
-          </p>
+        <div class="list-group-item list-group-item-success">
+          <span class="glyphicon glyphicon-ok-sign"></span>
+          {{.rootUser.Name}}
         </div>
         {{else}}
         <div class="list-group-item list-group-item-danger">
-          <h4 class="list-group-item-heading">
-            <span class="glyphicon glyphicon-exclamation-sign"></span>
-            Root User
-            <a href="{{urlfor "InstallController.CreateRootUser" }}" class="btn btn-xs btn-default pull-right">
-              Create
-            </a>
-          </h4>
-          <p class="list-group-item-text">
-            {{.rootUserError.Message}}
-          </p>
+          <span class="glyphicon glyphicon-exclamation-sign"></span>
+          {{.rootUserError.Message}}
         </div>
         {{end}}
+      </div>
+      <h4>
+        Groups
+        <a href="{{urlfor "InstallController.CreateRootUser" }}" class="btn btn-xs btn-default pull-right">
+          Recreate Groups
+        </a>
+      </h4>
+      <div class="list-group">
         {{if compare .groupsError nil}}
-        <div class="list-group-item">
-          <h4 class="list-group-item-heading">
-            <span class="glyphicon glyphicon-ok-sign"></span>
-            Groups
-          </h4>
-          <p class="list-group-item-text">
-            {{range .groups}}
-              {{.Name}}
-            {{end}}
-          </p>
+        {{range .groupRequirements}}
+        <div class="list-group-item {{if .Exists}}list-group-item-success{{else}}list-group-item-danger{{end}}">
+          {{if .Exists}}
+          <span class="glyphicon glyphicon-ok-sign"></span>
+          {{else}}
+          <span class="glyphicon glyphicon-exclamation-sign"></span>
+          {{end}}
+          {{.Name}}
         </div>
+        {{end}}
         {{else}}
         <div class="list-group-item list-group-item-danger">
-          <h4 class="list-group-item-heading">
-            <span class="glyphicon glyphicon-exclamation-sign"></span>
-            Groups
-          </h4>
-          <p class="list-group-item-text">
-            {{.groupsError.Message}}
-          </p>
+          <span class="glyphicon glyphicon-exclamation-sign"></span>
+          {{.groupsError.Message}}
         </div>
         {{end}}
       </div>
