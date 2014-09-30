@@ -9,18 +9,22 @@
             {{template "shared/form_errors.html.tpl" .Errors}}
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label" for="inputUser-username">Username</label>
+        {{with .NewUserFormSets.Fields.Username}}
+        <div class="form-group {{if .Error}} has-error{{end}}">
+          <label class="col-md-3 control-label" for="{{.Id}}">{{.LabelText}}</label>
           <div class="col-md-6">
-            <input type="text" class="form-control" id="inputUser-username" name="Username" placeholder="Username">
+            {{call .Field}}
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label" for="inputUser-password">Password</label>
+        {{end}}
+        {{with .NewUserFormSets.Fields.Password}}
+        <div class="form-group {{if .Error}} has-error{{end}}">
+          <label class="col-md-3 control-label" for="{{.Id}}">{{.LabelText}}</label>
           <div class="col-md-6">
-            <input type="password" class="form-control" id="inputUser-password" name="Password" placeholder="Password">
+            {{call .Field}}
           </div>
         </div>
+        {{end}}
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <button type="submit" class="btn btn-default">Create</button>

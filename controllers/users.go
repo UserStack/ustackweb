@@ -36,9 +36,11 @@ func (this *UsersController) Index() {
 
 func (this *UsersController) New() {
 	this.TplNames = "users/new.html.tpl"
+	this.SetFormSets(&forms.NewUser{})
 }
 
 func (this *UsersController) Create() {
+	this.SetFormSets(&forms.NewUser{})
 	userForm := UserForm{}
 	err := this.ParseForm(&userForm)
 	if err == nil {
