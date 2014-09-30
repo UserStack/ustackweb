@@ -12,14 +12,9 @@
           <div class="col-md-6">
             {{$user := .user}}
             {{range .userGroups}}
-            <div class="btn-group">
-              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Gid) }}" class="btn btn-default">
-                {{.Name}}
-              </a>
-              <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-danger">
-                <span class="glyphicon glyphicon-remove"></span>
-              </a>
-            </div>
+            <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Gid) }}" class="btn btn-link">
+              {{.Name}}
+            </a>
             {{end}}
             <a href="{{urlfor "UsersController.EditGroups" ":id" (printf "%d" .user.Uid) }}" class="btn btn-default">
               <span class="glyphicon glyphicon-wrench"></span>
