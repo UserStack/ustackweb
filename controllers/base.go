@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/UserStack/ustackweb/utils"
+	"github.com/astaxie/beego"
+	wetalkutils "github.com/beego/wetalk/modules/utils"
 )
 
 type Permissions struct {
@@ -42,4 +43,10 @@ func (this *BaseController) RequireAuthFailed() {
 	flash.Error("Not logged in!")
 	flash.Store(&this.Controller)
 	this.Redirect("/sign_in", 302)
+}
+
+func (this *BaseController) SetPaginator(per int, nums int64) *wetalkutils.Paginator {
+	p := wetalkutils.NewPaginator(this.Ctx.Request, per, nums)
+	this.Data["paginator"] = p
+	return p
 }

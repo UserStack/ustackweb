@@ -7,7 +7,6 @@ import (
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
-	wetalkutils "github.com/beego/wetalk/modules/utils"
 )
 
 type UserForm struct {
@@ -31,8 +30,7 @@ func (this *UsersController) Prepare() {
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.html.tpl"
 	users, _ := models.Users().All()
-	paginator := wetalkutils.NewPaginator(this.Ctx.Request, 25, len(users))
-	this.Data["paginator"] = paginator
+	paginator := this.SetPaginator(25, int64(len(users)))
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
 
