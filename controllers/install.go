@@ -15,14 +15,21 @@ type PermissionRequirement struct {
 	Assigned bool
 }
 
+func (this *InstallController) rootUserId() string {
+	return "admin"
+}
+
 func (this *InstallController) Index() {
 	this.Layout = "layouts/default.html.tpl"
 	this.TplNames = "config/index.html.tpl"
-	rootUser, err := models.Users().FindByName("admin")
+	rootUser, err := models.Users().FindByName(this.rootUserId())
 	this.Data["rootUserError"] = err
 	this.Data["rootUser"] = rootUser
-	permissionRequirements := this.permissionRequirements()
 	groups, err := models.Groups().All()
+	this.Data["groupsError"] = err
+	userGroups, err := models.Groups().AllByUser(this.rootUserId())
+	this.Data["userGroupsError"] = err
+	permissionRequirements := this.permissionRequirements()
 	for _, permissionRequirement := range permissionRequirements {
 		for _, group := range groups {
 			if group.Name == permissionRequirement.Name {
@@ -30,10 +37,14 @@ func (this *InstallController) Index() {
 				break
 			}
 		}
-
+		for _, userGroup := range userGroups {
+			if userGroup.Name == permissionRequirement.Name {
+				permissionRequirement.Assigned = true
+				break
+			}
+		}
 	}
 	this.Data["permissionRequirements"] = permissionRequirements
-	this.Data["groupsError"] = err
 }
 
 func (this *InstallController) CreateRootUser() {
@@ -50,6 +61,10 @@ func (this *InstallController) CreatePermissions() {
 }
 
 func (this *InstallController) AssignPermissions() {
+	permissionRequirements := this.permissionRequirements()
+	for _, permissionRequirement := range permissionRequirements {
+		models.Users().AddUserToGroup(this.rootUserId(), permissionRequirement.Name)
+	}
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 
