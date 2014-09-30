@@ -17,12 +17,23 @@
                   Filter by Group <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{urlfor "UsersController.Index" }}">All</a></li>
+                  {{$usersFilter := .usersFilter}}
+                  <li>
+                    <a href="{{urlfor "UsersController.Index" }}">
+                      All
+                      {{if compare $usersFilter.GroupId ""}}
+                        <span class="glyphicon glyphicon-ok"></span>
+                      {{end}}
+                    </a>
+                  </li>
                   <li class="divider"></li>
                   {{range .allGroups}}
                   <li>
                     <a href="{{urlfor "UsersController.Index" ":groupId" (printf "%d" .Gid) }}">
                       {{.Name}}
+                      {{if compare $usersFilter.GroupId .Gid}}
+                        <span class="glyphicon glyphicon-ok"></span>
+                      {{end}}
                     </a>
                   </li>
                   {{end}}

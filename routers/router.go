@@ -9,6 +9,7 @@ import (
 
 func init() {
 	beego.AddFuncMap("i18n", i18n.Tr)
+	beego.AddFuncMap("compare", beego.Compare)
 	beego.AddFuncMap("hasFormError", utils.HasFormError)
 
 	beego.Router("/", &controllers.HomeController{})

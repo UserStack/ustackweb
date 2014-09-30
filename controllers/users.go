@@ -15,6 +15,10 @@ type UsersController struct {
 	AllGroups  []models.Group
 }
 
+type UsersFilter struct {
+	GroupId string
+}
+
 func (this *UsersController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
@@ -23,13 +27,17 @@ func (this *UsersController) Prepare() {
 }
 
 func (this *UsersController) Index() {
+	if !this.loadAllGroups() {
+		return
+	}
 	this.TplNames = "users/index.html.tpl"
 	var users []models.User
-	groupId := this.GetString(":groupId")
-	if groupId == "" {
+	usersFilter := UsersFilter{GroupId: this.GetString(":groupId")}
+	this.Data["usersFilter"] = usersFilter
+	if usersFilter.GroupId == "" {
 		users, _ = models.Users().All()
 	} else {
-		users, _ = models.Users().AllByGroup(groupId)
+		users, _ = models.Users().AllByGroup(usersFilter.GroupId)
 	}
 	paginator := this.SetPaginator(25, int64(len(users)))
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
