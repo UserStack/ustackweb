@@ -2,7 +2,7 @@
   <div class="form-group">
     <label class="col-md-3 control-label">Username</label>
     <div class="col-md-6 input-group">
-      <input type="text" class="form-control" style="height: 33px;" disabled Bvalue="{{.user.Name}}">
+      <input type="text" class="form-control" style="height: 33px;" disabled value="{{.user.Name}}">
       <span class="input-group-btn">
         <a class='btn btn-default' href='{{urlfor "UsersController.EditUsername" ":id" (printf "%d" .user.Uid) }}'>
           <span class="glyphicon glyphicon-pencil"></span>
