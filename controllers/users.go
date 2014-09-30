@@ -6,7 +6,6 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/validation"
 )
 
 type UserForm struct {
@@ -78,15 +77,12 @@ func (this *UsersController) EditUsername() {
 }
 
 func (this *UsersController) EditPassword() {
-	this.TplNames = "users/password.html.tpl"
-	id, _ := this.GetInt(":id")
-	user, error := models.Users().Find(id)
-	if error == nil {
-		this.Data["user"] = user
-		this.Data["PasswordForm"] = forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: user}
-	} else {
-		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	if !this.loadUser() {
+		return
 	}
+	this.TplNames = "users/edit_password.html.tpl"
+	form := forms.EditPassword{}
+	this.SetFormSets(&form)
 }
 
 func (this *UsersController) loadUser() (userLoaded bool) {
@@ -97,16 +93,6 @@ func (this *UsersController) loadUser() (userLoaded bool) {
 	userLoaded = err == nil
 	if !userLoaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
-	}
-	return
-}
-
-func (this *UsersController) parseUserForm() (userForm *UserForm) {
-	userForm = &UserForm{}
-	err := this.ParseForm(&userForm)
-	if err != nil { // form broken / hacked
-		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
-		return
 	}
 	return
 }
@@ -137,33 +123,20 @@ func (this *UsersController) UpdatePassword() {
 		return
 	}
 
-	userForm := this.parseUserForm()
-	if userForm == nil {
+	this.TplNames = "users/edit_password.html.tpl"
+	form := forms.EditPassword{}
+	this.SetFormSets(&form)
+	if !this.ValidFormSets(&form) {
 		return
 	}
 
-	valid := validation.Validation{}
-	valid.Required(userForm.Password, "Password")
-	valid.Required(userForm.OldPassword, "OldPassword")
-	if valid.HasErrors() { // validation errors
-		passwordForm := forms.EditPassword{XsrfHtml: this.XsrfFormHtml(), User: this.User, ValidationErrors: valid.Errors}
-		this.Data["user"] = this.User
-		this.Data["PasswordForm"] = passwordForm
-		flash := beego.NewFlash()
-		flash.Error("Could not change password.")
-		flash.Store(&this.Controller)
-		this.TplNames = "users/password.html.tpl"
-		return
-	}
-
-	updated, backendErr := models.Users().UpdateUsername(this.GetString(":id"), userForm.Password, userForm.Username)
+	updated, backendErr := models.Users().UpdatePassword(this.GetString(":id"), form.OldPassword, form.NewPassword)
 	if updated { // success
 		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
-	} else {
+	} else { // backend error
 		flash := beego.NewFlash()
 		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
 		flash.Store(&this.Controller)
-		this.TplNames = "users/password.html.tpl"
 	}
 }
 

@@ -1,8 +1,6 @@
 package forms
 
 import (
-	"github.com/UserStack/ustackweb/models"
-	"github.com/astaxie/beego/validation"
 	"github.com/beego/i18n"
 )
 
@@ -17,12 +15,4 @@ func (this *NewUser) Placeholders() map[string]string {
 		"Username": "new_user.username_placeholder",
 		"Password": "new_user.password_placeholder",
 	}
-}
-
-type EditPassword struct {
-	XsrfHtml         string
-	ValidationErrors []*validation.ValidationError
-	User             *models.User
-	Password         string
-	OldPassword      string
 }
