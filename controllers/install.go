@@ -20,11 +20,7 @@ func (this *InstallController) Index() {
 	rootUser, err := models.Users().FindByName("admin")
 	this.Data["rootUserError"] = err
 	this.Data["rootUser"] = rootUser
-	groupRequirements := []*GroupRequirenment{
-		&GroupRequirenment{Name: "perm.user.list"},
-		&GroupRequirenment{Name: "perm.user.read"},
-		&GroupRequirenment{Name: "perm.user.write"},
-	}
+	groupRequirements := this.groupRequirements()
 	groups, err := models.Groups().All()
 	for _, groupRequirement := range groupRequirements {
 		for _, group := range groups {
@@ -41,4 +37,21 @@ func (this *InstallController) Index() {
 func (this *InstallController) CreateRootUser() {
 	models.Users().Create("admin", "admin")
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
+}
+
+func (this *InstallController) CreatePermissions() {
+	groupRequirements := this.groupRequirements()
+	for _, groupRequirement := range groupRequirements {
+		models.Groups().Create(groupRequirement.Name)
+	}
+	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
+}
+
+func (this *InstallController) groupRequirements() (groupRequirements []*GroupRequirenment) {
+	groupRequirements = []*GroupRequirenment{
+		&GroupRequirenment{Name: "perm.user.list"},
+		&GroupRequirenment{Name: "perm.user.read"},
+		&GroupRequirenment{Name: "perm.user.write"},
+	}
+	return
 }

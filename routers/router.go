@@ -15,6 +15,7 @@ func init() {
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/install", &controllers.InstallController{}, "*:Index")
 	beego.Router("/install/create_root_user", &controllers.InstallController{}, "*:CreateRootUser")
+	beego.Router("/install/create_permissions", &controllers.InstallController{}, "*:CreatePermissions")
 	beego.Router("/register", &controllers.RegistrationsController{}, "get:New")
 	beego.Router("/register", &controllers.RegistrationsController{}, "post:Create")
 	beego.Router("/sign_in", &controllers.SessionsController{}, "get:New")

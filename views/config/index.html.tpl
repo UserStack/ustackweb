@@ -30,9 +30,9 @@
         {{end}}
       </div>
       <h4>
-        Groups
-        <a href="{{urlfor "InstallController.CreateRootUser" }}" class="btn btn-xs btn-default pull-right">
-          Recreate Groups
+        Permissions
+        <a href="{{urlfor "InstallController.CreatePermissions" }}" class="btn btn-xs btn-default pull-right">
+          Recreate Permissions
         </a>
       </h4>
       <div class="list-group">
