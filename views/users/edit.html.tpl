@@ -6,26 +6,24 @@
         Back
       </a>
       {{template "users/form_username_and_password.html.tpl" .}}
-      <div class="col-md-offset-3 col-md-6">
-        <table class="table">
-          <tbody>
-          {{$user := .user}}
-          {{range .userGroups}}
-            <tr>
-              <td>{{.Gid}}</td>
-              <td>{{.Name}}</td>
-              <td>
-                <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-default btn-xs">
-                  <span class="glyphicon glyphicon-minus-sign"></span>
-                  Remove
-                </a>
-              </td>
-            </tr>
-          {{end}}
-          </tbody>
-        </table>
-      </div>
-      <div class="clearfix"></div>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-md-3 control-label">Membership</label>
+          <div class="col-md-6">
+            {{$user := .user}}
+            {{range .userGroups}}
+            <div class="btn-group">
+              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Gid) }}" class="btn btn-default">
+                {{.Name}}
+              </a>
+              <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span>
+              </a>
+            </div>
+            {{end}}
+          </div>
+        </div>
+      </form>
       <form action="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" .user.Uid)}}" method="post" class="form-horizontal" role="form">
         {{.xsrf_html | str2html}}
         {{with .AddUserToGroupFormSets.Fields.GroupId}}
