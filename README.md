@@ -43,6 +43,14 @@ Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org)
 
         $ make watch
 
+4. Open the Install page to setup some data
+
+        $ open http://localhost:8080/install
+
+5. Sign In using the root user (user=admin, pass=admin)
+
+        $ open http://localhost:8080/sign_in
+
 ## Todos
 
 * Bulk editing (users, groups, permissions)
