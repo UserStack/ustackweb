@@ -73,15 +73,6 @@ func (this *UsersController) EditUsername() {
 	this.SetFormSets(&form)
 }
 
-func (this *UsersController) EditPassword() {
-	if !this.loadUser() {
-		return
-	}
-	this.TplNames = "users/edit_password.html.tpl"
-	form := forms.EditPassword{}
-	this.SetFormSets(&form)
-}
-
 func (this *UsersController) UpdateUsername() {
 	if !this.loadUser() {
 		return
@@ -101,6 +92,15 @@ func (this *UsersController) UpdateUsername() {
 		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
 		flash.Store(&this.Controller)
 	}
+}
+
+func (this *UsersController) EditPassword() {
+	if !this.loadUser() {
+		return
+	}
+	this.TplNames = "users/edit_password.html.tpl"
+	form := forms.EditPassword{}
+	this.SetFormSets(&form)
 }
 
 func (this *UsersController) UpdatePassword() {
