@@ -15,32 +15,20 @@
           <label class="col-md-3 control-label">Member in</label>
           <div class="col-md-6">
             {{$user := .user}}
-            {{range .userGroups}}
+            {{range .groupMemberships}}
             <div class="btn-group">
-              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Gid) }}" class="btn btn-default">
-                {{.Name}}
+              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Group.Gid) }}" class="btn btn-default">
+                {{.Group.Name}}
               </a>
-              <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-danger">
+              {{if .IsMember}}
+              <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-danger">
                 <span class="glyphicon glyphicon-remove"></span>
               </a>
-            </div>
-            {{end}}
-          </div>
-        </div>
-      </form>
-      <form class="form-horizontal">
-        <div class="form-group">
-          <label class="col-md-3 control-label">Not Member in</label>
-          <div class="col-md-6">
-            {{$user := .user}}
-            {{range .allGroups}}
-            <div class="btn-group">
-              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Gid) }}" class="btn btn-default">
-                {{.Name}}
-              </a>
-              <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-default">
+              {{else}}
+              <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-default">
                 <span class="glyphicon glyphicon-ok"></span>
               </a>
+              {{end}}
             </div>
             {{end}}
           </div>

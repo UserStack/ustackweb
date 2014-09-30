@@ -60,10 +60,27 @@ func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.html.tpl"
 }
 
+type GroupMembership struct {
+	Group    models.Group
+	IsMember bool
+}
+
 func (this *UsersController) EditGroups() {
 	if !this.loadUser() || !this.loadUserGroups() || !this.loadAllGroups() {
 		return
 	}
+	groupMemberships := make([]GroupMembership, len(this.AllGroups))
+	for idx, group := range this.AllGroups {
+		membership := GroupMembership{Group: group}
+		for _, group2 := range this.UserGroups {
+			if group == group2 {
+				membership.IsMember = true
+				break
+			}
+		}
+		groupMemberships[idx] = membership
+	}
+	this.Data["groupMemberships"] = groupMemberships
 	this.TplNames = "users/edit_groups.html.tpl"
 }
 
