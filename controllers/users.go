@@ -8,12 +8,6 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type UserForm struct {
-	Username    string
-	Password    string
-	OldPassword string
-}
-
 type UsersController struct {
 	BaseController
 	User *models.User
