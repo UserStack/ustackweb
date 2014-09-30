@@ -26,6 +26,7 @@ _testmain.go
 # Node.js
 node_modules
 static/bower_components
+npm-debug.log
 
 # Sass
 static/css
@@ -33,5 +34,5 @@ static/css
 
 ustackweb
 
-ustack.db
+ustackd.db
 ustackd.pid
