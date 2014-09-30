@@ -19,6 +19,15 @@ func (this *InstallController) rootUserId() string {
 	return "admin"
 }
 
+func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
+	permissionRequirements = []*PermissionRequirement{
+		&PermissionRequirement{Name: "perm.user.list"},
+		&PermissionRequirement{Name: "perm.user.read"},
+		&PermissionRequirement{Name: "perm.user.write"},
+	}
+	return
+}
+
 func (this *InstallController) Index() {
 	this.Layout = "layouts/default.html.tpl"
 	this.TplNames = "config/index.html.tpl"
@@ -66,13 +75,4 @@ func (this *InstallController) AssignPermissions() {
 		models.Users().AddUserToGroup(this.rootUserId(), permissionRequirement.Name)
 	}
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
-}
-
-func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
-	permissionRequirements = []*PermissionRequirement{
-		&PermissionRequirement{Name: "perm.user.list"},
-		&PermissionRequirement{Name: "perm.user.read"},
-		&PermissionRequirement{Name: "perm.user.write"},
-	}
-	return
 }
