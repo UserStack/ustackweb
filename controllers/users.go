@@ -6,6 +6,7 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
+	wetalkutils "github.com/beego/wetalk/modules/utils"
 )
 
 type UsersController struct {
@@ -55,10 +56,35 @@ func (this *UsersController) Edit() {
 	this.TplNames = "users/edit.html.tpl"
 	id, _ := this.GetInt(":id")
 	user, error := models.Users().Find(id)
+	form := forms.AddUserToGroup{}
+	form.Groups, _ = models.Groups().All()
+	this.SetFormSets(&form)
 	if error == nil {
 		this.Data["user"] = user
 	} else {
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+}
+
+func (this *UsersController) AddUserToGroup() {
+	if !this.loadUser() {
+		return
+	}
+	this.TplNames = "users/edit.html.tpl"
+	form := forms.AddUserToGroup{}
+	form.Groups, _ = models.Groups().All()
+	this.SetFormSets(&form)
+	if !this.ValidFormSets(&form) {
+		return
+	}
+
+	updated, backendErr := models.Users().AddUserToGroup(this.GetString(":id"), wetalkutils.ToStr(form.GroupId))
+	if updated { // success
+		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
+	} else { // backend error
+		flash := beego.NewFlash()
+		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
+		flash.Store(&this.Controller)
 	}
 }
 

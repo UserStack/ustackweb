@@ -6,6 +6,20 @@
         Back
       </a>
       {{template "users/form_username_and_password.html.tpl" .}}
+      <form action="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" .user.Uid)}}" method="post" class="form-horizontal" role="form">
+        {{.xsrf_html | str2html}}
+        {{with .AddUserToGroupFormSets.Fields.GroupId}}
+        <div class="form-group {{if .Error}} has-error{{end}}">
+          <label class="col-md-3 control-label">{{.LabelText}}</label>
+          <div class="col-md-6">
+            {{call .Field}}
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">Add to Group</button>
+            </span>
+          </div>
+        </div>
+        {{end}}
+      </form>
       <form class="form-horizontal">
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">

@@ -88,6 +88,19 @@ func (this *UserCollection) UpdatePassword(name_or_uid string, password string, 
 	return
 }
 
+func (this *UserCollection) AddUserToGroup(name_or_uid string, group_id string) (updated bool, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	backendError := connection.AddUserToGroup(name_or_uid, group_id)
+	backend.VerifyConnection(backendError)
+	if backendError == nil {
+		updated = err == nil
+	}
+	return
+}
+
 func (this *UserCollection) Destroy(name_or_uid string) (deleted bool, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
