@@ -37,7 +37,7 @@
       </h4>
       <div class="list-group">
         {{if compare .groupsError nil}}
-        {{range .groupRequirements}}
+        {{range .permissionRequirements}}
         <div class="list-group-item {{if .Exists}}list-group-item-success{{else}}list-group-item-danger{{end}}">
           {{if .Exists}}
           <span class="glyphicon glyphicon-ok-sign"></span>

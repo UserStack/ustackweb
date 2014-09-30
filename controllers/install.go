@@ -9,7 +9,7 @@ type InstallController struct {
 	BaseController
 }
 
-type GroupRequirenment struct {
+type PermissionRequirement struct {
 	Name   string
 	Exists bool
 }
@@ -20,17 +20,17 @@ func (this *InstallController) Index() {
 	rootUser, err := models.Users().FindByName("admin")
 	this.Data["rootUserError"] = err
 	this.Data["rootUser"] = rootUser
-	groupRequirements := this.groupRequirements()
+	permissionRequirements := this.permissionRequirements()
 	groups, err := models.Groups().All()
-	for _, groupRequirement := range groupRequirements {
+	for _, permissionRequirement := range permissionRequirements {
 		for _, group := range groups {
-			if group.Name == groupRequirement.Name {
-				groupRequirement.Exists = true
+			if group.Name == permissionRequirement.Name {
+				permissionRequirement.Exists = true
 				break
 			}
 		}
 	}
-	this.Data["groupRequirements"] = groupRequirements
+	this.Data["permissionRequirements"] = permissionRequirements
 	this.Data["groupsError"] = err
 }
 
@@ -40,18 +40,18 @@ func (this *InstallController) CreateRootUser() {
 }
 
 func (this *InstallController) CreatePermissions() {
-	groupRequirements := this.groupRequirements()
-	for _, groupRequirement := range groupRequirements {
-		models.Groups().Create(groupRequirement.Name)
+	permissionRequirements := this.permissionRequirements()
+	for _, permissionRequirement := range permissionRequirements {
+		models.Groups().Create(permissionRequirement.Name)
 	}
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 
-func (this *InstallController) groupRequirements() (groupRequirements []*GroupRequirenment) {
-	groupRequirements = []*GroupRequirenment{
-		&GroupRequirenment{Name: "perm.user.list"},
-		&GroupRequirenment{Name: "perm.user.read"},
-		&GroupRequirenment{Name: "perm.user.write"},
+func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
+	permissionRequirements = []*PermissionRequirement{
+		&PermissionRequirement{Name: "perm.user.list"},
+		&PermissionRequirement{Name: "perm.user.read"},
+		&PermissionRequirement{Name: "perm.user.write"},
 	}
 	return
 }
