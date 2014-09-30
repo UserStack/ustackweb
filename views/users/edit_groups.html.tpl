@@ -5,35 +5,47 @@
         <span class="glyphicon glyphicon-arrow-left"></span>
         Back
       </a>
-      <form class="form-horizontal">
-        <div class="form-group">
-          <div class="col-md-offset-3 col-md-6">
-            <h1>Change Membership of {{.user.Name}}</h1>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Member in</label>
-          <div class="col-md-6">
-            {{$user := .user}}
-            {{range .groupMemberships}}
-            <div class="btn-group">
-              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Group.Gid) }}" class="btn btn-default">
+      <h1>Edit Group Membership of {{.user.Name}}</h1>
+      <table class="table table-condensed">
+        <col style="width:70%">
+        <col style="width:20%">
+        <col style="width:10%">
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>Member?</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{$user := .user}}
+          {{range .groupMemberships}}
+          <tr>
+            <td>
+              <a href="{{urlfor "GroupsController.Edit" ":id" (printf "%d" .Group.Gid) }}">
                 {{.Group.Name}}
               </a>
-              {{if .IsMember}}
-              <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-danger">
-                <span class="glyphicon glyphicon-remove"></span>
-              </a>
-              {{else}}
-              <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-default">
-                <span class="glyphicon glyphicon-ok"></span>
-              </a>
-              {{end}}
-            </div>
+            </td>
+            <td>
+            {{if .IsMember}}
+              <span class="glyphicon glyphicon-ok"></span>
             {{end}}
-          </div>
-        </div>
-      </form>
+            </td>
+            <td>
+            {{if .IsMember}}
+            <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-danger btn-xs">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            {{else}}
+            <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="btn btn-success btn-xs">
+              <span class="glyphicon glyphicon-ok"></span>
+            </a>
+            {{end}}
+            </td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
