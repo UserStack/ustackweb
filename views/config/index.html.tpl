@@ -4,7 +4,7 @@
       <h1>Configuration</h1>
       <a class='btn btn-default' href='{{urlfor "InstallController.Index" }}'>
         <span class="glyphicon glyphicon-refresh"></span>
-        Retry
+        Refresh
       </a>
     </div>
   </div>
