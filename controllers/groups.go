@@ -16,7 +16,7 @@ func (this *GroupsController) Prepare() {
 	this.Layout = "layouts/default.html.tpl"
 }
 
-func (this *GroupsController) Get() {
+func (this *GroupsController) Index() {
 	this.TplNames = "groups/index.html.tpl"
 	groups, _ := models.Groups().All()
 	paginator := this.SetPaginator(25, int64(len(groups)))

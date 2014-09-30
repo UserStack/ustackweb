@@ -30,5 +30,5 @@ func init() {
 	beego.Router("/users/:id/disable", &controllers.UsersController{}, "get:Disable")
 	beego.Router("/users/:id", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
-	beego.Router("/groups", &controllers.GroupsController{})
+	beego.Router("/groups", &controllers.GroupsController{}, "get:Index")
 }
