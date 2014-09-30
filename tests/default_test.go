@@ -3,6 +3,7 @@ package test
 import (
 	"bytes"
 	"fmt"
+	_ "github.com/UserStack/ustackweb/routers"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -10,12 +11,11 @@ import (
 	"runtime"
 	"strconv"
 	"testing"
-	_ "github.com/UserStack/ustackweb/routers"
 
-	"github.com/astaxie/beego"
-	. "github.com/smartystreets/goconvey/convey"
 	"github.com/UserStack/ustackweb/backend"
 	"github.com/UserStack/ustackweb/models"
+	"github.com/astaxie/beego"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func init() {
@@ -138,7 +138,7 @@ func TestMain(t *testing.T) {
 		response := postRequest("POST", "/users", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
-			So(response.Body.String(), ShouldContainSubstring, "Could not create user")
+			So(response.Body.String(), ShouldContainSubstring, "Can not be empty")
 		})
 	})
 }
