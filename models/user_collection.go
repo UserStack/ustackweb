@@ -54,6 +54,20 @@ func (this *UserCollection) Find(uid int64) (user *User, err *backend.Error) {
 	return
 }
 
+func (this *UserCollection) FindByName(username string) (user *User, err *backend.Error) {
+	allUsers, err := this.All()
+	if err != nil {
+		return
+	}
+	for _, aUser := range allUsers {
+		if aUser.Name == username {
+			user = &aUser
+			return
+		}
+	}
+	return
+}
+
 func (this *UserCollection) Login(username string, password string) (loggedIn bool, id int64, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
