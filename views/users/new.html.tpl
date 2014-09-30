@@ -6,7 +6,7 @@
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <h1>Create User</h1>
-            {{template "shared/form_errors.html.tpl" .Errors}}
+            {{template "shared/form_errors.html.tpl" .NewUserError.Errors}}
           </div>
         </div>
         {{with .NewUserFormSets.Fields.Username}}

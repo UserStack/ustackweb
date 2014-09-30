@@ -71,3 +71,39 @@ func (this *BaseController) setFormSets(form interface{}, errs map[string]*valid
 
 	return formSets
 }
+
+func (this *BaseController) validForm(form interface{}, names ...string) (bool, map[string]*validation.ValidationError) {
+	// parse request params to form ptr struct
+	wetalkutils.ParseForm(form, this.Input())
+
+	// Put data back in case users input invalid data for any section.
+	name := reflect.ValueOf(form).Elem().Type().Name()
+	if len(names) > 0 {
+		name = names[0]
+	}
+	this.Data[name] = form
+
+	errName := name + "Error"
+
+	// Verify basic input.
+	valid := validation.Validation{}
+	if ok, _ := valid.Valid(form); !ok {
+		errs := valid.ErrorMap()
+		this.Data[errName] = &valid
+		return false, errs
+	}
+	return true, nil
+}
+
+// valid form and put errors to tempalte context
+func (this *BaseController) ValidForm(form interface{}, names ...string) bool {
+	valid, _ := this.validForm(form, names...)
+	return valid
+}
+
+// valid form and put errors to tempalte context
+func (this *BaseController) ValidFormSets(form interface{}, names ...string) bool {
+	valid, errs := this.validForm(form, names...)
+	this.setFormSets(form, errs, names...)
+	return valid
+}

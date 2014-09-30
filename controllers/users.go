@@ -40,30 +40,19 @@ func (this *UsersController) New() {
 }
 
 func (this *UsersController) Create() {
-	this.SetFormSets(&forms.NewUser{})
-	userForm := UserForm{}
-	err := this.ParseForm(&userForm)
-	if err == nil {
-		valid := validation.Validation{}
-		valid.Required(userForm.Username, "Username")
-		if valid.HasErrors() {
-			this.Data["Errors"] = valid.Errors
-			flash := beego.NewFlash()
-			flash.Error("Could not create user.")
-			flash.Store(&this.Controller)
-			this.TplNames = "users/new.html.tpl"
-		} else {
-			created, id, _ := models.Users().Create(userForm.Username, userForm.Password)
-			if created {
-				this.Redirect(beego.UrlFor("UsersController.Edit", ":id", fmt.Sprintf("%d", id)), 302)
-			} else {
-				flash := beego.NewFlash()
-				flash.Error("Could not create user!")
-				flash.Store(&this.Controller)
-				this.TplNames = "users/new.html.tpl"
-			}
-		}
-	} else {
+	this.TplNames = "users/new.html.tpl"
+	form := forms.NewUser{}
+	this.SetFormSets(&form)
+	if !this.ValidFormSets(&form) {
+		return
+	}
+	created, id, _ := models.Users().Create(form.Username, form.Password)
+	if created {
+		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", fmt.Sprintf("%d", id)), 302)
+	} else { // backend error
+		flash := beego.NewFlash()
+		flash.Error("Could not create user!")
+		flash.Store(&this.Controller)
 		this.TplNames = "users/new.html.tpl"
 	}
 }
