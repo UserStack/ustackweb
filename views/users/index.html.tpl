@@ -12,6 +12,22 @@
             <th></th>
             <th>Name</th>
             <th>
+              <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                  Filter by Group <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{urlfor "UsersController.Index" }}">All</a></li>
+                  <li class="divider"></li>
+                  {{range .allGroups}}
+                  <li>
+                    <a href="{{urlfor "UsersController.Index" ":groupId" (printf "%d" .Gid) }}">
+                      {{.Name}}
+                    </a>
+                  </li>
+                  {{end}}
+                </ul>
+              </div>
               <a href="{{urlfor "UsersController.New"}}" class="btn btn-primary btn-xs">
                 <span class="glyphicon glyphicon-plus"></span>
                 Add User
