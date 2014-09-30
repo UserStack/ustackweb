@@ -58,16 +58,9 @@ func (this *UsersController) Edit() {
 		return
 	}
 	this.TplNames = "users/edit.html.tpl"
-	id, _ := this.GetInt(":id")
-	user, error := models.Users().Find(id)
 	form := forms.AddUserToGroup{}
 	form.Groups, _ = models.Groups().All()
 	this.SetFormSets(&form)
-	if error == nil {
-		this.Data["user"] = user
-	} else {
-		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
-	}
 }
 
 func (this *UsersController) AddUserToGroup() {
@@ -90,6 +83,14 @@ func (this *UsersController) AddUserToGroup() {
 		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
 		flash.Store(&this.Controller)
 	}
+}
+
+func (this *UsersController) RemoveUserFromGroup() {
+	if !this.loadUser() {
+		return
+	}
+	models.Users().RemoveUserFromGroup(this.GetString(":id"), this.GetString(":groupId"))
+	this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
 }
 
 func (this *UsersController) EditUsername() {
@@ -197,6 +198,5 @@ func (this *UsersController) loadUserGroups() (loaded bool) {
 	}
 	this.UserGroups = userGroups
 	this.Data["userGroups"] = userGroups
-	fmt.Printf("--- > %d", len(userGroups))
 	return
 }

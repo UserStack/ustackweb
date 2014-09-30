@@ -30,6 +30,7 @@ func init() {
 	beego.Router("/users/:id/disable", &controllers.UsersController{}, "get:Disable")
 	beego.Router("/users/:id", &controllers.UsersController{}, "get:Edit")
 	beego.Router("/users/:id/add_user_to_group", &controllers.UsersController{}, "post:AddUserToGroup")
+	beego.Router("/users/:id/remove_user_from_group/:groupId", &controllers.UsersController{}, "*:RemoveUserFromGroup")
 	beego.Router("/users/:id/delete", &controllers.UsersController{}, "get:Destroy")
 	beego.Router("/groups", &controllers.GroupsController{}, "get:Index")
 	beego.Router("/groups/new", &controllers.GroupsController{}, "get:New")

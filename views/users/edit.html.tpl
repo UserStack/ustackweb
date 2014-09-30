@@ -9,10 +9,17 @@
       <div class="col-md-offset-3 col-md-6">
         <table class="table">
           <tbody>
+          {{$user := .user}}
           {{range .userGroups}}
             <tr>
               <td>{{.Gid}}</td>
               <td>{{.Name}}</td>
+              <td>
+                <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Gid) }}" class="btn btn-default btn-xs">
+                  <span class="glyphicon glyphicon-minus-sign"></span>
+                  Remove
+                </a>
+              </td>
             </tr>
           {{end}}
           </tbody>
