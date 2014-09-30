@@ -69,15 +69,12 @@ func (this *UsersController) Edit() {
 }
 
 func (this *UsersController) EditUsername() {
-	this.TplNames = "users/username.html.tpl"
-	id, _ := this.GetInt(":id")
-	user, error := models.Users().Find(id)
-	if error == nil {
-		this.Data["user"] = user
-		this.Data["UsernameForm"] = forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: user}
-	} else {
-		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	if !this.loadUser() {
+		return
 	}
+	this.TplNames = "users/edit_username.html.tpl"
+	form := forms.EditUsername{}
+	this.SetFormSets(&form)
 }
 
 func (this *UsersController) EditPassword() {
@@ -96,6 +93,7 @@ func (this *UsersController) loadUser() (userLoaded bool) {
 	intId, _ := this.GetInt(":id")
 	user, err := models.Users().Find(intId)
 	this.User = user
+	this.Data["user"] = user
 	userLoaded = err == nil
 	if !userLoaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
@@ -117,34 +115,20 @@ func (this *UsersController) UpdateUsername() {
 	if !this.loadUser() {
 		return
 	}
-
-	userForm := this.parseUserForm()
-	if userForm == nil {
+	this.TplNames = "users/edit_username.html.tpl"
+	form := forms.EditUsername{}
+	this.SetFormSets(&form)
+	if !this.ValidFormSets(&form) {
 		return
 	}
 
-	valid := validation.Validation{}
-	valid.Required(userForm.Username, "Username")
-	valid.Required(userForm.Password, "Password")
-	if valid.HasErrors() { // validation errors
-		usernameForm := forms.EditUsername{XsrfHtml: this.XsrfFormHtml(), User: this.User, ValidationErrors: valid.Errors}
-		this.Data["user"] = this.User
-		this.Data["UsernameForm"] = usernameForm
-		flash := beego.NewFlash()
-		flash.Error("Could not change username.")
-		flash.Store(&this.Controller)
-		this.TplNames = "users/username.html.tpl"
-		return
-	}
-
-	updated, backendErr := models.Users().UpdateUsername(this.GetString(":id"), userForm.Password, userForm.Username)
+	updated, backendErr := models.Users().UpdateUsername(this.GetString(":id"), form.ConfirmPassword, form.Username)
 	if updated { // success
 		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
-	} else {
+	} else { // backend error
 		flash := beego.NewFlash()
 		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
 		flash.Store(&this.Controller)
-		this.TplNames = "users/username.html.tpl"
 	}
 }
 

@@ -19,12 +19,6 @@ func (this *NewUser) Placeholders() map[string]string {
 	}
 }
 
-type EditUsername struct {
-	XsrfHtml         string
-	ValidationErrors []*validation.ValidationError
-	User             *models.User
-}
-
 type EditPassword struct {
 	XsrfHtml         string
 	ValidationErrors []*validation.ValidationError
