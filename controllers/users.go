@@ -79,18 +79,6 @@ func (this *UsersController) EditPassword() {
 	this.SetFormSets(&form)
 }
 
-func (this *UsersController) loadUser() (userLoaded bool) {
-	intId, _ := this.GetInt(":id")
-	user, err := models.Users().Find(intId)
-	this.User = user
-	this.Data["user"] = user
-	userLoaded = err == nil
-	if !userLoaded { // user not found
-		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
-	}
-	return
-}
-
 func (this *UsersController) UpdateUsername() {
 	if !this.loadUser() {
 		return
@@ -156,4 +144,16 @@ func (this *UsersController) Disable() {
 	user, _ := models.Users().Find(id)
 	models.Users().Disable(user.Name)
 	this.Redirect(this.Ctx.Input.Refer(), 302)
+}
+
+func (this *UsersController) loadUser() (userLoaded bool) {
+	intId, _ := this.GetInt(":id")
+	user, err := models.Users().Find(intId)
+	this.User = user
+	this.Data["user"] = user
+	userLoaded = err == nil
+	if !userLoaded { // user not found
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+	return
 }
