@@ -34,7 +34,10 @@
           <div class="col-md-6">
             {{call .Field}}
             <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">Add to Group</button>
+              <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                Add to Group
+              </button>
             </span>
           </div>
         </div>
