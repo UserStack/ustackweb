@@ -22,6 +22,10 @@
             <td>{{.Gid}}</td>
             <td>{{.Name}}</td>
             <td>
+              <a href="{{urlfor "UsersController.Index" ":groupId" (printf "%d" .Gid) }}" class="btn btn-link btn-xs">
+                <span class="glyphicon glyphicon-list"></span>
+                Users
+              </a>
               <a href="#"
                 class="btn btn-link btn-xs"
                 tabindex="0"
