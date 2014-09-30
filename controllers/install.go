@@ -10,8 +10,9 @@ type InstallController struct {
 }
 
 type PermissionRequirement struct {
-	Name   string
-	Exists bool
+	Name     string
+	Exists   bool
+	Assigned bool
 }
 
 func (this *InstallController) Index() {
@@ -29,6 +30,7 @@ func (this *InstallController) Index() {
 				break
 			}
 		}
+
 	}
 	this.Data["permissionRequirements"] = permissionRequirements
 	this.Data["groupsError"] = err
@@ -44,6 +46,10 @@ func (this *InstallController) CreatePermissions() {
 	for _, permissionRequirement := range permissionRequirements {
 		models.Groups().Create(permissionRequirement.Name)
 	}
+	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
+}
+
+func (this *InstallController) AssignPermissions() {
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 
