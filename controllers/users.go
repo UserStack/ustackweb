@@ -30,14 +30,12 @@ func (this *UsersController) Index() {
 func (this *UsersController) New() {
 	this.TplNames = "users/new.html.tpl"
 	form := forms.NewUser{}
-	form.Groups, _ = models.Groups().All()
 	this.SetFormSets(&form)
 }
 
 func (this *UsersController) Create() {
 	this.TplNames = "users/new.html.tpl"
 	form := forms.NewUser{}
-	form.Groups, _ = models.Groups().All()
 	this.SetFormSets(&form)
 	if !this.ValidFormSets(&form) {
 		return
