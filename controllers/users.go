@@ -6,13 +6,13 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
-	wetalkutils "github.com/beego/wetalk/modules/utils"
 )
 
 type UsersController struct {
 	BaseController
 	User       *models.User
 	UserGroups []models.Group
+	AllGroups  []models.Group
 }
 
 func (this *UsersController) Prepare() {
@@ -58,31 +58,21 @@ func (this *UsersController) Edit() {
 		return
 	}
 	this.TplNames = "users/edit.html.tpl"
-	form := forms.AddUserToGroup{}
-	form.Groups, _ = models.Groups().All()
-	this.SetFormSets(&form)
+}
+
+func (this *UsersController) EditGroups() {
+	if !this.loadUser() || !this.loadUserGroups() || !this.loadAllGroups() {
+		return
+	}
+	this.TplNames = "users/edit_groups.html.tpl"
 }
 
 func (this *UsersController) AddUserToGroup() {
 	if !this.loadUser() {
 		return
 	}
-	this.TplNames = "users/edit.html.tpl"
-	form := forms.AddUserToGroup{}
-	form.Groups, _ = models.Groups().All()
-	this.SetFormSets(&form)
-	if !this.ValidFormSets(&form) {
-		return
-	}
-
-	updated, backendErr := models.Users().AddUserToGroup(this.GetString(":id"), wetalkutils.ToStr(form.GroupId))
-	if updated { // success
-		this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
-	} else { // backend error
-		flash := beego.NewFlash()
-		flash.Error(fmt.Sprintf("Could not update user! %s", backendErr))
-		flash.Store(&this.Controller)
-	}
+	models.Users().AddUserToGroup(this.GetString(":id"), this.GetString(":groupId"))
+	this.Redirect(this.Ctx.Input.Refer(), 302)
 }
 
 func (this *UsersController) RemoveUserFromGroup() {
@@ -90,7 +80,7 @@ func (this *UsersController) RemoveUserFromGroup() {
 		return
 	}
 	models.Users().RemoveUserFromGroup(this.GetString(":id"), this.GetString(":groupId"))
-	this.Redirect(beego.UrlFor("UsersController.Edit", ":id", this.GetString(":id")), 302)
+	this.Redirect(this.Ctx.Input.Refer(), 302)
 }
 
 func (this *UsersController) EditUsername() {
@@ -191,12 +181,23 @@ func (this *UsersController) loadUser() (loaded bool) {
 }
 
 func (this *UsersController) loadUserGroups() (loaded bool) {
-	userGroups, err := models.Groups().AllByUser(this.GetString(":id"))
+	groups, err := models.Groups().AllByUser(this.GetString(":id"))
 	loaded = err == nil
 	if !loaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
-	this.UserGroups = userGroups
-	this.Data["userGroups"] = userGroups
+	this.UserGroups = groups
+	this.Data["userGroups"] = groups
+	return
+}
+
+func (this *UsersController) loadAllGroups() (loaded bool) {
+	groups, err := models.Groups().All()
+	loaded = err == nil
+	if !loaded { // user not found
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+	this.AllGroups = groups
+	this.Data["allGroups"] = groups
 	return
 }

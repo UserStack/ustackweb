@@ -8,7 +8,7 @@
       {{template "users/form_username_and_password.html.tpl" .}}
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-md-3 control-label">Membership</label>
+          <label class="col-md-3 control-label">Group Membership</label>
           <div class="col-md-6">
             {{$user := .user}}
             {{range .userGroups}}
@@ -21,25 +21,12 @@
               </a>
             </div>
             {{end}}
+            <a href="{{urlfor "UsersController.EditGroups" ":id" (printf "%d" .user.Uid) }}" class="btn btn-default">
+              <span class="glyphicon glyphicon-wrench"></span>
+              Change
+            </a>
           </div>
         </div>
-      </form>
-      <form action="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" .user.Uid)}}" method="post" class="form-horizontal" role="form">
-        {{.xsrf_html | str2html}}
-        {{with .AddUserToGroupFormSets.Fields.GroupId}}
-        <div class="form-group {{if .Error}} has-error{{end}}">
-          <label class="col-md-3 control-label">{{.LabelText}}</label>
-          <div class="col-md-6">
-            {{call .Field}}
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus-sign"></span>
-                Add to Group
-              </button>
-            </span>
-          </div>
-        </div>
-        {{end}}
       </form>
       <form class="form-horizontal">
         <div class="form-group">
