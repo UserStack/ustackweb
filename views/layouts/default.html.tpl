@@ -29,7 +29,7 @@
               <li {{if .context.Is "UsersController.Index" }}class="active"{{end}}><a href="{{urlfor "UsersController.Index"}}">Users</a></li>
               {{end}}
               {{if .permissions.Groups}}
-              <li {{if .context.Is "GroupsController.Index" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Get"}}">Groups</a></li>
+              <li {{if .context.Is "GroupsController.Index" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Index"}}">Groups</a></li>
               {{end}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
