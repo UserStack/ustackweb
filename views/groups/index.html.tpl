@@ -8,6 +8,12 @@
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>
+              <a href="{{urlfor "GroupsController.New"}}" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add Group
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -15,6 +21,7 @@
           <tr>
             <td>{{$val.Gid}}</td>
             <td>{{$val.Name}}</td>
+            <td></td>
           </tr>
         {{end}}
         </tbody>
