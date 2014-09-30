@@ -4,10 +4,10 @@ import (
 	"github.com/UserStack/ustackweb/backend"
 )
 
-type GroupsCollection struct {
+type GroupCollection struct {
 }
 
-func (this *GroupsCollection) All() (groups []Group, err *backend.Error) {
+func (this *GroupCollection) All() (groups []Group, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
 		return
@@ -22,7 +22,7 @@ func (this *GroupsCollection) All() (groups []Group, err *backend.Error) {
 	return
 }
 
-func (this *GroupsCollection) Create(name string) (created bool, id int64, err *backend.Error) {
+func (this *GroupCollection) Create(name string) (created bool, id int64, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
 		return
@@ -35,7 +35,7 @@ func (this *GroupsCollection) Create(name string) (created bool, id int64, err *
 	return
 }
 
-func (this *GroupsCollection) Destroy(name_or_uid string) (deleted bool, err *backend.Error) {
+func (this *GroupCollection) Destroy(name_or_uid string) (deleted bool, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
 		return
@@ -48,6 +48,6 @@ func (this *GroupsCollection) Destroy(name_or_uid string) (deleted bool, err *ba
 	return
 }
 
-func Groups() *GroupsCollection {
-	return &GroupsCollection{}
+func Groups() *GroupCollection {
+	return &GroupCollection{}
 }
