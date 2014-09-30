@@ -1,10 +1,19 @@
 package models
 
 import (
+	"github.com/UserStack/ustackd/backends"
 	"github.com/UserStack/ustackweb/backend"
 )
 
 type UserCollection struct {
+}
+
+func (this *UserCollection) collect(backendUsers []backends.User) (users []User) {
+	users = make([]User, len(backendUsers))
+	for idx, backendUser := range backendUsers {
+		users[idx] = User{backendUser}
+	}
+	return
 }
 
 func (this *UserCollection) All() (users []User, err *backend.Error) {
@@ -14,10 +23,19 @@ func (this *UserCollection) All() (users []User, err *backend.Error) {
 	}
 	backendUsers, backendError := connection.Users()
 	if backendError == nil {
-		users = make([]User, len(backendUsers))
-		for idx, backendUser := range backendUsers {
-			users[idx] = User{backendUser}
-		}
+		users = this.collect(backendUsers)
+	}
+	return
+}
+
+func (this *UserCollection) AllByGroup(groupId string) (users []User, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	backendUsers, backendError := connection.GroupUsers(groupId)
+	if backendError == nil {
+		users = this.collect(backendUsers)
 	}
 	return
 }

@@ -24,7 +24,13 @@ func (this *UsersController) Prepare() {
 
 func (this *UsersController) Index() {
 	this.TplNames = "users/index.html.tpl"
-	users, _ := models.Users().All()
+	var users []models.User
+	groupId := this.GetString(":groupId")
+	if groupId == "" {
+		users, _ = models.Users().All()
+	} else {
+		users, _ = models.Users().AllByGroup(groupId)
+	}
 	paginator := this.SetPaginator(25, int64(len(users)))
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
