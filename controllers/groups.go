@@ -47,3 +47,8 @@ func (this *GroupsController) Create() {
 		this.TplNames = "groups/new.html.tpl"
 	}
 }
+
+func (this *GroupsController) Delete() {
+	models.Groups().Destroy(this.GetString(":id"))
+	this.Redirect(beego.UrlFor("GroupsController.Index"), 302)
+}

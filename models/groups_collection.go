@@ -35,6 +35,19 @@ func (this *GroupsCollection) Create(name string) (created bool, id int64, err *
 	return
 }
 
+func (this *GroupsCollection) Destroy(name_or_uid string) (deleted bool, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	backendError := connection.DeleteGroup(name_or_uid)
+	backend.VerifyConnection(backendError)
+	if backendError == nil {
+		deleted = err == nil
+	}
+	return
+}
+
 func Groups() *GroupsCollection {
 	return &GroupsCollection{}
 }
