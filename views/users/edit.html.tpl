@@ -6,6 +6,19 @@
         Back
       </a>
       {{template "users/form_username_and_password.html.tpl" .}}
+      <div class="col-md-offset-3 col-md-6">
+        <table class="table">
+          <tbody>
+          {{range .userGroups}}
+            <tr>
+              <td>{{.Gid}}</td>
+              <td>{{.Name}}</td>
+            </tr>
+          {{end}}
+          </tbody>
+        </table>
+      </div>
+      <div class="clearfix"></div>
       <form action="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" .user.Uid)}}" method="post" class="form-horizontal" role="form">
         {{.xsrf_html | str2html}}
         {{with .AddUserToGroupFormSets.Fields.GroupId}}

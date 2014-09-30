@@ -11,7 +11,8 @@ import (
 
 type UsersController struct {
 	BaseController
-	User *models.User
+	User       *models.User
+	UserGroups []models.Group
 }
 
 func (this *UsersController) Prepare() {
@@ -53,6 +54,9 @@ func (this *UsersController) Create() {
 }
 
 func (this *UsersController) Edit() {
+	if !this.loadUser() || !this.loadUserGroups() {
+		return
+	}
 	this.TplNames = "users/edit.html.tpl"
 	id, _ := this.GetInt(":id")
 	user, error := models.Users().Find(id)
@@ -173,14 +177,26 @@ func (this *UsersController) Disable() {
 	this.Redirect(this.Ctx.Input.Refer(), 302)
 }
 
-func (this *UsersController) loadUser() (userLoaded bool) {
+func (this *UsersController) loadUser() (loaded bool) {
 	intId, _ := this.GetInt(":id")
 	user, err := models.Users().Find(intId)
-	this.User = user
-	this.Data["user"] = user
-	userLoaded = err == nil
-	if !userLoaded { // user not found
+	loaded = err == nil
+	if !loaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
 	}
+	this.User = user
+	this.Data["user"] = user
+	return
+}
+
+func (this *UsersController) loadUserGroups() (loaded bool) {
+	userGroups, err := models.Groups().AllByUser(this.GetString(":id"))
+	loaded = err == nil
+	if !loaded { // user not found
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+	this.UserGroups = userGroups
+	this.Data["userGroups"] = userGroups
+	fmt.Printf("--- > %d", len(userGroups))
 	return
 }
