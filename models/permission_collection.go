@@ -10,12 +10,8 @@ type Permission struct {
 
 func (this *PermissionCollection) All() map[string]bool {
 	return map[string]bool{
-		"ustack-perm-user-list":   false,
-		"ustack-perm-user-read":   false,
-		"ustack-perm-user-write":  false,
-		"ustack-perm-group-list":  false,
-		"ustack-perm-group-read":  false,
-		"ustack-perm-group-write": false,
+		"UserList":  false,
+		"GroupList": false,
 	}
 }
 

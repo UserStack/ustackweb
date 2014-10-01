@@ -24,10 +24,10 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li {{if .context.Is "HomeController.Get" }}class="active"{{end}}><a href="{{urlfor "HomeController.Get"}}">Home</a></li>
-              {{if .permissions.Users}}
+              {{if .permissions.UserList}}
               <li {{if .context.Is "UsersController.Index" }}class="active"{{end}}><a href="{{urlfor "UsersController.Index"}}">Users</a></li>
               {{end}}
-              {{if .permissions.Groups}}
+              {{if .permissions.GroupList}}
               <li {{if .context.Is "GroupsController.Index" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Index"}}">Groups</a></li>
               {{end}}
             </ul>

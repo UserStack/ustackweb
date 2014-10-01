@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
@@ -8,11 +10,6 @@ import (
 	wetalkutils "github.com/beego/wetalk/modules/utils"
 	"reflect"
 )
-
-type Permissions struct {
-	Users  bool
-	Groups bool
-}
 
 type BaseController struct {
 	beego.Controller
@@ -36,8 +33,7 @@ func (this *BaseController) RequireAuth() {
 	if username != nil {
 		this.Data["loggedIn"] = true
 		this.Data["username"] = username
-		this.Data["permissions"] = &Permissions{Users: username == "admin",
-			Groups: username == "admin"}
+		this.Data["permissions"] = models.Permissions().AllByUser(fmt.Sprintf("%s", username))
 	} else {
 		this.RequireAuthFailed()
 	}
