@@ -27,6 +27,28 @@ Project to learn golang.org in the context of user lifecycle management.
 * Permissions
     * CRUD
 
+## Defining Permissions
+
+A permission is basically nothing more than a group. The user has the permission if he belongs to the group.
+
+The naming scheme for permission groups is the following:
+
+        perm.{object}.{verb}
+
+To secure all CRUD operations of user objects we would need to create the following groups:
+
+        "perm.users.read"
+        "perm.users.create"
+        "perm.users.update"
+        "perm.users.delete"
+
+Within the `ustackweb` project this permissions can then be used as little DSL via:
+
+        can["read_users"]
+        can["create_users"]
+        can["update_users"]
+        can["delete_users"]
+
 ## Development
 
 Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org) (for [Sass](http://sass-lang.com/)), [Node.js](http://nodejs.org/) and [npm](https://github.com/npm/npm) (for asset management via [Bower](http://bower.io) and  [Livereload](http://livereload.com/)) installed.
