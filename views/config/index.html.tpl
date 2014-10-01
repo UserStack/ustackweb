@@ -6,7 +6,14 @@
         <span class="glyphicon glyphicon-refresh"></span>
         Refresh
       </a>
-      <a class='btn btn-danger pull-right' href='{{urlfor "InstallController.DropDatabase" }}'>
+      <a href="#"
+        class="btn btn-warning pull-right"
+        tabindex="0"
+        data-toggle="popover"
+        data-trigger="focus"
+        data-placement="left"
+        data-html="true"
+        data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "InstallController.DropDatabase" }}'>Yes</a> <a class='btn btn-xs btn-default' href='#'>No</a>">
         <span class="glyphicon glyphicon-remove"></span>
         Drop Database
       </a>
