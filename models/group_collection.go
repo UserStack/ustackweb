@@ -29,6 +29,20 @@ func (this *GroupCollection) All() (groups []Group, err *backend.Error) {
 	return
 }
 
+func (this *GroupCollection) AllPermissions() (groups []Group, err *backend.Error) {
+	allGroups, err := this.All()
+	if err != nil {
+		return
+	}
+	groups = make([]Group, 0)
+	for _, group := range allGroups {
+		if Permissions().IsPermissionGroupName(group.Name) {
+			groups = append(groups, group)
+		}
+	}
+	return
+}
+
 func (this *GroupCollection) AllWithoutPermissions() (groups []Group, err *backend.Error) {
 	allGroups, err := this.All()
 	if err != nil {

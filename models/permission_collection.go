@@ -34,10 +34,23 @@ func (this *PermissionCollection) allNames() []string {
 }
 
 func (this *PermissionCollection) All() (permissions []*Permission) {
-	names := this.allNames()
-	permissions = make([]*Permission, len(names))
-	for idx, name := range names {
-		permissions[idx] = &Permission{Name: name}
+	permissions = make([]*Permission, 0)
+	permissionGroups, _ := Groups().AllPermissions()
+	for _, name := range this.allNames() {
+		permissions = append(permissions, &Permission{Name: name, UserStack: true})
+	}
+	for _, group := range permissionGroups {
+		permissionName := this.Name(group.Name)
+		permissionFound := false
+		for _, permission := range permissions {
+			if permission.Name == permissionName {
+				permissionFound = true
+				break
+			}
+		}
+		if !permissionFound {
+			permissions = append(permissions, &Permission{Name: permissionName})
+		}
 	}
 	return
 }
