@@ -24,7 +24,7 @@ func (this *InstallController) permissionRequirements() (permissionRequirements 
 	allPermissions := models.Permissions().AllNames()
 	permissionRequirements = make([]*PermissionRequirement, len(allPermissions))
 	for idx, name := range allPermissions {
-		permissionRequirements[idx] = &PermissionRequirement{Name: models.GroupNameFromPermissionName(name)}
+		permissionRequirements[idx] = &PermissionRequirement{Name: models.Permissions().GroupName(name)}
 	}
 	return
 }

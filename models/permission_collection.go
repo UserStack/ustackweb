@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"strings"
+)
+
 type PermissionCollection struct {
 }
 
@@ -14,7 +19,7 @@ func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[strin
 	allNames := this.AllNames()
 	allGroupNamesMap = make(map[string]bool, len(allNames))
 	for _, name := range allNames {
-		allGroupNamesMap[GroupNameFromPermissionName(name)] = false
+		allGroupNamesMap[this.GroupName(name)] = false
 	}
 	return
 }
@@ -42,12 +47,21 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 
 func (this *PermissionCollection) Create() {
 	for _, name := range this.AllNames() {
-		Groups().Create(GroupNameFromPermissionName(name))
+		Groups().Create(this.GroupName(name))
 	}
 }
 
 func (this *PermissionCollection) Allow(name_or_uid string, permissionName string) {
-	Users().AddUserToGroup(name_or_uid, GroupNameFromPermissionName(permissionName))
+	Users().AddUserToGroup(name_or_uid, this.GroupName(permissionName))
+}
+
+// e.g. list_users => perm.users.list
+func (this *PermissionCollection) GroupName(name string) (groupName string) {
+	parts := strings.Split(name, "_")
+	if len(parts) == 2 {
+		groupName = fmt.Sprintf("perm.%s.%s", parts[1], parts[0])
+	}
+	return
 }
 
 func Permissions() *PermissionCollection {
