@@ -132,6 +132,14 @@ func TestMain(t *testing.T) {
 		})
 	})
 
+	Convey("Users Unauthorized\n", t, func() {
+		response := postRequest("GET", "/users", &url.Values{}, enduserSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
+		})
+	})
+
 	Convey("Create User\n", t, func() {
 		data := url.Values{}
 		data.Add("Username", "mikes")
@@ -148,6 +156,14 @@ func TestMain(t *testing.T) {
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
 			So(response.Body.String(), ShouldContainSubstring, "Can not be empty")
+		})
+	})
+
+	Convey("Create User Unauthorized\n", t, func() {
+		response := postRequest("POST", "/users", &url.Values{}, enduserSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
 		})
 	})
 
@@ -169,7 +185,7 @@ func TestMain(t *testing.T) {
 		})
 	})
 
-	Convey("Create Group Error\n", t, func() {
+	Convey("Create Group Unauthorized\n", t, func() {
 		response := postRequest("POST", "/groups", &url.Values{}, enduserSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 401)
