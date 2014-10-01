@@ -35,6 +35,10 @@ $brand-primary: #813abd;
   @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
 }
 
+.list-group-item-warning {
+  @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+}
+
 .list-group-item-danger {
   @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
 }
