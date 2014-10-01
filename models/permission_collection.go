@@ -77,6 +77,10 @@ func (this *PermissionCollection) CreateAll() {
 	}
 }
 
+func (this *PermissionCollection) Create(object string, verb string) {
+	Groups().Create(this.GroupName(this.BuildName(object, verb)))
+}
+
 func (this *PermissionCollection) AllowAll(name_or_uid string) {
 	for _, permission := range this.All() {
 		this.Allow(name_or_uid, permission.Name)
@@ -94,6 +98,11 @@ func (this *PermissionCollection) Deny(name_or_uid string, permissionName string
 func (this *PermissionCollection) IsPermissionGroupName(groupName string) (isPermissionGroupName bool) {
 	parts := strings.Split(groupName, ".")
 	return len(parts) == 3 && parts[0] == "perm"
+}
+
+// e.g. users, list => users_list
+func (this *PermissionCollection) BuildName(object string, verb string) string {
+	return strings.Join([]string{object, verb}, "_")
 }
 
 // e.g. list_users => perm.users.list

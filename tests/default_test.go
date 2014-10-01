@@ -232,4 +232,25 @@ func TestMain(t *testing.T) {
 			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
 		})
 	})
+
+	Convey("Create Permission\n", t, func() {
+		models.Permissions().Allow("admin", "create_permissions")
+		data := url.Values{}
+		data.Add("Object", "foo1")
+		data.Add("Verb", "bar")
+		response := postRequest("POST", "/permissions", &data, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldStartWith, "/permissions")
+		})
+	})
+
+	Convey("Create Permission Unauthorized\n", t, func() {
+		models.Permissions().Deny("admin", "create_permissions")
+		response := postRequest("POST", "/permissions", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
+		})
+	})
 }
