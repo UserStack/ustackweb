@@ -10,19 +10,11 @@ func (this *PermissionCollection) AllNames() []string {
 	}
 }
 
-func (this *PermissionCollection) allGroupNames() []string {
-	names := this.AllNames()
-	for idx, name := range names {
-		names[idx] = GroupNameFromPermissionName(name)
-	}
-	return names
-}
-
 func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
-	allGroupNames := this.allGroupNames()
-	allGroupNamesMap = make(map[string]bool, len(allGroupNamesMap))
-	for _, groupName := range allGroupNames {
-		allGroupNamesMap[groupName] = false
+	allNames := this.AllNames()
+	allGroupNamesMap = make(map[string]bool, len(allNames))
+	for _, name := range allNames {
+		allGroupNamesMap[GroupNameFromPermissionName(name)] = false
 	}
 	return
 }
