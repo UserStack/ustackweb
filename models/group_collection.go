@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/UserStack/ustackd/backends"
 	"github.com/UserStack/ustackweb/backend"
+	"strings"
 )
 
 type GroupCollection struct {
@@ -24,6 +25,20 @@ func (this *GroupCollection) All() (groups []Group, err *backend.Error) {
 	backendGroups, backendError := connection.Groups()
 	if backendError == nil {
 		groups = this.collect(backendGroups)
+	}
+	return
+}
+
+func (this *GroupCollection) AllByPrefix(prefix string) (groups []Group, err *backend.Error) {
+	allGroups, err := this.All()
+	if err != nil {
+		return
+	}
+	groups = make([]Group, 0)
+	for _, group := range allGroups {
+		if strings.HasPrefix(group.Name, prefix) {
+			groups = append(groups, group)
+		}
 	}
 	return
 }

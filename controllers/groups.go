@@ -11,6 +11,10 @@ type GroupsController struct {
 	BaseController
 }
 
+type GroupsFilter struct {
+	Prefix string
+}
+
 func (this *GroupsController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
@@ -21,7 +25,14 @@ func (this *GroupsController) Prepare() {
 
 func (this *GroupsController) Index() {
 	this.TplNames = "groups/index.html.tpl"
-	groups, _ := models.Groups().All()
+	groupsFilter := GroupsFilter{Prefix: this.GetString(":prefix")}
+	this.Data["groupsFilter"] = groupsFilter
+	var groups []models.Group
+	if groupsFilter.Prefix == "" {
+		groups, _ = models.Groups().All()
+	} else {
+		groups, _ = models.Groups().AllByPrefix(groupsFilter.Prefix)
+	}
 	paginator := this.SetPaginator(25, int64(len(groups)))
 	this.Data["groups"] = groups[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(groups))]
 }

@@ -32,9 +32,9 @@ func (this *UsersController) Index() {
 		return
 	}
 	this.TplNames = "users/index.html.tpl"
-	var users []models.User
 	usersFilter := UsersFilter{GroupId: this.GetString(":groupId")}
 	this.Data["usersFilter"] = usersFilter
+	var users []models.User
 	if usersFilter.GroupId == "" {
 		users, _ = models.Users().All()
 	} else {
