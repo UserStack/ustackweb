@@ -21,10 +21,10 @@ func (this *InstallController) rootUserId() string {
 }
 
 func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
-	allPermissions := models.Permissions().AllGroupNames()
+	allPermissions := models.Permissions().AllNames()
 	permissionRequirements = make([]*PermissionRequirement, len(allPermissions))
-	for idx, groupName := range allPermissions {
-		permissionRequirements[idx] = &PermissionRequirement{Name: groupName}
+	for idx, name := range allPermissions {
+		permissionRequirements[idx] = &PermissionRequirement{Name: models.GroupNameFromPermissionName(name)}
 	}
 	return
 }
@@ -70,8 +70,8 @@ func (this *InstallController) CreatePermissions() {
 }
 
 func (this *InstallController) AssignPermissions() {
-	allGroupNames := models.Permissions().AllGroupNames()
-	for _, name := range allGroupNames {
+	names := models.Permissions().AllNames()
+	for _, name := range names {
 		models.Permissions().Allow(this.rootUserId(), name)
 	}
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)

@@ -3,15 +3,23 @@ package models
 type PermissionCollection struct {
 }
 
-func (this *PermissionCollection) AllGroupNames() []string {
+func (this *PermissionCollection) AllNames() []string {
 	return []string{
-		GroupNameFromPermissionName("list_users"),
-		GroupNameFromPermissionName("list_groups"),
+		"list_users",
+		"list_groups",
 	}
 }
 
+func (this *PermissionCollection) allGroupNames() []string {
+	names := this.AllNames()
+	for idx, name := range names {
+		names[idx] = GroupNameFromPermissionName(name)
+	}
+	return names
+}
+
 func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
-	allGroupNames := this.AllGroupNames()
+	allGroupNames := this.allGroupNames()
 	allGroupNamesMap = make(map[string]bool, len(allGroupNamesMap))
 	for _, groupName := range allGroupNames {
 		allGroupNamesMap[groupName] = false
@@ -41,8 +49,8 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 }
 
 func (this *PermissionCollection) Create() {
-	for _, name := range this.AllGroupNames() {
-		Groups().Create(name)
+	for _, name := range this.AllNames() {
+		Groups().Create(GroupNameFromPermissionName(name))
 	}
 }
 
