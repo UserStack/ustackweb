@@ -15,6 +15,15 @@ func (this *PermissionCollection) AllNames() []string {
 	}
 }
 
+func (this *PermissionCollection) All() (permissions []*Permission) {
+	names := this.AllNames()
+	permissions = make([]*Permission, len(names))
+	for idx, name := range names {
+		permissions[idx] = &Permission{Name: name}
+	}
+	return
+}
+
 func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
 	allNames := this.AllNames()
 	allGroupNamesMap = make(map[string]bool, len(allNames))
@@ -39,8 +48,7 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 	groupNames := this.allGroupNamesMapByUser(name_or_uid)
 	abilities = make(map[string]bool, len(groupNames))
 	for groupName, userHasPermission := range groupNames {
-		permission := Permission{GroupName: groupName}
-		abilities[permission.Name()] = userHasPermission
+		abilities[this.Name(groupName)] = userHasPermission
 	}
 	return
 }
@@ -60,6 +68,15 @@ func (this *PermissionCollection) GroupName(name string) (groupName string) {
 	parts := strings.Split(name, "_")
 	if len(parts) == 2 {
 		groupName = fmt.Sprintf("perm.%s.%s", parts[1], parts[0])
+	}
+	return
+}
+
+// e.g. list_users
+func (this *PermissionCollection) Name(groupName string) (name string) {
+	parts := strings.Split(groupName, ".")
+	if len(parts) == 3 {
+		name = fmt.Sprintf("%s_%s", parts[2], parts[1])
 	}
 	return
 }
