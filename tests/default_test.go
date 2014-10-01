@@ -22,15 +22,18 @@ func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	backend.Type = backend.Memory
-	models.Permissions().Create()
-	models.Users().Create("admin", "admin")
-	models.Permissions().Allow("admin", "list_users")
-	models.Permissions().Allow("admin", "list_groups")
 	beego.TestBeegoInit(apppath)
 }
 
 type Session struct {
 	username string
+}
+
+func SetupDatabase() {
+	models.Permissions().Create()
+	models.Users().Create("admin", "admin")
+	models.Permissions().Allow("admin", "list_users")
+	models.Permissions().Allow("admin", "list_groups")
 }
 
 func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder {
@@ -62,8 +65,10 @@ func postRequest(method string, resourcePath string, data *url.Values, session *
 
 // TestMain is a sample to run an endpoint test
 func TestMain(t *testing.T) {
+	SetupDatabase()
 	var nilSession *Session
 	adminSession := &Session{username: "admin"}
+	enduserSession := &Session{username: "enduser"}
 
 	Convey("Redirect to Sign In\n", t, func() {
 		response := getRequest("GET", "/", nilSession)
@@ -160,6 +165,14 @@ func TestMain(t *testing.T) {
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
 			So(response.Body.String(), ShouldContainSubstring, "Can not be empty")
+		})
+	})
+
+	Convey("Create User Error\n", t, func() {
+		response := postRequest("POST", "/groups", &url.Values{}, enduserSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
 		})
 	})
 }
