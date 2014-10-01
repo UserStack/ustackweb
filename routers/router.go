@@ -2,7 +2,6 @@ package routers
 
 import (
 	"github.com/UserStack/ustackweb/controllers"
-	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
 )
@@ -10,7 +9,6 @@ import (
 func init() {
 	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.AddFuncMap("compare", beego.Compare)
-	beego.AddFuncMap("hasFormError", utils.HasFormError)
 
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/install", &controllers.InstallController{}, "*:Index")
