@@ -32,6 +32,7 @@ type Session struct {
 func SetupDatabase() {
 	models.Permissions().Create()
 	models.Users().Create("admin", "admin")
+	models.Users().Create("enduser", "enduser")
 	models.Permissions().Allow("admin", "list_users")
 	models.Permissions().Allow("admin", "list_groups")
 }
