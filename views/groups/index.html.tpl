@@ -2,8 +2,9 @@
   <div class="row">
     <div class="col-md-12 table-responsive">
       <table class="table table-condensed">
-        <col style="width: 8.3333%">
-        <col style="width:91.6667%">
+        <col style="width:10%">
+        <col style="width:70%">
+        <col style="width:20%">
         <thead>
           <tr>
             <th>#</th>
