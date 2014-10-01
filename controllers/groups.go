@@ -40,6 +40,9 @@ func (this *GroupsController) Create() {
 	if !this.ValidFormSets(&form) {
 		return
 	}
+	if models.Permissions().IsPermissionGroupName(form.Name) {
+		this.RequirePermissions([]string{"create_permissions"})
+	}
 	created, _, _ := models.Groups().Create(form.Name)
 	if created {
 		this.Redirect(beego.UrlFor("GroupsController.Index"), 302)

@@ -191,4 +191,25 @@ func TestMain(t *testing.T) {
 			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
 		})
 	})
+
+	Convey("Create Permission Group\n", t, func() {
+		data := url.Values{}
+		data.Add("Name", "perm.foo1.bar")
+		response := postRequest("POST", "/groups", &data, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldStartWith, "/groups")
+		})
+	})
+
+	Convey("Create Permission Group Unauthorized\n", t, func() {
+		models.Permissions().Deny("admin", "create_permissions")
+		data := url.Values{}
+		data.Add("Name", "perm.foo2.bar")
+		response := postRequest("POST", "/groups", &data, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
+		})
+	})
 }
