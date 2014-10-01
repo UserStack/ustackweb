@@ -56,6 +56,9 @@ func (this *GroupsController) Create() {
 
 func (this *GroupsController) Delete() {
 	this.RequirePermissions([]string{"delete_groups"})
+	if models.Permissions().IsPermissionGroupName(this.GetString(":id")) {
+		this.RequirePermissions([]string{"delete_permissions"})
+	}
 	models.Groups().Destroy(this.GetString(":id"))
 	this.Redirect(beego.UrlFor("GroupsController.Index"), 302)
 }

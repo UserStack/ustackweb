@@ -212,4 +212,24 @@ func TestMain(t *testing.T) {
 			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
 		})
 	})
+
+	Convey("Delete Permission Group\n", t, func() {
+		models.Permissions().Allow("admin", "delete_groups")
+		models.Permissions().Allow("admin", "delete_permissions")
+		models.Groups().Create("perm.foo.bar")
+		response := postRequest("GET", "/groups/perm.foo.bar/delete", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldStartWith, "/groups")
+		})
+	})
+
+	Convey("Delete Permission Group Unauthorized\n", t, func() {
+		models.Permissions().Deny("admin", "delete_permissions")
+		response := postRequest("GET", "/groups/perm.foo.bar/delete", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 401)
+			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
+		})
+	})
 }

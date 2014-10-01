@@ -25,6 +25,7 @@ func (this *PermissionCollection) allNames() []string {
 
 		"list_permissions",
 		"create_permissions",
+		"delete_permissions",
 		"grant_permissions",
 		"revoke_permissions",
 
