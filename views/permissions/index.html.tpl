@@ -7,7 +7,12 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th></th>
+            <th>
+              <a href="{{urlfor "PermissionsController.New"}}" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add Permission
+              </a>
+            </th>
           </tr>
         </thead>
         <tbody>

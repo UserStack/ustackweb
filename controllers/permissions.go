@@ -28,13 +28,13 @@ func (this *PermissionsController) Index() {
 
 func (this *PermissionsController) New() {
 	this.RequirePermissions([]string{"create_permissions"})
-	this.TplNames = "groups/new.html.tpl"
+	this.TplNames = "permissions/new.html.tpl"
 	this.SetFormSets(&forms.NewPermission{})
 }
 
 func (this *PermissionsController) Create() {
 	this.RequirePermissions([]string{"create_permissions"})
-	this.TplNames = "groups/new.html.tpl"
+	this.TplNames = "permissions/new.html.tpl"
 	form := forms.NewPermission{}
 	this.SetFormSets(&form)
 	if !this.ValidFormSets(&form) {
