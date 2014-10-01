@@ -23,6 +23,7 @@ func (this *GroupCollection) All() (groups []Group, err *backend.Error) {
 		return
 	}
 	backendGroups, backendError := connection.Groups()
+	backend.VerifyConnection(backendError)
 	if backendError == nil {
 		groups = this.collect(backendGroups)
 	}
@@ -58,6 +59,7 @@ func (this *GroupCollection) AllByUser(name_or_uid string) (groups []Group, err 
 		return
 	}
 	backendGroups, backendError := connection.UserGroups(name_or_uid)
+	backend.VerifyConnection(backendError)
 	if backendError == nil {
 		groups = this.collect(backendGroups)
 	}
