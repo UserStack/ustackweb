@@ -24,6 +24,7 @@ func (this *UsersController) Prepare() {
 	this.RequireAuth()
 	this.PrepareLayout()
 	this.Layout = "layouts/default.html.tpl"
+	this.RequirePermissions([]string{"list_users"})
 }
 
 func (this *UsersController) Index() {

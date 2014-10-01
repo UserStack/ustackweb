@@ -14,6 +14,7 @@ import (
 type BaseController struct {
 	beego.Controller
 	i18n.Locale
+	Can map[string]bool
 }
 
 func (this *BaseController) PrepareLayout() {
@@ -33,7 +34,8 @@ func (this *BaseController) RequireAuth() {
 	if username != nil {
 		this.Data["loggedIn"] = true
 		this.Data["username"] = username
-		this.Data["can"] = models.Permissions().Abilities(fmt.Sprintf("%s", username))
+		this.Can = models.Permissions().Abilities(fmt.Sprintf("%s", username))
+		this.Data["can"] = this.Can
 	} else {
 		this.RequireAuthFailed()
 	}
@@ -44,6 +46,15 @@ func (this *BaseController) RequireAuthFailed() {
 	flash.Error("Not logged in!")
 	flash.Store(&this.Controller)
 	this.Redirect("/sign_in", 302)
+}
+
+func (this *BaseController) RequirePermissions(permissions []string) {
+	for _, permission := range permissions {
+		if !this.Can[permission] {
+			this.Abort("401")
+			break
+		}
+	}
 }
 
 func (this *BaseController) SetPaginator(per int, nums int64) *wetalkutils.Paginator {
