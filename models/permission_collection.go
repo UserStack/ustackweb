@@ -11,6 +11,12 @@ type PermissionCollection struct {
 func (this *PermissionCollection) allNames() []string {
 	return []string{
 		"list_users",
+		"create_users",
+		"read_users",
+		"update_users",
+		"delete_users",
+		"enable_users",
+		"disable_users",
 		"list_groups",
 		"list_stats",
 	}

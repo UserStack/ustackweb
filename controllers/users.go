@@ -22,12 +22,12 @@ type UsersFilter struct {
 func (this *UsersController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
-	this.RequirePermissions([]string{"list_users"})
 	this.PrepareLayout()
 	this.Layout = "layouts/default.html.tpl"
 }
 
 func (this *UsersController) Index() {
+	this.RequirePermissions([]string{"list_users"})
 	if !this.loadAllGroups() {
 		return
 	}
@@ -45,12 +45,14 @@ func (this *UsersController) Index() {
 }
 
 func (this *UsersController) New() {
+	this.RequirePermissions([]string{"create_users"})
 	this.TplNames = "users/new.html.tpl"
 	form := forms.NewUser{}
 	this.SetFormSets(&form)
 }
 
 func (this *UsersController) Create() {
+	this.RequirePermissions([]string{"create_users"})
 	this.TplNames = "users/new.html.tpl"
 	form := forms.NewUser{}
 	this.SetFormSets(&form)
@@ -69,6 +71,7 @@ func (this *UsersController) Create() {
 }
 
 func (this *UsersController) Edit() {
+	this.RequirePermissions([]string{"read_users"})
 	if !this.loadUser() || !this.loadUserGroups() {
 		return
 	}
@@ -81,6 +84,7 @@ type GroupMembership struct {
 }
 
 func (this *UsersController) EditGroups() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() || !this.loadUserGroups() || !this.loadAllGroups() {
 		return
 	}
@@ -100,6 +104,7 @@ func (this *UsersController) EditGroups() {
 }
 
 func (this *UsersController) AddUserToGroup() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -108,6 +113,7 @@ func (this *UsersController) AddUserToGroup() {
 }
 
 func (this *UsersController) RemoveUserFromGroup() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -116,6 +122,7 @@ func (this *UsersController) RemoveUserFromGroup() {
 }
 
 func (this *UsersController) EditUsername() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -125,6 +132,7 @@ func (this *UsersController) EditUsername() {
 }
 
 func (this *UsersController) UpdateUsername() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -146,6 +154,7 @@ func (this *UsersController) UpdateUsername() {
 }
 
 func (this *UsersController) EditPassword() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -155,6 +164,7 @@ func (this *UsersController) EditPassword() {
 }
 
 func (this *UsersController) UpdatePassword() {
+	this.RequirePermissions([]string{"update_users"})
 	if !this.loadUser() {
 		return
 	}
@@ -177,6 +187,7 @@ func (this *UsersController) UpdatePassword() {
 }
 
 func (this *UsersController) Destroy() {
+	this.RequirePermissions([]string{"delete_users"})
 	id, _ := this.GetInt(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Destroy(user.Name)
@@ -187,6 +198,7 @@ func (this *UsersController) Destroy() {
 }
 
 func (this *UsersController) Enable() {
+	this.RequirePermissions([]string{"enable_users"})
 	id, _ := this.GetInt(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Enable(user.Name)
@@ -194,6 +206,7 @@ func (this *UsersController) Enable() {
 }
 
 func (this *UsersController) Disable() {
+	this.RequirePermissions([]string{"disable_users"})
 	id, _ := this.GetInt(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Disable(user.Name)
