@@ -63,6 +63,10 @@ func (this *PermissionCollection) Allow(name_or_uid string, permissionName strin
 	Users().AddUserToGroup(name_or_uid, this.GroupName(permissionName))
 }
 
+func (this *PermissionCollection) Deny(name_or_uid string, permissionName string) {
+	Users().RemoveUserFromGroup(name_or_uid, this.GroupName(permissionName))
+}
+
 // e.g. list_users => perm.users.list
 func (this *PermissionCollection) GroupName(name string) (groupName string) {
 	parts := strings.Split(name, "_")

@@ -20,12 +20,19 @@ func TestMain(t *testing.T) {
 		})
 
 		Convey("Abilities()\n", func() {
+			So(models.Permissions().Abilities("foo")["list_users"], ShouldEqual, false)
+			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, false)
+
 			backend.Type = backend.Memory
 			models.Permissions().Create()
 			models.Users().Create("admin", "admin")
 			models.Permissions().Allow("admin", "list_users")
-			So(models.Permissions().Abilities("foo")["list_users"], ShouldEqual, false)
 			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, true)
+			So(models.Permissions().Abilities("foo")["list_users"], ShouldEqual, false)
+
+			models.Permissions().Deny("admin", "list_users")
+			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, false)
+			So(models.Permissions().Abilities("foo")["list_users"], ShouldEqual, false)
 		})
 	})
 }
