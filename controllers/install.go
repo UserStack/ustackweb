@@ -34,6 +34,8 @@ func (this *InstallController) Index() {
 	rootUser, err := models.Users().FindByName(this.rootUserId())
 	this.Data["rootUserError"] = err
 	this.Data["rootUser"] = rootUser
+	this.Data["hasRootUser"] = rootUser != nil
+	this.Data["hasRootUserError"] = err != nil
 	groups, err := models.Groups().All()
 	this.Data["groupsError"] = err
 	userGroups, err := models.Groups().AllByUser(this.rootUserId())

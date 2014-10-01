@@ -17,15 +17,20 @@
         </a>
       </h4>
       <div class="list-group">
-        {{if compare .rootUserError nil}}
+        {{if .hasRootUser }}
         <div class="list-group-item list-group-item-success">
           <span class="glyphicon glyphicon-ok-sign"></span>
           {{.rootUser.Name}}
         </div>
-        {{else}}
+        {{else if .hasRootUserError}}
         <div class="list-group-item list-group-item-danger">
           <span class="glyphicon glyphicon-exclamation-sign"></span>
           {{.rootUserError.Message}}
+        </div>
+        {{else}}
+        <div class="list-group-item list-group-item-warning">
+          <span class="glyphicon glyphicon-exclamation-sign"></span>
+          No Root User
         </div>
         {{end}}
       </div>
