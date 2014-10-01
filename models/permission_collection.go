@@ -40,6 +40,16 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 	return
 }
 
+func (this *PermissionCollection) Create() {
+	for _, name := range this.AllGroupNames() {
+		Groups().Create(name)
+	}
+}
+
+func (this *PermissionCollection) Allow(name_or_uid string, permissionName string) {
+	Users().AddUserToGroup(name_or_uid, GroupNameFromPermissionName(permissionName))
+}
+
 func Permissions() *PermissionCollection {
 	return &PermissionCollection{}
 }

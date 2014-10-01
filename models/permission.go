@@ -17,3 +17,12 @@ func (this *Permission) Name() (name string) {
 	}
 	return
 }
+
+// e.g. list_users => ustack.perm.users.list
+func GroupNameFromPermissionName(name string) (groupName string) {
+	parts := strings.Split(name, "_")
+	if len(parts) == 2 {
+		groupName = fmt.Sprintf("ustack.perm.%s.%s", parts[1], parts[0])
+	}
+	return
+}

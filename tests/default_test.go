@@ -22,7 +22,9 @@ func init() {
 	_, file, _, _ := runtime.Caller(1)
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	backend.Type = backend.Memory
+	models.Permissions().Create()
 	models.Users().Create("admin", "admin")
+	models.Permissions().Allow("admin", "list_users")
 	beego.TestBeegoInit(apppath)
 }
 
