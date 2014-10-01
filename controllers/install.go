@@ -20,12 +20,10 @@ func (this *InstallController) rootUserId() string {
 }
 
 func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
-	allPermissions := models.Permissions().All()
+	allPermissions := models.Permissions().AllGroupNames()
 	permissionRequirements = make([]*PermissionRequirement, len(allPermissions))
-	i := 0
-	for key, _ := range allPermissions {
-		permissionRequirements[i] = &PermissionRequirement{Name: key}
-		i++
+	for idx, groupName := range allPermissions {
+		permissionRequirements[idx] = &PermissionRequirement{Name: groupName}
 	}
 	return
 }
