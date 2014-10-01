@@ -45,5 +45,6 @@ func init() {
 	beego.Router("/permissions", &controllers.PermissionsController{}, "get:Index")
 	beego.Router("/permissions/new", &controllers.PermissionsController{}, "get:New")
 	beego.Router("/permissions", &controllers.PermissionsController{}, "post:Create")
+	beego.Router("/permissions/:id/delete", &controllers.PermissionsController{}, "get:Destroy")
 	beego.Router("/stats", &controllers.StatsController{}, "get:Index")
 }

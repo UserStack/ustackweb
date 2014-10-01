@@ -94,6 +94,10 @@ func (this *PermissionCollection) Create(object string, verb string) {
 	Groups().Create(this.GroupName(this.BuildName(object, verb)))
 }
 
+func (this *PermissionCollection) Destroy(name string) {
+	Groups().Destroy(this.GroupName(name))
+}
+
 func (this *PermissionCollection) AllowAll(name_or_uid string) {
 	for _, permission := range this.All() {
 		this.Allow(name_or_uid, permission.Name)

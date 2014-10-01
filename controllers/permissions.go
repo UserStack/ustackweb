@@ -43,3 +43,9 @@ func (this *PermissionsController) Create() {
 	models.Permissions().Create(form.Object, form.Verb)
 	this.Redirect(beego.UrlFor("PermissionsController.Index"), 302)
 }
+
+func (this *PermissionsController) Destroy() {
+	this.RequirePermissions([]string{"delete_permissions"})
+	models.Permissions().Destroy(this.GetString(":id"))
+	this.Redirect(beego.UrlFor("PermissionsController.Index"), 302)
+}
