@@ -34,7 +34,7 @@
                 data-trigger="focus"
                 data-placement="left"
                 data-html="true"
-                data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "GroupsController.Delete" ":id" (printf "%d" .Gid) }}'>Yes</a> <a class='btn btn-xs btn-default' href='#'>No</a>">
+                data-content="<a class='btn btn-xs btn-danger' href='{{urlfor "GroupsController.Destroy" ":id" (printf "%d" .Gid) }}'>Yes</a> <a class='btn btn-xs btn-default' href='#'>No</a>">
                 <span class="glyphicon glyphicon-remove"></span>
                 Delete
               </a>

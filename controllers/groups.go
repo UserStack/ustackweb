@@ -54,7 +54,7 @@ func (this *GroupsController) Create() {
 	}
 }
 
-func (this *GroupsController) Delete() {
+func (this *GroupsController) Destroy() {
 	this.RequirePermissions([]string{"delete_groups"})
 	if models.Permissions().IsPermissionGroupName(this.GetString(":id")) {
 		this.RequirePermissions([]string{"delete_permissions"})
