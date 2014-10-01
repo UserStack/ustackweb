@@ -3,6 +3,7 @@ package test
 import (
 	"testing"
 
+	"github.com/UserStack/ustackweb/backend"
 	"github.com/UserStack/ustackweb/models"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -16,6 +17,15 @@ func TestMain(t *testing.T) {
 
 		Convey("Name()\n", func() {
 			So(models.Permissions().GroupName("list_users"), ShouldEqual, "perm.users.list")
+		})
+
+		Convey("Abilities()\n", func() {
+			backend.Type = backend.Memory
+			models.Permissions().Create()
+			models.Users().Create("admin", "admin")
+			models.Permissions().Allow("admin", "list_users")
+			So(models.Permissions().Abilities("foo")["list_users"], ShouldEqual, false)
+			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, true)
 		})
 	})
 }
