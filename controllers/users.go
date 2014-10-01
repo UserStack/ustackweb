@@ -105,6 +105,9 @@ func (this *UsersController) EditGroups() {
 
 func (this *UsersController) AddUserToGroup() {
 	this.RequirePermissions([]string{"update_users"})
+	if models.Permissions().IsPermissionGroupName(this.GetString(":groupId")) {
+		this.RequirePermissions([]string{"grant_permissions"})
+	}
 	if !this.loadUser() {
 		return
 	}
@@ -114,6 +117,9 @@ func (this *UsersController) AddUserToGroup() {
 
 func (this *UsersController) RemoveUserFromGroup() {
 	this.RequirePermissions([]string{"update_users"})
+	if models.Permissions().IsPermissionGroupName(this.GetString(":groupId")) {
+		this.RequirePermissions([]string{"revoke_permissions"})
+	}
 	if !this.loadUser() {
 		return
 	}

@@ -10,14 +10,14 @@
         {{$user := .user}}
         {{range .groupMemberships}}
           {{if .IsMember}}
-          <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="list-group-item">
+          <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" .Group.Name }}" class="list-group-item">
             {{.Group.Name}}
             <span class="badge badge-primary">
               <span class="glyphicon glyphicon-ok"></span>
             </span>
           </a>
           {{else}}
-          <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" (printf "%d" .Group.Gid) }}" class="list-group-item">
+          <a href="{{urlfor "UsersController.AddUserToGroup" ":id" (printf "%d" $user.Uid) ":groupId" .Group.Name }}" class="list-group-item">
             {{.Group.Name}}
           </a>
           {{end}}
