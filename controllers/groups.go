@@ -14,6 +14,7 @@ type GroupsController struct {
 func (this *GroupsController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
+	this.RequirePermissions([]string{"list_groups"})
 	this.PrepareLayout()
 	this.Layout = "layouts/default.html.tpl"
 }
