@@ -78,3 +78,15 @@ func (this *InstallController) AssignPermissions() {
 	}
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
+
+func (this *InstallController) DropDatabase() {
+	users, _ := models.Users().All()
+	for _, user := range users {
+		models.Users().Destroy(fmt.Sprintf("%s", user.Uid))
+	}
+	groups, _ := models.Groups().All()
+	for _, group := range groups {
+		models.Groups().Destroy(group.Name)
+	}
+	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
+}

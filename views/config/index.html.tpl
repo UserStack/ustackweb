@@ -6,6 +6,10 @@
         <span class="glyphicon glyphicon-refresh"></span>
         Refresh
       </a>
+      <a class='btn btn-danger pull-right' href='{{urlfor "InstallController.DropDatabase" }}'>
+        <span class="glyphicon glyphicon-remove"></span>
+        Drop Database
+      </a>
     </div>
   </div>
   <div class="row">
@@ -28,7 +32,7 @@
           {{.rootUserError.Message}}
         </div>
         {{else}}
-        <div class="list-group-item list-group-item-warning">
+        <div class="list-group-item list-group-item-danger">
           <span class="glyphicon glyphicon-exclamation-sign"></span>
           No Root User
         </div>
