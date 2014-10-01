@@ -160,7 +160,7 @@ func TestMain(t *testing.T) {
 		})
 	})
 
-	Convey("Create User Error\n", t, func() {
+	Convey("Create Group Error\n", t, func() {
 		response := postRequest("POST", "/groups", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
@@ -168,7 +168,7 @@ func TestMain(t *testing.T) {
 		})
 	})
 
-	Convey("Create User Error\n", t, func() {
+	Convey("Create Group Error\n", t, func() {
 		response := postRequest("POST", "/groups", &url.Values{}, enduserSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 401)
