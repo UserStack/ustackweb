@@ -17,7 +17,12 @@ func (this *PermissionCollection) allNames() []string {
 		"delete_users",
 		"enable_users",
 		"disable_users",
+
 		"list_groups",
+		"create_groups",
+		"read_groups",
+		"delete_groups",
+
 		"list_stats",
 	}
 }

@@ -30,12 +30,12 @@ func (this GroupsFilter) PermissionsType() bool {
 func (this *GroupsController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
-	this.RequirePermissions([]string{"list_groups"})
 	this.PrepareLayout()
 	this.Layout = "layouts/default.html.tpl"
 }
 
 func (this *GroupsController) Index() {
+	this.RequirePermissions([]string{"list_groups"})
 	this.TplNames = "groups/index.html.tpl"
 	groupsFilter := GroupsFilter{Type: this.GetString(":type")}
 	this.Data["groupsFilter"] = groupsFilter
@@ -52,11 +52,13 @@ func (this *GroupsController) Index() {
 }
 
 func (this *GroupsController) New() {
+	this.RequirePermissions([]string{"create_groups"})
 	this.TplNames = "groups/new.html.tpl"
 	this.SetFormSets(&forms.NewGroup{})
 }
 
 func (this *GroupsController) Create() {
+	this.RequirePermissions([]string{"create_groups"})
 	this.TplNames = "groups/new.html.tpl"
 	form := forms.NewGroup{}
 	this.SetFormSets(&form)
@@ -75,6 +77,7 @@ func (this *GroupsController) Create() {
 }
 
 func (this *GroupsController) Delete() {
+	this.RequirePermissions([]string{"delete_groups"})
 	models.Groups().Destroy(this.GetString(":id"))
 	this.Redirect(beego.UrlFor("GroupsController.Index"), 302)
 }
