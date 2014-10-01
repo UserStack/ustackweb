@@ -21,7 +21,7 @@ func (this *InstallController) rootUserId() string {
 }
 
 func (this *InstallController) permissionRequirements() (permissionRequirements []*PermissionRequirement) {
-	allPermissions := models.Permissions().All()
+	allPermissions := models.Permissions().AllInternal()
 	permissionRequirements = make([]*PermissionRequirement, len(allPermissions))
 	for idx, permission := range allPermissions {
 		permissionRequirements[idx] = &PermissionRequirement{Permission: permission}
@@ -59,7 +59,7 @@ func (this *InstallController) CreateRootUser() {
 }
 
 func (this *InstallController) CreatePermissions() {
-	models.Permissions().CreateAll()
+	models.Permissions().CreateAllInternal()
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 

@@ -33,12 +33,20 @@ func (this *PermissionCollection) allNames() []string {
 	}
 }
 
-func (this *PermissionCollection) All() (permissions []*Permission) {
+func (this *PermissionCollection) AllInternal() (permissions []*Permission) {
 	permissions = make([]*Permission, 0)
-	permissionGroups, _ := Groups().AllPermissions()
 	for _, name := range this.allNames() {
 		permissions = append(permissions, &Permission{Name: name, Internal: true})
 	}
+	return
+}
+
+func (this *PermissionCollection) All() (permissions []*Permission) {
+	permissions = make([]*Permission, 0)
+	for _, permission := range this.AllInternal() {
+		permissions = append(permissions, permission)
+	}
+	permissionGroups, _ := Groups().AllPermissions()
 	for _, group := range permissionGroups {
 		permissionName := this.Name(group.Name)
 		permissionFound := false
@@ -84,9 +92,9 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 	return
 }
 
-func (this *PermissionCollection) CreateAll() {
-	for _, name := range this.allNames() {
-		Groups().Create(this.GroupName(name))
+func (this *PermissionCollection) CreateAllInternal() {
+	for _, permission := range this.AllInternal() {
+		Groups().Create(permission.GroupName())
 	}
 }
 

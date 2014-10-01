@@ -34,7 +34,7 @@ func TestMain(t *testing.T) {
 			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, false)
 
 			backend.Type = backend.Memory
-			models.Permissions().CreateAll()
+			models.Permissions().CreateAllInternal()
 			models.Users().Create("admin", "admin")
 			models.Permissions().Allow("admin", "list_users")
 			So(models.Permissions().Abilities("admin")["list_users"], ShouldEqual, true)
