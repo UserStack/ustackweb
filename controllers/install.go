@@ -39,8 +39,7 @@ func (this *InstallController) Index() {
 	this.Data["hasRootUserError"] = err != nil
 	groups, err := models.Groups().All()
 	this.Data["groupsError"] = err
-	userGroups, err := models.Groups().AllByUser(this.rootUserId())
-	this.Data["userGroupsError"] = err
+	abilities := models.Permissions().Abilities(this.rootUserId())
 	permissionRequirements := this.permissionRequirements()
 	for _, permissionRequirement := range permissionRequirements {
 		for _, group := range groups {
@@ -49,12 +48,7 @@ func (this *InstallController) Index() {
 				break
 			}
 		}
-		for _, userGroup := range userGroups {
-			if userGroup.Name == permissionRequirement.Permission.GroupName() {
-				permissionRequirement.Assigned = true
-				break
-			}
-		}
+		permissionRequirement.Assigned = abilities[permissionRequirement.Permission.Name]
 	}
 	this.Data["permissionRequirements"] = permissionRequirements
 }
