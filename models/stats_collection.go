@@ -13,6 +13,7 @@ func (this *StatsCollection) All() (stats map[string]int64, err *backend.Error) 
 		return
 	}
 	backendStats, backendError := connection.Stats()
+	backend.VerifyConnection(backendError)
 	if backendError == nil {
 		stats = backendStats
 	}
