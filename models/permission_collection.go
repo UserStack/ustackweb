@@ -8,7 +8,7 @@ import (
 type PermissionCollection struct {
 }
 
-func (this *PermissionCollection) AllNames() []string {
+func (this *PermissionCollection) allNames() []string {
 	return []string{
 		"list_users",
 		"list_groups",
@@ -16,7 +16,7 @@ func (this *PermissionCollection) AllNames() []string {
 }
 
 func (this *PermissionCollection) All() (permissions []*Permission) {
-	names := this.AllNames()
+	names := this.allNames()
 	permissions = make([]*Permission, len(names))
 	for idx, name := range names {
 		permissions[idx] = &Permission{Name: name}
@@ -25,7 +25,7 @@ func (this *PermissionCollection) All() (permissions []*Permission) {
 }
 
 func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
-	allNames := this.AllNames()
+	allNames := this.allNames()
 	allGroupNamesMap = make(map[string]bool, len(allNames))
 	for _, name := range allNames {
 		allGroupNamesMap[this.GroupName(name)] = false
@@ -54,7 +54,7 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 }
 
 func (this *PermissionCollection) Create() {
-	for _, name := range this.AllNames() {
+	for _, name := range this.allNames() {
 		Groups().Create(this.GroupName(name))
 	}
 }
