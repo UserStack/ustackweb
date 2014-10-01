@@ -11,9 +11,9 @@ type InstallController struct {
 }
 
 type PermissionRequirement struct {
-	Name     string
-	Exists   bool
-	Assigned bool
+	Permission *models.Permission
+	Exists     bool
+	Assigned   bool
 }
 
 func (this *InstallController) rootUserId() string {
@@ -24,7 +24,7 @@ func (this *InstallController) permissionRequirements() (permissionRequirements 
 	allPermissions := models.Permissions().AllNames()
 	permissionRequirements = make([]*PermissionRequirement, len(allPermissions))
 	for idx, name := range allPermissions {
-		permissionRequirements[idx] = &PermissionRequirement{Name: models.Permissions().GroupName(name)}
+		permissionRequirements[idx] = &PermissionRequirement{Permission: &models.Permission{Name: name}}
 	}
 	return
 }
@@ -44,13 +44,13 @@ func (this *InstallController) Index() {
 	permissionRequirements := this.permissionRequirements()
 	for _, permissionRequirement := range permissionRequirements {
 		for _, group := range groups {
-			if group.Name == permissionRequirement.Name {
+			if group.Name == permissionRequirement.Permission.GroupName() {
 				permissionRequirement.Exists = true
 				break
 			}
 		}
 		for _, userGroup := range userGroups {
-			if userGroup.Name == permissionRequirement.Name {
+			if userGroup.Name == permissionRequirement.Permission.GroupName() {
 				permissionRequirement.Assigned = true
 				break
 			}

@@ -60,7 +60,8 @@
           {{else}}
           <span class="glyphicon glyphicon-exclamation-sign"></span>
           {{end}}
-          {{.Name}}
+          {{.Permission.Name}}
+          <span class="pull-right">{{.Permission.GroupName}}</span>
         </div>
         {{end}}
         {{else}}
@@ -85,7 +86,8 @@
           {{else}}
           <span class="glyphicon glyphicon-exclamation-sign"></span>
           {{end}}
-          {{.Name}}
+          {{.Permission.Name}}
+          <span class="pull-right">{{.Permission.GroupName}}</span>
         </div>
         {{end}}
         {{else}}
