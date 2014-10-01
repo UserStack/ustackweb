@@ -11,22 +11,6 @@ type GroupsController struct {
 	BaseController
 }
 
-type GroupsFilter struct {
-	Type string
-}
-
-func (this GroupsFilter) AllType() bool {
-	return this.Type == "all"
-}
-
-func (this GroupsFilter) NormalType() bool {
-	return this.Type == "normal" || this.Type == ""
-}
-
-func (this GroupsFilter) PermissionsType() bool {
-	return this.Type == "permissions"
-}
-
 func (this *GroupsController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
@@ -37,16 +21,7 @@ func (this *GroupsController) Prepare() {
 func (this *GroupsController) Index() {
 	this.RequirePermissions([]string{"list_groups"})
 	this.TplNames = "groups/index.html.tpl"
-	groupsFilter := GroupsFilter{Type: this.GetString(":type")}
-	this.Data["groupsFilter"] = groupsFilter
-	var groups []models.Group
-	if groupsFilter.AllType() {
-		groups, _ = models.Groups().All()
-	} else if groupsFilter.NormalType() {
-		groups, _ = models.Groups().AllWithoutPrefix("perm")
-	} else {
-		groups, _ = models.Groups().AllWithPrefix("perm")
-	}
+	groups, _ := models.Groups().AllWithoutPermissions()
 	paginator := this.SetPaginator(25, int64(len(groups)))
 	this.Data["groups"] = groups[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(groups))]
 }

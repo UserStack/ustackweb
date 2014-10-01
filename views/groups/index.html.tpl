@@ -10,37 +10,6 @@
             <th>#</th>
             <th>Name</th>
             <th>
-              <div class="btn-group">
-                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-                  Filter by Group <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li>
-                    <a href="{{urlfor "GroupsController.Index" ":type" "all"}}">
-                      All
-                      {{if .groupsFilter.AllType }}
-                        <span class="glyphicon glyphicon-ok"></span>
-                      {{end}}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{urlfor "GroupsController.Index" ":type" "normal" }}">
-                      Normal
-                      {{if .groupsFilter.NormalType }}
-                        <span class="glyphicon glyphicon-ok"></span>
-                      {{end}}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{urlfor "GroupsController.Index" ":type" "permission" }}">
-                      Permissions
-                      {{if .groupsFilter.PermissionsType }}
-                        <span class="glyphicon glyphicon-ok"></span>
-                      {{end}}
-                    </a>
-                  </li>
-                </ul>
-              </div>
               <a href="{{urlfor "GroupsController.New"}}" class="btn btn-primary btn-xs">
                 <span class="glyphicon glyphicon-plus"></span>
                 Add Group

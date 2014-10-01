@@ -53,6 +53,10 @@ func (this *GroupCollection) AllWithoutPrefix(prefix string) (groups []Group, er
 	return this.allWithPrefix(prefix, false)
 }
 
+func (this *GroupCollection) AllWithoutPermissions() (groups []Group, err *backend.Error) {
+	return this.AllWithoutPrefix("perm.")
+}
+
 func (this *GroupCollection) AllByUser(name_or_uid string) (groups []Group, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {
