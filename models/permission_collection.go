@@ -71,7 +71,7 @@ func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[s
 	return
 }
 
-func (this *PermissionCollection) Create() {
+func (this *PermissionCollection) CreateAll() {
 	for _, name := range this.allNames() {
 		Groups().Create(this.GroupName(name))
 	}

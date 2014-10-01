@@ -59,7 +59,7 @@ func (this *InstallController) CreateRootUser() {
 }
 
 func (this *InstallController) CreatePermissions() {
-	models.Permissions().Create()
+	models.Permissions().CreateAll()
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 
