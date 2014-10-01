@@ -30,6 +30,9 @@
               {{if .can.list_groups}}
               <li {{if .context.Is "GroupsController.Index" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Index"}}">Groups</a></li>
               {{end}}
+              {{if .can.list_permissions}}
+              <li {{if .context.Is "PermissionsController.Index" }}class="active"{{end}}><a href="{{urlfor "PermissionsController.Index"}}">Permissions</a></li>
+              {{end}}
               {{if .can.list_stats}}
               <li {{if .context.Is "StatsController.Index" }}class="active"{{end}}><a href="{{urlfor "StatsController.Index"}}">Statistics</a></li>
               {{end}}
