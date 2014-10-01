@@ -33,8 +33,7 @@ func SetupDatabase() {
 	models.Permissions().Create()
 	models.Users().Create("admin", "admin")
 	models.Users().Create("enduser", "enduser")
-	models.Permissions().Allow("admin", "list_users")
-	models.Permissions().Allow("admin", "list_groups")
+	models.Permissions().AllowAll("admin")
 }
 
 func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder {

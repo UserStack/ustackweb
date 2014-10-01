@@ -75,6 +75,12 @@ func (this *PermissionCollection) Create() {
 	}
 }
 
+func (this *PermissionCollection) AllowAll(name_or_uid string) {
+	for _, permission := range this.All() {
+		this.Allow(name_or_uid, permission.Name)
+	}
+}
+
 func (this *PermissionCollection) Allow(name_or_uid string, permissionName string) {
 	Users().AddUserToGroup(name_or_uid, this.GroupName(permissionName))
 }

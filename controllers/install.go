@@ -64,10 +64,7 @@ func (this *InstallController) CreatePermissions() {
 }
 
 func (this *InstallController) AssignPermissions() {
-	permissions := models.Permissions().All()
-	for _, permission := range permissions {
-		models.Permissions().Allow(this.rootUserId(), permission.Name)
-	}
+	models.Permissions().AllowAll(this.rootUserId())
 	this.Redirect(beego.UrlFor("InstallController.Index"), 302)
 }
 
