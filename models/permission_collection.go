@@ -37,7 +37,7 @@ func (this *PermissionCollection) All() (permissions []*Permission) {
 	permissions = make([]*Permission, 0)
 	permissionGroups, _ := Groups().AllPermissions()
 	for _, name := range this.allNames() {
-		permissions = append(permissions, &Permission{Name: name, UserStack: true})
+		permissions = append(permissions, &Permission{Name: name, Internal: true})
 	}
 	for _, group := range permissionGroups {
 		permissionName := this.Name(group.Name)

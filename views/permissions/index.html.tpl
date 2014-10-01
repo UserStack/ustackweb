@@ -18,7 +18,10 @@
         <tbody>
         {{range .permissions}}
           <tr>
-            <td>{{.Name}}</td>
+            <td>
+              {{if .Internal}}<span class="glyphicon glyphicon-lock"></span>{{end}}
+              {{.Name}}
+            </td>
             <td>
               <a href="{{urlfor "UsersController.Index" ":groupId" .GroupName }}" class="btn btn-link btn-xs">
                 <span class="glyphicon glyphicon-list"></span>
