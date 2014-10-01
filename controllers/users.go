@@ -22,9 +22,9 @@ type UsersFilter struct {
 func (this *UsersController) Prepare() {
 	this.PrepareXsrf()
 	this.RequireAuth()
+	this.RequirePermissions([]string{"list_users"})
 	this.PrepareLayout()
 	this.Layout = "layouts/default.html.tpl"
-	this.RequirePermissions([]string{"list_users"})
 }
 
 func (this *UsersController) Index() {
