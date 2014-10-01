@@ -5,8 +5,8 @@ type PermissionCollection struct {
 
 func (this *PermissionCollection) AllGroupNames() []string {
 	return []string{
-		"ustack-perm-users-list",
-		"ustack-perm-users-read",
+		"ustack.perm.users.list",
+		"ustack.perm.groups.list",
 	}
 }
 
@@ -19,13 +19,23 @@ func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[strin
 	return
 }
 
-func (this *PermissionCollection) AllByUser(name_or_uid string) (permissions map[string]bool) {
-	permissions = this.allGroupNamesMap()
+func (this *PermissionCollection) allGroupNamesMapByUser(name_or_uid string) (groupNamesMapByUser map[string]bool) {
+	groupNamesMapByUser = this.allGroupNamesMap()
 	groups, _ := Groups().AllByUser(name_or_uid)
 	for _, group := range groups {
-		if _, isPermissionGroup := permissions[group.Name]; isPermissionGroup {
-			permissions[group.Name] = true
+		if _, isPermissionGroup := groupNamesMapByUser[group.Name]; isPermissionGroup {
+			groupNamesMapByUser[group.Name] = true
 		}
+	}
+	return
+}
+
+func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[string]bool) {
+	groupNames := this.allGroupNamesMapByUser(name_or_uid)
+	abilities = make(map[string]bool, len(groupNames))
+	for groupName, userHasPermission := range groupNames {
+		permission := Permission{GroupName: groupName}
+		abilities[permission.Name()] = userHasPermission
 	}
 	return
 }

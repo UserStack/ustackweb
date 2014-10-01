@@ -33,7 +33,7 @@ func (this *BaseController) RequireAuth() {
 	if username != nil {
 		this.Data["loggedIn"] = true
 		this.Data["username"] = username
-		this.Data["permissions"] = models.Permissions().AllByUser(fmt.Sprintf("%s", username))
+		this.Data["can"] = models.Permissions().Abilities(fmt.Sprintf("%s", username))
 	} else {
 		this.RequireAuthFailed()
 	}

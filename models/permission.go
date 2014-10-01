@@ -6,11 +6,14 @@ import (
 )
 
 type Permission struct {
-	GroupName string // e.g. ustack.perm.user.list
+	GroupName string // e.g. ustack.perm.users.list
 }
 
-// e.g. list_user
-func (this *Permission) Name() string {
+// e.g. list_users
+func (this *Permission) Name() (name string) {
 	parts := strings.Split(this.GroupName, ".")
-	return fmt.Sprintf("%s_%s", parts[3], parts[2])
+	if len(parts) == 4 {
+		name = fmt.Sprintf("%s_%s", parts[3], parts[2])
+	}
+	return
 }
