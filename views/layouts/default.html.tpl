@@ -30,6 +30,9 @@
               {{if .can.list_groups}}
               <li {{if .context.Is "GroupsController.Index" }}class="active"{{end}}><a href="{{urlfor "GroupsController.Index"}}">Groups</a></li>
               {{end}}
+              {{if .can.list_stats}}
+              <li {{if .context.Is "StatsController.Index" }}class="active"{{end}}><a href="{{urlfor "StatsController.Index"}}">Statistics</a></li>
+              {{end}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li {{if .context.Is "ProfileController.Get" }}class="active"{{end}}><a href="{{urlfor "ProfileController.Get"}}">Profile</a></li>

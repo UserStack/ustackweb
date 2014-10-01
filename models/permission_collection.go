@@ -12,6 +12,7 @@ func (this *PermissionCollection) allNames() []string {
 	return []string{
 		"list_users",
 		"list_groups",
+		"list_stats",
 	}
 }
 
