@@ -11,6 +11,16 @@ import (
 // TestMain is a sample to run an endpoint test
 func TestMain(t *testing.T) {
 	Convey("Permissions()\n", t, func() {
+		Convey("IsPermissionGroupName()\n", func() {
+			So(models.Permissions().IsPermissionGroupName("perm.users.list"), ShouldEqual, true)
+			So(models.Permissions().IsPermissionGroupName("perm.groups.read"), ShouldEqual, true)
+
+			So(models.Permissions().IsPermissionGroupName("perms.users"), ShouldEqual, false)
+			So(models.Permissions().IsPermissionGroupName("perms.users.list"), ShouldEqual, false)
+			So(models.Permissions().IsPermissionGroupName("users.list"), ShouldEqual, false)
+			So(models.Permissions().IsPermissionGroupName("foo"), ShouldEqual, false)
+		})
+
 		Convey("GroupName()\n", func() {
 			So(models.Permissions().Name("perm.users.list"), ShouldEqual, "list_users")
 		})

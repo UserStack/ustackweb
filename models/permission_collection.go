@@ -67,6 +67,11 @@ func (this *PermissionCollection) Deny(name_or_uid string, permissionName string
 	Users().RemoveUserFromGroup(name_or_uid, this.GroupName(permissionName))
 }
 
+func (this *PermissionCollection) IsPermissionGroupName(groupName string) (isPermissionGroupName bool) {
+	parts := strings.Split(groupName, ".")
+	return len(parts) == 3 && parts[0] == "perm"
+}
+
 // e.g. list_users => perm.users.list
 func (this *PermissionCollection) GroupName(name string) (groupName string) {
 	parts := strings.Split(name, "_")
@@ -79,7 +84,7 @@ func (this *PermissionCollection) GroupName(name string) (groupName string) {
 // e.g. list_users
 func (this *PermissionCollection) Name(groupName string) (name string) {
 	parts := strings.Split(groupName, ".")
-	if len(parts) == 3 {
+	if this.IsPermissionGroupName(groupName) {
 		name = fmt.Sprintf("%s_%s", parts[2], parts[1])
 	}
 	return
