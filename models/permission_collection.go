@@ -5,8 +5,8 @@ type PermissionCollection struct {
 
 func (this *PermissionCollection) AllGroupNames() []string {
 	return []string{
-		"ustack.perm.users.list",
-		"ustack.perm.groups.list",
+		GroupNameFromPermissionName("list_users"),
+		GroupNameFromPermissionName("list_groups"),
 	}
 }
 

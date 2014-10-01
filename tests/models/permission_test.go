@@ -11,7 +11,7 @@ import (
 func TestMain(t *testing.T) {
 	Convey("Permission\n", t, func() {
 		Convey("Name()\n", func() {
-			permission := models.Permission{GroupName: "ustack.perm.users.list"}
+			permission := models.Permission{GroupName: "perm.users.list"}
 			So(permission.Name(), ShouldEqual, "list_users")
 		})
 
@@ -19,6 +19,6 @@ func TestMain(t *testing.T) {
 
 	Convey("Name()\n", t, func() {
 		groupName := models.GroupNameFromPermissionName("list_users")
-		So(groupName, ShouldEqual, "ustack.perm.users.list")
+		So(groupName, ShouldEqual, "perm.users.list")
 	})
 }
