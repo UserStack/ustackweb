@@ -12,7 +12,19 @@ type GroupsController struct {
 }
 
 type GroupsFilter struct {
-	Prefix string
+	Type string
+}
+
+func (this GroupsFilter) AllType() bool {
+	return this.Type == "all"
+}
+
+func (this GroupsFilter) NormalType() bool {
+	return this.Type == "normal" || this.Type == ""
+}
+
+func (this GroupsFilter) PermissionsType() bool {
+	return this.Type == "permissions"
 }
 
 func (this *GroupsController) Prepare() {
@@ -25,13 +37,15 @@ func (this *GroupsController) Prepare() {
 
 func (this *GroupsController) Index() {
 	this.TplNames = "groups/index.html.tpl"
-	groupsFilter := GroupsFilter{Prefix: this.GetString(":prefix")}
+	groupsFilter := GroupsFilter{Type: this.GetString(":type")}
 	this.Data["groupsFilter"] = groupsFilter
 	var groups []models.Group
-	if groupsFilter.Prefix == "" {
+	if groupsFilter.AllType() {
 		groups, _ = models.Groups().All()
+	} else if groupsFilter.NormalType() {
+		groups, _ = models.Groups().AllWithoutPrefix("perm")
 	} else {
-		groups, _ = models.Groups().AllByPrefix(groupsFilter.Prefix)
+		groups, _ = models.Groups().AllWithPrefix("perm")
 	}
 	paginator := this.SetPaginator(25, int64(len(groups)))
 	this.Data["groups"] = groups[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(groups))]

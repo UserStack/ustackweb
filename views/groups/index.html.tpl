@@ -15,19 +15,26 @@
                   Filter by Group <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  {{$groupsFilter := .groupsFilter}}
                   <li>
-                    <a href="{{urlfor "GroupsController.Index" }}">
+                    <a href="{{urlfor "GroupsController.Index" ":type" "all"}}">
                       All
-                      {{if compare $groupsFilter.Prefix ""}}
+                      {{if .groupsFilter.AllType }}
                         <span class="glyphicon glyphicon-ok"></span>
                       {{end}}
                     </a>
                   </li>
                   <li>
-                    <a href="{{urlfor "GroupsController.Index" ":prefix" "perm" }}">
+                    <a href="{{urlfor "GroupsController.Index" ":type" "normal" }}">
+                      Normal
+                      {{if .groupsFilter.NormalType }}
+                        <span class="glyphicon glyphicon-ok"></span>
+                      {{end}}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{urlfor "GroupsController.Index" ":type" "permission" }}">
                       Permissions
-                      {{if compare $groupsFilter.Prefix "perm"}}
+                      {{if .groupsFilter.PermissionsType }}
                         <span class="glyphicon glyphicon-ok"></span>
                       {{end}}
                     </a>

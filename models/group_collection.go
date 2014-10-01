@@ -29,18 +29,27 @@ func (this *GroupCollection) All() (groups []Group, err *backend.Error) {
 	return
 }
 
-func (this *GroupCollection) AllByPrefix(prefix string) (groups []Group, err *backend.Error) {
+func (this *GroupCollection) allWithPrefix(prefix string, with bool) (groups []Group, err *backend.Error) {
 	allGroups, err := this.All()
 	if err != nil {
 		return
 	}
 	groups = make([]Group, 0)
 	for _, group := range allGroups {
-		if strings.HasPrefix(group.Name, prefix) {
+		hasPrefix := strings.HasPrefix(group.Name, prefix)
+		if (hasPrefix && with) || (!hasPrefix && !with) {
 			groups = append(groups, group)
 		}
 	}
 	return
+}
+
+func (this *GroupCollection) AllWithPrefix(prefix string) (groups []Group, err *backend.Error) {
+	return this.allWithPrefix(prefix, true)
+}
+
+func (this *GroupCollection) AllWithoutPrefix(prefix string) (groups []Group, err *backend.Error) {
+	return this.allWithPrefix(prefix, false)
 }
 
 func (this *GroupCollection) AllByUser(name_or_uid string) (groups []Group, err *backend.Error) {
