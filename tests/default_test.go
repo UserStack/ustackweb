@@ -25,6 +25,7 @@ func init() {
 	models.Permissions().Create()
 	models.Users().Create("admin", "admin")
 	models.Permissions().Allow("admin", "list_users")
+	models.Permissions().Allow("admin", "list_groups")
 	beego.TestBeegoInit(apppath)
 }
 
@@ -138,6 +139,24 @@ func TestMain(t *testing.T) {
 
 	Convey("Create User Error\n", t, func() {
 		response := postRequest("POST", "/users", &url.Values{}, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 200)
+			So(response.Body.String(), ShouldContainSubstring, "Can not be empty")
+		})
+	})
+
+	Convey("Create Group\n", t, func() {
+		data := url.Values{}
+		data.Add("Name", "foo")
+		response := postRequest("POST", "/groups", &data, adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldStartWith, "/groups")
+		})
+	})
+
+	Convey("Create User Error\n", t, func() {
+		response := postRequest("POST", "/groups", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 200)
 			So(response.Body.String(), ShouldContainSubstring, "Can not be empty")
