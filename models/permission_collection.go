@@ -3,11 +3,6 @@ package models
 type PermissionCollection struct {
 }
 
-type Permission struct {
-	Key string // UserList
-	Raw string // perm.user.list
-}
-
 func (this *PermissionCollection) All() map[string]bool {
 	return map[string]bool{
 		"UserList":  false,
