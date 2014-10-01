@@ -41,12 +41,17 @@ func NewConnection() (connection backends.Abstract, error *Error) {
 
 func Connection() (connection backends.Abstract, error *Error) {
 	if sharedConnection == nil {
-		connection, error = NewConnection()
-		if error == nil {
-			sharedConnection = connection
-		}
+		connection, error = Reconnect()
 	} else {
 		connection = sharedConnection
+	}
+	return
+}
+
+func Reconnect() (connection backends.Abstract, error *Error) {
+	connection, error = NewConnection()
+	if error == nil {
+		sharedConnection = connection
 	}
 	return
 }
