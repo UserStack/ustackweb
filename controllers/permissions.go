@@ -5,6 +5,7 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/pagination"
 )
 
 type PermissionsController struct {
@@ -22,7 +23,7 @@ func (this *PermissionsController) Index() {
 	this.RequirePermissions([]string{"list_permissions"})
 	this.TplNames = "permissions/index.html.tpl"
 	permissions := models.Permissions().All()
-	paginator := this.SetPaginator(25, int64(len(permissions)))
+	paginator := pagination.SetPaginator(this, 25, int64(len(permissions)))
 	this.Data["permissions"] = permissions[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(permissions))]
 }
 

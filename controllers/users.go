@@ -6,6 +6,7 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/pagination"
 )
 
 type UsersController struct {
@@ -40,7 +41,7 @@ func (this *UsersController) Index() {
 	} else {
 		users, _ = models.Users().AllByGroup(usersFilter.GroupId)
 	}
-	paginator := this.SetPaginator(25, int64(len(users)))
+	paginator := pagination.SetPaginator(this, 25, int64(len(users)))
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
 

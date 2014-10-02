@@ -57,12 +57,6 @@ func (this *BaseController) RequirePermissions(permissions []string) {
 	}
 }
 
-func (this *BaseController) SetPaginator(per int, nums int64) *wetalkutils.Paginator {
-	p := wetalkutils.NewPaginator(this.Ctx.Request, per, nums)
-	this.Data["paginator"] = p
-	return p
-}
-
 func (this *BaseController) SetFormSets(form interface{}, names ...string) *wetalkutils.FormSets {
 	return this.setFormSets(form, nil, names...)
 }
