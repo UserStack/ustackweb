@@ -194,7 +194,7 @@ func (this *UsersController) UpdatePassword() {
 
 func (this *UsersController) Destroy() {
 	this.RequirePermissions([]string{"delete_users"})
-	id, _ := this.GetInt(":id")
+	id, _ := this.GetInt64(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Destroy(user.Name)
 	flash := beego.NewFlash()
@@ -205,7 +205,7 @@ func (this *UsersController) Destroy() {
 
 func (this *UsersController) Enable() {
 	this.RequirePermissions([]string{"enable_users"})
-	id, _ := this.GetInt(":id")
+	id, _ := this.GetInt64(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Enable(user.Name)
 	this.Redirect(this.Ctx.Input.Refer(), 302)
@@ -213,14 +213,14 @@ func (this *UsersController) Enable() {
 
 func (this *UsersController) Disable() {
 	this.RequirePermissions([]string{"disable_users"})
-	id, _ := this.GetInt(":id")
+	id, _ := this.GetInt64(":id")
 	user, _ := models.Users().Find(id)
 	models.Users().Disable(user.Name)
 	this.Redirect(this.Ctx.Input.Refer(), 302)
 }
 
 func (this *UsersController) loadUser() (loaded bool) {
-	intId, _ := this.GetInt(":id")
+	intId, _ := this.GetInt64(":id")
 	user, err := models.Users().Find(intId)
 	loaded = err == nil
 	if !loaded { // user not found
