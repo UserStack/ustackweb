@@ -4,11 +4,17 @@ import (
 	"github.com/UserStack/ustackweb/controllers"
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
+	"strings"
 )
+
+func camelize(name string) string {
+	return strings.ToTitle(name[0:1]) + name[1:]
+}
 
 func init() {
 	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.AddFuncMap("compare", beego.Compare)
+	beego.AddFuncMap("camelize", camelize)
 
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/install", &controllers.InstallController{}, "*:Index")
