@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/UserStack/ustackweb/models"
 	"github.com/astaxie/beego"
 )
@@ -71,7 +70,7 @@ func (this *InstallController) AssignPermissions() {
 func (this *InstallController) DropDatabase() {
 	users, _ := models.Users().All()
 	for _, user := range users {
-		models.Users().Destroy(fmt.Sprintf("%s", user.Uid))
+		models.Users().Destroy(user.Name)
 	}
 	groups, _ := models.Groups().All()
 	for _, group := range groups {
