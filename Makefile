@@ -9,8 +9,8 @@ prepare:
 	make deps
 	make assets
 deps:
-	go get -u github.com/astaxie/beego \
-				    github.com/beego/bee \
+	echo "\n\n!!!!!!!!!\nPlease make sure you have github.com/astaxie/beego already checked out the develop branch\n!!!!!!!!!\n"
+	go get -u github.com/beego/bee \
 				    github.com/beego/i18n \
 				    github.com/beego/wetalk \
 				    github.com/codegangsta/gin \
