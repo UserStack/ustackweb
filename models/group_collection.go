@@ -70,6 +70,20 @@ func (this *GroupCollection) AllByUser(name_or_uid string) (groups []Group, err 
 	return
 }
 
+func (this *GroupCollection) AllByUserWithoutPermissions(name_or_uid string) (groups []Group, err *backend.Error) {
+	allGroups, err := this.AllByUser(name_or_uid)
+	if err != nil {
+		return
+	}
+	groups = make([]Group, 0)
+	for _, group := range allGroups {
+		if !Permissions().IsPermissionGroupName(group.Name) {
+			groups = append(groups, group)
+		}
+	}
+	return
+}
+
 func (this *GroupCollection) Create(name string) (created bool, id int64, err *backend.Error) {
 	connection, err := backend.Connection()
 	if err != nil {

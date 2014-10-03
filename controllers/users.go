@@ -14,6 +14,7 @@ type UsersController struct {
 	User       *models.User
 	UserGroups []models.Group
 	AllGroups  []models.Group
+	AllGroupsWithoutPermissions []models.Group
 }
 
 type UsersFilter struct {
@@ -86,11 +87,11 @@ type GroupMembership struct {
 
 func (this *UsersController) EditGroups() {
 	this.RequirePermissions([]string{"update_users"})
-	if !this.loadUser() || !this.loadUserGroups() || !this.loadAllGroups() {
+	if !this.loadUser() || !this.loadUserGroups() || !this.loadAllGroupsWithoutPermissions() {
 		return
 	}
-	groupMemberships := make([]GroupMembership, len(this.AllGroups))
-	for idx, group := range this.AllGroups {
+	groupMemberships := make([]GroupMembership, len(this.AllGroupsWithoutPermissions))
+	for idx, group := range this.AllGroupsWithoutPermissions {
 		membership := GroupMembership{Group: group}
 		for _, group2 := range this.UserGroups {
 			if group == group2 {
@@ -233,7 +234,7 @@ func (this *UsersController) loadUser() (loaded bool) {
 }
 
 func (this *UsersController) loadUserGroups() (loaded bool) {
-	groups, err := models.Groups().AllByUser(this.GetString(":id"))
+	groups, err := models.Groups().AllByUserWithoutPermissions(this.GetString(":id"))
 	loaded = err == nil
 	if !loaded { // user not found
 		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
@@ -251,5 +252,17 @@ func (this *UsersController) loadAllGroups() (loaded bool) {
 	}
 	this.AllGroups = groups
 	this.Data["allGroups"] = groups
+	return
+}
+
+
+func (this *UsersController) loadAllGroupsWithoutPermissions() (loaded bool) {
+	groups, err := models.Groups().AllWithoutPermissions()
+	loaded = err == nil
+	if !loaded { // user not found
+		this.Redirect(beego.UrlFor("UsersController.Index"), 302)
+	}
+	this.AllGroupsWithoutPermissions = groups
+	this.Data["allGroupsWithoutPermissions"] = groups
 	return
 }
