@@ -15,6 +15,7 @@ type UsersController struct {
 	UserGroups []models.Group
 	AllGroups  []models.Group
 	AllGroupsWithoutPermissions []models.Group
+	UserPermissions []*models.UserPermission
 }
 
 type UsersFilter struct {
@@ -103,6 +104,14 @@ func (this *UsersController) EditGroups() {
 	}
 	this.Data["groupMemberships"] = groupMemberships
 	this.TplNames = "users/edit_groups.html.tpl"
+}
+
+func (this *UsersController) EditPermissions() {
+	this.RequirePermissions([]string{"update_users"})
+	if !this.loadUser() || !this.loadUserGroups() || !this.loadUserPermissions() {
+		return
+	}
+	this.TplNames = "users/edit_permissions.html.tpl"
 }
 
 func (this *UsersController) AddUserToGroup() {
@@ -242,6 +251,13 @@ func (this *UsersController) loadUserGroups() (loaded bool) {
 	this.UserGroups = groups
 	this.Data["userGroups"] = groups
 	return
+}
+
+func (this *UsersController) loadUserPermissions() bool {
+	userPermissions := models.UserPermissions().All(this.GetString(":id"))
+	this.UserPermissions = userPermissions
+	this.Data["userPermissions"] = userPermissions
+	return true
 }
 
 func (this *UsersController) loadAllGroups() (loaded bool) {

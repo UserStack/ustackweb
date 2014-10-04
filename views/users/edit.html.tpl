@@ -8,7 +8,7 @@
       {{template "users/form_username_and_password.html.tpl" .}}
       <form class="form-horizontal">
         <div class="form-group">
-          <label class="col-md-3 control-label">Group Membership</label>
+          <label class="col-md-3 control-label">Memberships</label>
           <div class="col-md-6">
             {{$user := .user}}
             {{range .userGroups}}
@@ -17,6 +17,23 @@
             </a>
             {{end}}
             <a href="{{urlfor "UsersController.EditGroups" ":id" (printf "%d" .user.Uid) }}" class="btn btn-default">
+              <span class="glyphicon glyphicon-wrench"></span>
+              Change
+            </a>
+          </div>
+        </div>
+      </form>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-md-3 control-label">Permissions</label>
+          <div class="col-md-6">
+            {{$user := .user}}
+            {{range .userPermissions}}
+            <a href="#" class="btn btn-link">
+              {{.Name}}
+            </a>
+            {{end}}
+            <a href="{{urlfor "UsersController.EditPermissions" ":id" (printf "%d" .user.Uid) }}" class="btn btn-default">
               <span class="glyphicon glyphicon-wrench"></span>
               Change
             </a>
