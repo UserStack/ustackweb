@@ -9,7 +9,7 @@
       <div class="list-group">
         {{$user := .user}}
         {{range .userPermissions}}
-          {{if .Assigned}}
+          {{if .Granted}}
           <a href="{{urlfor "UsersController.RemoveUserFromGroup" ":id" (printf "%d" $user.Uid) ":groupId" .Permission.GroupName }}" class="list-group-item">
             {{.Permission.Name}}
             <span class="badge badge-primary">

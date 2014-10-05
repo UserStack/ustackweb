@@ -9,8 +9,8 @@ func (this *UserPermissionCollection) All(name_or_uid string) (userPermissions [
   abilities := Permissions().Abilities(name_or_uid)
   userPermissions = make([]*UserPermission, len(permissions))
   for idx, permission := range permissions {
-    assigned := abilities[permission.Name]
-    userPermission := &UserPermission{Permission: permission, Assigned: assigned}
+    granted := abilities[permission.Name]
+    userPermission := &UserPermission{Permission: permission, Granted: granted}
     userPermissions[idx] = userPermission
   }
   return
