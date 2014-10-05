@@ -33,7 +33,7 @@ func SetupDatabase() {
 	models.Permissions().CreateAllInternal()
 	models.Users().Create("admin", "admin")
 	models.Users().Create("enduser", "enduser")
-	models.Permissions().AllowAll("admin")
+	models.UserPermissions().AllowAll("admin")
 }
 
 func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder {
@@ -203,7 +203,7 @@ func TestMain(t *testing.T) {
 	})
 
 	Convey("Create Permission Group Unauthorized\n", t, func() {
-		models.Permissions().Deny("admin", "create_permissions")
+		models.UserPermissions().Deny("admin", "create_permissions")
 		data := url.Values{}
 		data.Add("Name", "perm.foo2.bar")
 		response := postRequest("POST", "/groups", &data, adminSession)
@@ -214,8 +214,8 @@ func TestMain(t *testing.T) {
 	})
 
 	Convey("Delete Permission Group\n", t, func() {
-		models.Permissions().Allow("admin", "delete_groups")
-		models.Permissions().Allow("admin", "delete_permissions")
+		models.UserPermissions().Allow("admin", "delete_groups")
+		models.UserPermissions().Allow("admin", "delete_permissions")
 		models.Groups().Create("perm.foo.bar")
 		response := postRequest("GET", "/groups/perm.foo.bar/delete", &url.Values{}, adminSession)
 		Convey("Render", func() {
@@ -225,7 +225,7 @@ func TestMain(t *testing.T) {
 	})
 
 	Convey("Delete Permission Group Unauthorized\n", t, func() {
-		models.Permissions().Deny("admin", "delete_permissions")
+		models.UserPermissions().Deny("admin", "delete_permissions")
 		response := postRequest("GET", "/groups/perm.foo.bar/delete", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 401)
@@ -234,7 +234,7 @@ func TestMain(t *testing.T) {
 	})
 
 	Convey("Create Permission\n", t, func() {
-		models.Permissions().Allow("admin", "create_permissions")
+		models.UserPermissions().Allow("admin", "create_permissions")
 		data := url.Values{}
 		data.Add("Object", "foo1")
 		data.Add("Verb", "bar")
@@ -246,7 +246,7 @@ func TestMain(t *testing.T) {
 	})
 
 	Convey("Create Permission Unauthorized\n", t, func() {
-		models.Permissions().Deny("admin", "create_permissions")
+		models.UserPermissions().Deny("admin", "create_permissions")
 		response := postRequest("POST", "/permissions", &url.Values{}, adminSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 401)

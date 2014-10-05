@@ -36,11 +36,11 @@ func TestMain(t *testing.T) {
 			backend.Type = backend.Memory
 			models.Permissions().CreateAllInternal()
 			models.Users().Create("admin", "admin")
-			models.Permissions().Allow("admin", "list_users")
+			models.UserPermissions().Allow("admin", "list_users")
 			So(models.UserPermissions().Abilities("admin")["list_users"], ShouldEqual, true)
 			So(models.UserPermissions().Abilities("foo")["list_users"], ShouldEqual, false)
 
-			models.Permissions().Deny("admin", "list_users")
+			models.UserPermissions().Deny("admin", "list_users")
 			So(models.UserPermissions().Abilities("admin")["list_users"], ShouldEqual, false)
 			So(models.UserPermissions().Abilities("foo")["list_users"], ShouldEqual, false)
 		})

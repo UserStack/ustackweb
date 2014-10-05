@@ -77,20 +77,6 @@ func (this *PermissionCollection) Destroy(name string) {
 	Groups().Destroy(this.GroupName(name))
 }
 
-func (this *PermissionCollection) AllowAll(name_or_uid string) {
-	for _, permission := range this.All() {
-		this.Allow(name_or_uid, permission.Name)
-	}
-}
-
-func (this *PermissionCollection) Allow(name_or_uid string, permissionName string) {
-	Users().AddUserToGroup(name_or_uid, this.GroupName(permissionName))
-}
-
-func (this *PermissionCollection) Deny(name_or_uid string, permissionName string) {
-	Users().RemoveUserFromGroup(name_or_uid, this.GroupName(permissionName))
-}
-
 func (this *PermissionCollection) IsPermissionGroupName(groupName string) (isPermissionGroupName bool) {
 	parts := strings.Split(groupName, ".")
 	return len(parts) == 3 && parts[0] == "perm"

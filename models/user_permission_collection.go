@@ -45,6 +45,20 @@ func (this *UserPermissionCollection) Abilities(name_or_uid string) (abilities m
   return
 }
 
+func (this *UserPermissionCollection) AllowAll(name_or_uid string) {
+  for _, permission := range Permissions().All() {
+    this.Allow(name_or_uid, permission.Name)
+  }
+}
+
+func (this *UserPermissionCollection) Allow(name_or_uid string, permissionName string) {
+  Users().AddUserToGroup(name_or_uid, Permissions().GroupName(permissionName))
+}
+
+func (this *UserPermissionCollection) Deny(name_or_uid string, permissionName string) {
+  Users().RemoveUserFromGroup(name_or_uid, Permissions().GroupName(permissionName))
+}
+
 func UserPermissions() *UserPermissionCollection {
   return &UserPermissionCollection{}
 }
