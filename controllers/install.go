@@ -38,7 +38,7 @@ func (this *InstallController) Index() {
 	this.Data["hasRootUserError"] = err != nil
 	groups, err := models.Groups().All()
 	this.Data["groupsError"] = err
-	abilities := models.Permissions().Abilities(this.rootUserId())
+	abilities := models.UserPermissions().Abilities(this.rootUserId())
 	permissionRequirements := this.permissionRequirements()
 	for _, permissionRequirement := range permissionRequirements {
 		for _, group := range groups {

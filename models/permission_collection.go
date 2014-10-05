@@ -8,7 +8,7 @@ import (
 type PermissionCollection struct {
 }
 
-func (this *PermissionCollection) allNames() []string {
+func (this *PermissionCollection) AllNames() []string {
 	return []string{
 		"list_users",
 		"create_users",
@@ -35,7 +35,7 @@ func (this *PermissionCollection) allNames() []string {
 
 func (this *PermissionCollection) AllInternal() (permissions []*Permission) {
 	permissions = make([]*Permission, 0)
-	for _, name := range this.allNames() {
+	for _, name := range this.AllNames() {
 		permissions = append(permissions, &Permission{Name: name, Internal: true})
 	}
 	return
@@ -59,35 +59,6 @@ func (this *PermissionCollection) All() (permissions []*Permission) {
 		if !permissionFound {
 			permissions = append(permissions, &Permission{Name: permissionName})
 		}
-	}
-	return
-}
-
-func (this *PermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
-	allNames := this.allNames()
-	allGroupNamesMap = make(map[string]bool, len(allNames))
-	for _, name := range allNames {
-		allGroupNamesMap[this.GroupName(name)] = false
-	}
-	return
-}
-
-func (this *PermissionCollection) allGroupNamesMapByUser(name_or_uid string) (groupNamesMapByUser map[string]bool) {
-	groupNamesMapByUser = this.allGroupNamesMap()
-	groups, _ := Groups().AllByUser(name_or_uid)
-	for _, group := range groups {
-		if _, isPermissionGroup := groupNamesMapByUser[group.Name]; isPermissionGroup {
-			groupNamesMapByUser[group.Name] = true
-		}
-	}
-	return
-}
-
-func (this *PermissionCollection) Abilities(name_or_uid string) (abilities map[string]bool) {
-	groupNames := this.allGroupNamesMapByUser(name_or_uid)
-	abilities = make(map[string]bool, len(groupNames))
-	for groupName, userHasPermission := range groupNames {
-		abilities[this.Name(groupName)] = userHasPermission
 	}
 	return
 }
