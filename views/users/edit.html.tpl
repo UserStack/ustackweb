@@ -29,9 +29,11 @@
           <div class="col-md-6">
             {{$user := .user}}
             {{range .userPermissions}}
-            <a href="#" class="btn btn-link">
-              {{.Name}}
+            {{if .Granted}}
+            <a class="btn">
+              {{.Permission.Name}}
             </a>
+            {{end}}
             {{end}}
             <a href="{{urlfor "UsersController.EditPermissions" ":id" (printf "%d" .user.Uid) }}" class="btn btn-default">
               <span class="glyphicon glyphicon-wrench"></span>

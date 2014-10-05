@@ -75,7 +75,7 @@ func (this *UsersController) Create() {
 
 func (this *UsersController) Edit() {
 	this.RequirePermissions([]string{"read_users"})
-	if !this.loadUser() || !this.loadUserGroups() {
+	if !this.loadUser() || !this.loadUserGroups() || !this.loadUserPermissions() {
 		return
 	}
 	this.TplNames = "users/edit.html.tpl"
