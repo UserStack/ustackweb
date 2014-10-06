@@ -87,7 +87,7 @@ Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org)
 ## Alternatives
 
  * [Stormpath](https://stormpath.com/) (commercial)
- * Apache Shiro](http://shiro.apache.org/)
+ * [Apache Shiro](http://shiro.apache.org/)
 
 ## License
 
