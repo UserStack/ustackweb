@@ -88,6 +88,8 @@ Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org)
 
  * [Stormpath](https://stormpath.com/) (commercial)
  * [Apache Shiro](http://shiro.apache.org/)
+ * [Apache Syncope](Apache Syncope)
+ * [ConnId](http://connid.tirasa.net/)
 
 ## License
 
