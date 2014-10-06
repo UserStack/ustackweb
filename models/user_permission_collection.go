@@ -16,31 +16,23 @@ func (this *UserPermissionCollection) All(name_or_uid string) (userPermissions [
   return
 }
 
-func (this *UserPermissionCollection) allGroupNamesMap() (allGroupNamesMap map[string]bool) {
+func (this *UserPermissionCollection) NoAbilities() (allGroupNamesMap map[string]bool) {
   allNames := Permissions().AllNames()
   allGroupNamesMap = make(map[string]bool, len(allNames))
   for _, name := range allNames {
-    allGroupNamesMap[Permissions().GroupName(name)] = false
-  }
-  return
-}
-
-func (this *UserPermissionCollection) allGroupNamesMapByUser(name_or_uid string) (groupNamesMapByUser map[string]bool) {
-  groupNamesMapByUser = this.allGroupNamesMap()
-  groups, _ := Groups().AllByUser(name_or_uid)
-  for _, group := range groups {
-    if _, isPermissionGroup := groupNamesMapByUser[group.Name]; isPermissionGroup {
-      groupNamesMapByUser[group.Name] = true
-    }
+    allGroupNamesMap[name] = false
   }
   return
 }
 
 func (this *UserPermissionCollection) Abilities(name_or_uid string) (abilities map[string]bool) {
-  groupNames := this.allGroupNamesMapByUser(name_or_uid)
-  abilities = make(map[string]bool, len(groupNames))
-  for groupName, userHasPermission := range groupNames {
-    abilities[Permissions().Name(groupName)] = userHasPermission
+  abilities = this.NoAbilities()
+  groups, _ := Groups().AllByUser(name_or_uid)
+  for _, group := range groups {
+    name := Permissions().Name(group.Name)
+    if _, isInternalPermissionGroup := abilities[name]; isInternalPermissionGroup {
+      abilities[name] = true
+    }
   }
   return
 }
