@@ -6,7 +6,7 @@ import (
 	"github.com/UserStack/ustackweb/models"
 	"github.com/UserStack/ustackweb/utils"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/pagination"
+	"github.com/astaxie/beego/utils/pagination"
 )
 
 type UsersController struct {
