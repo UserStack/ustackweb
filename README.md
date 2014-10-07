@@ -90,6 +90,7 @@ Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org)
  * [Apache Shiro](http://shiro.apache.org/)
  * [Apache Syncope](http://syncope.apache.org/)
  * [ConnId](http://connid.tirasa.net/)
+ * [Pubcookie](http://www.pubcookie.org/) Single-Sign-On
 
 ## License
 
