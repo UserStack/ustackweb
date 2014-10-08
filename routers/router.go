@@ -1,20 +1,35 @@
 package routers
 
 import (
-	"github.com/UserStack/ustackweb/controllers"
-	"github.com/astaxie/beego"
-	"github.com/beego/i18n"
+	"os"
+	"reflect"
 	"strings"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/context"
+	"github.com/beego/i18n"
+
+	"github.com/UserStack/ustackweb/controllers"
 )
 
 func camelize(name string) string {
 	return strings.ToTitle(name[0:1]) + name[1:]
 }
 
+var SingleSignOnDispatcher = func(ctx *context.Context) {
+	if ctx.Input.Header("X-Forwarded-Host") != os.Getenv("USTACKWEB_PUBLIC_HOST") {
+		ctx.Input.RunController = reflect.TypeOf(controllers.SingleSignOnController{})
+		ctx.Input.RunMethod = "All"
+	}
+}
+
 func init() {
 	beego.AddFuncMap("i18n", i18n.Tr)
 	beego.AddFuncMap("compare", beego.Compare)
 	beego.AddFuncMap("camelize", camelize)
+
+	beego.InsertFilter("/", beego.BeforeRouter, SingleSignOnDispatcher)
+	beego.InsertFilter("*", beego.BeforeRouter, SingleSignOnDispatcher)
 
 	beego.Router("/", &controllers.HomeController{})
 	beego.Router("/install", &controllers.InstallController{}, "*:Index")

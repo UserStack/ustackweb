@@ -29,14 +29,20 @@ func (this *BaseController) PrepareXsrf() {
 	this.Data["xsrf_html"] = this.XsrfFormHtml()
 }
 
-func (this *BaseController) RequireAuth() {
+func (this *BaseController) Authenticate() (authenticated bool) {
 	username := this.Ctx.Input.Session("username")
 	if username != nil {
 		this.Data["loggedIn"] = true
 		this.Data["username"] = username
 		this.Can = models.UserPermissions().Abilities(fmt.Sprintf("%s", username))
 		this.Data["can"] = this.Can
-	} else {
+		authenticated = true
+	}
+	return
+}
+
+func (this *BaseController) RequireAuth() {
+	if !this.Authenticate() {
 		this.RequireAuthFailed()
 	}
 }

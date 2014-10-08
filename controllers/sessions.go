@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"github.com/UserStack/ustackweb/models"
 	"github.com/astaxie/beego"
+
+	"github.com/UserStack/ustackweb/models"
 )
 
 type SessionsController struct {
@@ -21,6 +22,7 @@ func (this *SessionsController) Prepare() {
 
 func (this *SessionsController) New() {
 	this.Data["Form"] = &Login{}
+	this.Data["origin"] = this.GetString("origin")
 	this.TplNames = "sessions/new.html.tpl"
 }
 
@@ -33,7 +35,12 @@ func (this *SessionsController) Create() {
 			this.SetSession("username", login.Username)
 			this.SetSession("uid", uid)
 			this.RequireAuth()
-			this.Redirect(beego.UrlFor("HomeController.Get"), 302)
+			origin := this.GetString("origin")
+			if origin != "" {
+				this.Redirect(origin, 302)
+			} else {
+				this.Redirect(beego.UrlFor("HomeController.Get"), 302)
+			}
 			return
 		}
 	}

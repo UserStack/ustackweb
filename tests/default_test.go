@@ -47,6 +47,12 @@ func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder
 	return w
 }
 
+func singleSignOnRequest(method string, urlStr string, session *Session) *httptest.ResponseRecorder {
+	r, _ := http.NewRequest(method, urlStr, nil)
+	r.Header.Add("X-User-Stack", "SSO")
+	return recordRequest(r, session)
+}
+
 func getRequest(method string, urlStr string, session *Session) *httptest.ResponseRecorder {
 	r, _ := http.NewRequest(method, urlStr, nil)
 	return recordRequest(r, session)
@@ -251,6 +257,30 @@ func TestMain(t *testing.T) {
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 401)
 			So(response.Body.String(), ShouldContainSubstring, "Unauthorized")
+		})
+	})
+
+	Convey("Remote not logged in\n", t, func() {
+		response := singleSignOnRequest("GET", "/foo", nilSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 302)
+			So(response.HeaderMap.Get("Location"), ShouldContainSubstring, "/sign_in?origin=/foo")
+		})
+	})
+
+	Convey("Remote unauthorized\n", t, func() {
+		response := singleSignOnRequest("GET", "/foo", enduserSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 403)
+		})
+	})
+
+	Convey("Remote authorized\n", t, func() {
+		response := singleSignOnRequest("GET", "/foo", adminSession)
+		Convey("Render", func() {
+			So(response.Code, ShouldEqual, 200)
+			So(response.HeaderMap.Get("X-Accel-Redirect"), ShouldContainSubstring, "/reproxy")
+			So(response.HeaderMap.Get("X-Reproxy-URL"), ShouldContainSubstring, "/foo")
 		})
 	})
 }

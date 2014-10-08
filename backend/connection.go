@@ -2,6 +2,8 @@ package backend
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/UserStack/ustackd/backends"
 	"github.com/UserStack/ustackd/client"
 )
@@ -31,7 +33,11 @@ func NewConnection() (connection backends.Abstract, error *Error) {
 		}
 		return connection, error
 	} else {
-		connection, anError := client.Dial("127.0.0.1:7654")
+		hostname := os.Getenv("USTACKD_1_PORT_7654_TCP_ADDR")
+		if hostname == "" {
+			hostname = "127.0.0.1"
+		}
+		connection, anError := client.Dial(hostname + ":7654")
 		if anError != nil {
 			error = &Error{backends.Error{Message: anError.Error()}}
 		}

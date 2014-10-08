@@ -2,6 +2,7 @@
   <div class="col-md-offset-3 col-md-6">
     <form action="{{urlfor "SessionsController.Create"}}" method="post" role="form" class="form-horizontal">
       {{.xsrf_html | str2html}}
+      <input type="hidden" name="origin" value="{{.origin}}" />
       <div class="form-group">
         <div class="col-md-offset-2 col-md-10 ">
           <h1>Sign In</h1>
