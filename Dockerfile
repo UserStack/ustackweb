@@ -5,6 +5,6 @@ ADD . /go/src/github.com/UserStack/ustackweb
 WORKDIR /go/src/github.com/UserStack/ustackweb
 RUN make deps
 RUN go install github.com/beego/bee
-RUN cd /go/src/github.com/astaxie/beego && git remote add bsingr https://github.com/bsingr/beego.git && git fetch bsingr && git checkout -b bsingr-develop bsingr/develop
+RUN cd /go/src/github.com/astaxie/beego && git checkout -b develop
 
 CMD ["go", "run", "bee", "run"]
