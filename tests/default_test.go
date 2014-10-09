@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strconv"
@@ -23,6 +24,7 @@ func init() {
 	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, ".."+string(filepath.Separator))))
 	backend.Type = backend.Memory
 	beego.TestBeegoInit(apppath)
+	os.Setenv("USTACKWEB_PUBLIC_HOST", "user.example.com")
 }
 
 type Session struct {
@@ -49,7 +51,7 @@ func recordRequest(r *http.Request, session *Session) *httptest.ResponseRecorder
 
 func singleSignOnRequest(method string, urlStr string, session *Session) *httptest.ResponseRecorder {
 	r, _ := http.NewRequest(method, urlStr, nil)
-	r.Header.Add("X-User-Stack", "SSO")
+	r.Header.Add("X-Forwarded-Host", "example.com")
 	return recordRequest(r, session)
 }
 
@@ -264,7 +266,7 @@ func TestMain(t *testing.T) {
 		response := singleSignOnRequest("GET", "/foo", nilSession)
 		Convey("Render", func() {
 			So(response.Code, ShouldEqual, 302)
-			So(response.HeaderMap.Get("Location"), ShouldContainSubstring, "/sign_in?origin=/foo")
+			So(response.HeaderMap.Get("Location"), ShouldContainSubstring, "/sign_in?origin=http://example.com/foo")
 		})
 	})
 

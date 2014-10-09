@@ -17,7 +17,9 @@ func camelize(name string) string {
 }
 
 var SingleSignOnDispatcher = func(ctx *context.Context) {
-	if ctx.Input.Header("X-Forwarded-Host") != os.Getenv("USTACKWEB_PUBLIC_HOST") {
+	x_forwarded_host := ctx.Input.Header("X-Forwarded-Host")
+	public_host := os.Getenv("USTACKWEB_PUBLIC_HOST")
+	if x_forwarded_host != "" && public_host != "" && x_forwarded_host != os.Getenv("USTACKWEB_PUBLIC_HOST") {
 		ctx.Input.RunController = reflect.TypeOf(controllers.SingleSignOnController{})
 		ctx.Input.RunMethod = "All"
 	}
