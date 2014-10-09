@@ -21,7 +21,7 @@ deps:
 				    github.com/smartystreets/goconvey \
 				    ${BACKEND}
 beego_develop:
-	cd ${GOPATH}/src/github.com/astaxie/beego && git checkout develop
+	cd $(firstword $(subst :, ,${GOPATH}))/src/github.com/astaxie/beego && git checkout develop
 assets:
 	bundle install
 	npm install
