@@ -7,15 +7,21 @@ run:
 	bee run
 prepare:
 	make deps
+	make beego_develop
 	make assets
+prepare_test:
+	make deps
+	make beego_develop
 deps:
-	echo "\n\n!!!!!!!!!\nPlease make sure you have github.com/astaxie/beego already checked out the develop branch\n!!!!!!!!!\n"
-	go get -u github.com/beego/bee \
+	go get -u github.com/astaxie/beego \
+						github.com/beego/bee \
 				    github.com/beego/i18n \
 				    github.com/beego/wetalk \
 				    github.com/codegangsta/gin \
 				    github.com/smartystreets/goconvey \
 				    ${BACKEND}
+beego_develop:
+	cd ${GOPATH}/src/github.com/astaxie/beego && git checkout develop
 assets:
 	bundle install
 	npm install
