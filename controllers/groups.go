@@ -23,7 +23,7 @@ func (this *GroupsController) Index() {
 	this.RequirePermissions([]string{"list_groups"})
 	this.TplNames = "groups/index.html.tpl"
 	groups, _ := models.Groups().AllWithoutPermissions()
-	paginator := pagination.SetPaginator(this, 25, int64(len(groups)))
+	paginator := pagination.SetPaginator(this.Ctx, 25, int64(len(groups)))
 	this.Data["groups"] = groups[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(groups))]
 }
 

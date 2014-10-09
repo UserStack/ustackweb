@@ -23,7 +23,7 @@ func (this *PermissionsController) Index() {
 	this.RequirePermissions([]string{"list_permissions"})
 	this.TplNames = "permissions/index.html.tpl"
 	permissions := models.Permissions().All()
-	paginator := pagination.SetPaginator(this, 25, int64(len(permissions)))
+	paginator := pagination.SetPaginator(this.Ctx, 25, int64(len(permissions)))
 	this.Data["permissions"] = permissions[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(permissions))]
 }
 

@@ -11,11 +11,11 @@ import (
 
 type UsersController struct {
 	BaseController
-	User       *models.User
-	UserGroups []models.Group
-	AllGroups  []models.Group
+	User                        *models.User
+	UserGroups                  []models.Group
+	AllGroups                   []models.Group
 	AllGroupsWithoutPermissions []models.Group
-	UserPermissions []*models.UserPermission
+	UserPermissions             []*models.UserPermission
 }
 
 type UsersFilter struct {
@@ -43,7 +43,7 @@ func (this *UsersController) Index() {
 	} else {
 		users, _ = models.Users().AllByGroup(usersFilter.GroupId)
 	}
-	paginator := pagination.SetPaginator(this, 25, int64(len(users)))
+	paginator := pagination.SetPaginator(this.Ctx, 25, int64(len(users)))
 	this.Data["users"] = users[paginator.Offset():utils.Min(paginator.Offset()+paginator.PerPageNums, len(users))]
 }
 
@@ -270,7 +270,6 @@ func (this *UsersController) loadAllGroups() (loaded bool) {
 	this.Data["allGroups"] = groups
 	return
 }
-
 
 func (this *UsersController) loadAllGroupsWithoutPermissions() (loaded bool) {
 	groups, err := models.Groups().AllWithoutPermissions()
