@@ -37,3 +37,5 @@ test:
 	go test ./tests/...
 convey:
 	goconvey -depth=10 -host="0.0.0.0" -port="8081"
+favicon:
+	cd static/images && png2ico logo.ico logo16.png logo32.png logo48.png logo64.png

@@ -3,10 +3,16 @@
     <head>
       <title>UserStack</title>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
       <meta name="_xsrf" content="{{.xsrf_token}}" />
       <!-- bower:css -->
       <!-- endbower -->
       <link rel="stylesheet" href="/static/css/app.css" />
+      <link rel=icon href="/static/images/logo.ico" sizes="16x16 32x32 48x48 64x64" type="image/vnd.microsoft.icon">
+      <link rel=icon href="/static/images/logo16.png" sizes="16x16" type="image/png">
+      <link rel=icon href="/static/images/logo32.png" sizes="32x32" type="image/png">
+      <link rel=icon href="/static/images/logo48.png" sizes="48x48" type="image/png">
+      <link rel=icon href="/static/images/logo64.png" sizes="64x64" type="image/png">
   </head>
     <body class="{{.context.ControllerName}} {{.context.ActionName}}">
       {{if .loggedIn}}
