@@ -34,6 +34,6 @@ ustackd:
 run_ustackd:
 	ustackd --foreground --config '../ustackd/config/ustackd.conf'
 test:
-	go test ./...
+	go test ./tests/...
 convey:
 	goconvey -depth=10 -host="0.0.0.0" -port="8081"
