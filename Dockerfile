@@ -3,8 +3,6 @@ MAINTAINER Jens Bissinger "mail@jens-bissinger."
 
 ADD . /go/src/github.com/UserStack/ustackweb
 WORKDIR /go/src/github.com/UserStack/ustackweb
-RUN make deps
-RUN go install github.com/beego/bee
-RUN make beego_develop
+RUN go get github.com/tools/godep
 
-CMD ["go", "run", "bee", "run"]
+CMD ["godep", "go", "run", "main.go"]
