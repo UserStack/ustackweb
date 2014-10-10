@@ -4,3 +4,5 @@ go:
   - tip
 install: make prepare_test
 script: make test
+notifications:
+  email: false
