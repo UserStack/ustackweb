@@ -5,6 +5,6 @@ ADD . /go/src/github.com/UserStack/ustackweb
 WORKDIR /go/src/github.com/UserStack/ustackweb
 RUN make deps
 RUN go install github.com/beego/bee
-RUN cd /go/src/github.com/astaxie/beego && git checkout -b develop
+RUN make beego_develop
 
 CMD ["go", "run", "bee", "run"]
