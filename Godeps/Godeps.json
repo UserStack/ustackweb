@@ -1,0 +1,66 @@
+{
+	"ImportPath": "github.com/UserStack/ustackweb",
+	"GoVersion": "go1.3.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/Unknwon/goconfig",
+			"Rev": "0f8d8dc1c03e4602b1ad24c492b79c07c990fb49"
+		},
+		{
+			"ImportPath": "github.com/UserStack/ustackd/backends",
+			"Rev": "3c5a6f51203f18ff804b83fe515dd771e3737382"
+		},
+		{
+			"ImportPath": "github.com/UserStack/ustackd/client",
+			"Rev": "3c5a6f51203f18ff804b83fe515dd771e3737382"
+		},
+		{
+			"ImportPath": "github.com/astaxie/beego",
+			"Comment": "v1.4.1-46-ga760e46",
+			"Rev": "a760e46f9809ebb7a055901465ecabdc1da15b9c"
+		},
+		{
+			"ImportPath": "github.com/beego/compress",
+			"Rev": "fbacc486da675e9378ebff939792c54b4f91e40c"
+		},
+		{
+			"ImportPath": "github.com/beego/i18n",
+			"Rev": "e87155e8f0c05bf323d0b13470e1b97af0cb5652"
+		},
+		{
+			"ImportPath": "github.com/beego/social-auth",
+			"Rev": "e2c014639b368476c65483267fd85b1288c1ab0e"
+		},
+		{
+			"ImportPath": "github.com/beego/wetalk/modules/utils",
+			"Rev": "4afb66379163c7024238dc8def00e437b71e6a35"
+		},
+		{
+			"ImportPath": "github.com/beego/wetalk/setting",
+			"Rev": "4afb66379163c7024238dc8def00e437b71e6a35"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-26-g9543750",
+			"Rev": "9543750295406ef070f7de8ae9c43ccddd44e15e"
+		},
+		{
+			"ImportPath": "github.com/howeyc/fsnotify",
+			"Comment": "v0.9.0-11-g6b1ef89",
+			"Rev": "6b1ef893dc11e0447abda6da20a5203481878dda"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "c6325123e6d45115749734a8bc35060ebac74d0e"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-sqlite3",
+			"Rev": "a80c27ba3354e27b4c8dfbbd1165bc253ca7c522"
+		},
+		{
+			"ImportPath": "github.com/slene/blackfriday",
+			"Comment": "v1.1-47-gfd3fc8f",
+			"Rev": "fd3fc8f180b28dfd78d2508b61c86dc2b7f970cd"
+		}
+	]
+}
