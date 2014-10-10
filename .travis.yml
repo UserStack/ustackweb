@@ -2,7 +2,7 @@ language: go
 go:
   - 1.3
   - tip
-install: make prepare_test
+install: make prepare_go
 script: make test
 notifications:
   email: false
