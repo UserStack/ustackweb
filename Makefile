@@ -17,7 +17,6 @@ deps:
 						github.com/beego/bee \
 				    github.com/beego/i18n \
 				    github.com/beego/wetalk \
-				    github.com/codegangsta/gin \
 				    github.com/smartystreets/goconvey \
 				    ${BACKEND}
 beego_develop:
@@ -32,7 +31,7 @@ ustackd:
 	go install ${BACKEND}
 	make run_ustackd
 run_ustackd:
-	ustackd --foreground --config '../ustackd/config/ustackd.conf'
+	ustackd --foreground --config '${GOPATH}/github.com/UserStack/ustackd/config/ustackd.conf'
 test:
 	go test ./tests/...
 convey:
