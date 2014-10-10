@@ -4,7 +4,7 @@ $brand-primary: #813abd;
 @import "bootstrap";
 
 .navbar-brand {
-  background: url('/static/images/logo.png') no-repeat;
+  background: url('/static/images/logo48.png') no-repeat;
   margin-top: 2px;
   width: 48px;
   height: 48px;
@@ -19,7 +19,7 @@ $brand-primary: #813abd;
 (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
   .navbar-brand {
-    background-image: url('/static/images/logo@2x.png');
+    background-image: url('/static/images/logo96.png');
     -webkit-background-size: 48px 48px;
   }
 }
