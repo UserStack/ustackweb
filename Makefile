@@ -18,6 +18,7 @@ deps:
 				    github.com/beego/i18n \
 				    github.com/beego/wetalk \
 				    github.com/smartystreets/goconvey \
+				    github.com/tools/godep \
 				    ${BACKEND}
 beego_develop:
 	cd $(firstword $(subst :, ,${GOPATH}))/src/github.com/astaxie/beego && git checkout develop
