@@ -55,23 +55,25 @@ Please make sure you have [Go](http://golang.org/), [Ruby](http://ruby-lang.org)
 
 1. Setup dependencies
 
-        $ make prepare 
+        $ make prepare
 
 2. Run the Beego frontend on [http://localhost:8080](http://localhost:8080)
 
         $ make run
 
-3. [Livereload](http://livereload.com/) and recompile assets
-
-        $ make watch
-
-4. Open the Install page to setup some data
+3. Open the Install page to setup some data
 
         $ open http://localhost:8080/install
 
-5. Sign In using the root user (user=admin, pass=admin)
+4. Sign In using the root user (user=admin, pass=admin)
 
         $ open http://localhost:8080/sign_in
+
+### Advanced
+
+* [Livereload](http://livereload.com/) and recompile assets
+
+        $ make watch
 
 ## Todos
 

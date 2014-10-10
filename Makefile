@@ -1,40 +1,48 @@
-BACKEND=github.com/UserStack/ustackd
+USTACKD=github.com/UserStack/ustackd
 
+# main tools
 all: run
-watch:
-	npm run watch
+build:
+	godep go build
 run:
 	bee run
-prepare:
-	make deps
-	make beego_develop
-	make assets
-prepare_test:
-	make deps
-	make beego_develop
-deps:
-	go get -u github.com/astaxie/beego \
-						github.com/beego/bee \
-				    github.com/beego/i18n \
-				    github.com/beego/wetalk \
-				    github.com/smartystreets/goconvey \
-				    github.com/tools/godep \
-				    ${BACKEND}
-beego_develop:
-	cd $(firstword $(subst :, ,${GOPATH}))/src/github.com/astaxie/beego && git checkout develop
+watch:
+	npm run watch
 assets:
-	bundle install
-	npm install
 	npm run bower
 	npm run compile
+	make favicon
+
+# setup project environment including dependencies and pre-compilation
+prepare:
+	make prepare_go
+	make prepare_assets
+prepare_go:
+	make setup_prod
+	make setup_dev
+prepare_assets:
+	make setup_assets
+	make assets
+
+# install dependencies
+setup_prod:
+	go get github.com/tools/godep
+setup_dev:
+	go get github.com/smartystreets/goconvey
+	go get github.com/beego/bee
+setup_assets:
+	gem install bundler
+	bundle install
+	npm install
+setup_ustackd:
+	go get -u ${USTACKD}
+	go install ${USTACKD}
+
+# tools
 ustackd:
-	go get -u ${BACKEND}
-	go install ${BACKEND}
-	make run_ustackd
-run_ustackd:
-	ustackd --foreground --config '${GOPATH}/github.com/UserStack/ustackd/config/ustackd.conf'
+	ustackd --foreground --config '${GOPATH}/src/${USTACKD}/config/ustackd.conf'
 test:
-	go test ./tests/...
+	godep go test ./tests/...
 convey:
 	goconvey -depth=10 -host="0.0.0.0" -port="8081"
 favicon:
