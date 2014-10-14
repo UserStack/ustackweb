@@ -8,11 +8,11 @@
 		},
 		{
 			"ImportPath": "github.com/UserStack/ustackd/backends",
-			"Rev": "3c5a6f51203f18ff804b83fe515dd771e3737382"
+			"Rev": "92711a65440150e3af3d4a8f873451b36a69de8e"
 		},
 		{
 			"ImportPath": "github.com/UserStack/ustackd/client",
-			"Rev": "3c5a6f51203f18ff804b83fe515dd771e3737382"
+			"Rev": "92711a65440150e3af3d4a8f873451b36a69de8e"
 		},
 		{
 			"ImportPath": "github.com/astaxie/beego",
@@ -51,11 +51,11 @@
 		},
 		{
 			"ImportPath": "github.com/lib/pq",
-			"Rev": "c6325123e6d45115749734a8bc35060ebac74d0e"
+			"Rev": "b7af72a1fc1649a8871af32e23229fb89ae6cdc7"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-sqlite3",
-			"Rev": "a80c27ba3354e27b4c8dfbbd1165bc253ca7c522"
+			"Rev": "ea3ab4d8f5eba6a26173197b7c612fb1c0d0a081"
 		},
 		{
 			"ImportPath": "github.com/slene/blackfriday",

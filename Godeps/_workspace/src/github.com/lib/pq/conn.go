@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"crypto/md5"
 	"crypto/tls"
+	"crypto/x509"
 	"database/sql"
 	"database/sql/driver"
 	"encoding/binary"
@@ -11,9 +12,12 @@ import (
 	"fmt"
 	"github.com/lib/pq/oid"
 	"io"
+	"io/ioutil"
 	"net"
 	"os"
+	"os/user"
 	"path"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -22,9 +26,10 @@ import (
 
 // Common error types
 var (
-	ErrSSLNotSupported     = errors.New("pq: SSL is not enabled on the server")
-	ErrNotSupported        = errors.New("pq: Unsupported command")
-	ErrInFailedTransaction = errors.New("pq: Could not complete operation in a failed transaction")
+	ErrNotSupported              = errors.New("pq: Unsupported command")
+	ErrInFailedTransaction       = errors.New("pq: Could not complete operation in a failed transaction")
+	ErrSSLNotSupported           = errors.New("pq: SSL is not enabled on the server")
+	ErrSSLKeyHasWorldPermissions = errors.New("pq: Private key file has group or world access. Permissions should be u=rw (0600) or less.")
 )
 
 type drv struct{}
@@ -161,7 +166,6 @@ func DialOpen(d Dialer, name string) (_ driver.Conn, err error) {
 			o.Set("application_name", fallback)
 		}
 	}
-	o.Unset("fallback_application_name")
 
 	// We can't work with any client_encoding other than UTF-8 currently.
 	// However, we have historically allowed the user to set it to UTF-8
@@ -214,8 +218,6 @@ func dial(d Dialer, o values) (net.Conn, error) {
 	ntw, addr := network(o)
 
 	timeout := o.Get("connect_timeout")
-	// Ensure the option will not be sent.
-	o.Unset("connect_timeout")
 
 	// Zero or not specified means wait indefinitely.
 	if timeout != "" && timeout != "0" {
@@ -263,10 +265,6 @@ func (vs values) Get(k string) (v string) {
 func (vs values) Isset(k string) bool {
 	_, ok := vs[k]
 	return ok
-}
-
-func (vs values) Unset(k string) {
-	delete(vs, k)
 }
 
 // scanner implements a tokenizer for libpq-style option strings.
@@ -793,10 +791,16 @@ func (cn *conn) recv1() (t byte, r *readBuf) {
 }
 
 func (cn *conn) ssl(o values) {
+	verifyCaOnly := false
 	tlsConf := tls.Config{}
 	switch mode := o.Get("sslmode"); mode {
 	case "require", "":
 		tlsConf.InsecureSkipVerify = true
+	case "verify-ca":
+		// We must skip TLS's own verification since it requires full
+		// verification since Go 1.3.
+		tlsConf.InsecureSkipVerify = true
+		verifyCaOnly = true
 	case "verify-full":
 		tlsConf.ServerName = o.Get("host")
 	case "disable":
@@ -804,6 +808,9 @@ func (cn *conn) ssl(o values) {
 	default:
 		errorf(`unsupported sslmode %q; only "require" (default), "verify-full", and "disable" supported`, mode)
 	}
+
+	cn.setupSSLClientCertificates(&tlsConf, o)
+	cn.setupSSLCA(&tlsConf, o)
 
 	w := cn.writeBuf(0)
 	w.int32(80877103)
@@ -819,7 +826,137 @@ func (cn *conn) ssl(o values) {
 		panic(ErrSSLNotSupported)
 	}
 
-	cn.c = tls.Client(cn.c, &tlsConf)
+	client := tls.Client(cn.c, &tlsConf)
+	if verifyCaOnly {
+		cn.verifyCA(client, &tlsConf)
+	}
+	cn.c = client
+}
+
+// verifyCA carries out a TLS handshake to the server and verifies the
+// presented certificate against the effective CA, i.e. the one specified in
+// sslrootcert or the system CA if sslrootcert was not specified.
+func (cn *conn) verifyCA(client *tls.Conn, tlsConf *tls.Config) {
+	err := client.Handshake()
+	if err != nil {
+		panic(err)
+	}
+	certs := client.ConnectionState().PeerCertificates
+	opts := x509.VerifyOptions{
+		DNSName: client.ConnectionState().ServerName,
+		Intermediates: x509.NewCertPool(),
+		Roots: tlsConf.RootCAs,
+	}
+	for i, cert := range certs {
+		if i == 0 {
+			continue
+		}
+		opts.Intermediates.AddCert(cert)
+	}
+	_, err = certs[0].Verify(opts)
+	if err != nil {
+		panic(err)
+	}
+}
+
+
+// This function sets up SSL client certificates based on either the "sslkey"
+// and "sslcert" settings (possibly set via the environment variables PGSSLKEY
+// and PGSSLCERT, respectively), or if they aren't set, from the .postgresql
+// directory in the user's home directory.  If the file paths are set
+// explicitly, the files must exist.  The key file must also not be
+// world-readable, or this function will panic with
+// ErrSSLKeyHasWorldPermissions.
+func (cn *conn) setupSSLClientCertificates(tlsConf *tls.Config, o values) {
+	var missingOk bool
+
+	sslkey := o.Get("sslkey")
+	sslcert := o.Get("sslcert")
+	if sslkey != "" && sslcert != "" {
+		// If the user has set a sslkey and sslcert, they *must* exist.
+		missingOk = false
+	} else {
+		// Automatically load certificates from ~/.postgresql.
+		user, err := user.Current()
+		if err != nil {
+			// user.Current() might fail when cross-compiling.  We have to
+			// ignore the error and continue without client certificates, since
+			// we wouldn't know where to load them from.
+			return
+		}
+
+		sslkey = filepath.Join(user.HomeDir, ".postgresql", "postgresql.key")
+		sslcert = filepath.Join(user.HomeDir, ".postgresql", "postgresql.crt")
+		missingOk = true
+	}
+
+	// Check that both files exist, and report the error or stop depending on
+	// which behaviour we want.  Note that we don't do any more extensive
+	// checks than this (such as checking that the paths aren't directories);
+	// LoadX509KeyPair() will take care of the rest.
+	keyfinfo, err := os.Stat(sslkey)
+	if err != nil && missingOk {
+		return
+	} else if err != nil {
+		panic(err)
+	}
+	_, err = os.Stat(sslcert)
+	if err != nil && missingOk {
+		return
+	} else if err != nil {
+		panic(err)
+	}
+
+	// If we got this far, the key file must also have the correct permissions
+	kmode := keyfinfo.Mode()
+	if kmode != kmode&0600 {
+		panic(ErrSSLKeyHasWorldPermissions)
+	}
+
+	cert, err := tls.LoadX509KeyPair(sslcert, sslkey)
+	if err != nil {
+		panic(err)
+	}
+	tlsConf.Certificates = []tls.Certificate{cert}
+}
+
+// Sets up RootCAs in the TLS configuration if sslrootcert is set.
+func (cn *conn) setupSSLCA(tlsConf *tls.Config, o values) {
+	if sslrootcert := o.Get("sslrootcert"); sslrootcert != "" {
+		tlsConf.RootCAs = x509.NewCertPool()
+
+		cert, err := ioutil.ReadFile(sslrootcert)
+		if err != nil {
+			panic(err)
+		}
+
+		ok := tlsConf.RootCAs.AppendCertsFromPEM(cert)
+		if !ok {
+			errorf("couldn't parse pem in sslrootcert")
+		}
+	}
+}
+
+// isDriverSetting returns true iff a setting is purely for the configuring the
+// driver's options and should not be sent to the server in the connection
+// startup packet.
+func isDriverSetting(key string) bool {
+	switch key {
+	case "host", "port":
+		return true
+	case "password":
+		return true
+	case "sslmode", "sslcert", "sslkey", "sslrootcert":
+		return true
+	case "fallback_application_name":
+		return true
+	case "connect_timeout":
+		return true
+
+	default:
+		return false
+	}
+	panic("not reached")
 }
 
 func (cn *conn) startup(o values) {
@@ -830,9 +967,8 @@ func (cn *conn) startup(o values) {
 	// parameters potentially included in the connection string.  If the server
 	// doesn't recognize any of them, it will reply with an error.
 	for k, v := range o {
-		// skip options which can't be run-time parameters
-		if k == "password" || k == "host" ||
-			k == "port" || k == "sslmode" {
+		if isDriverSetting(k) {
+			// skip options which can't be run-time parameters
 			continue
 		}
 		// The protocol requires us to supply the database name as "database"
@@ -1313,7 +1449,13 @@ func parseEnviron(env []string) (out map[string]string) {
 			accrue("application_name")
 		case "PGSSLMODE":
 			accrue("sslmode")
-		case "PGREQUIRESSL", "PGSSLCERT", "PGSSLKEY", "PGSSLROOTCERT", "PGSSLCRL":
+		case "PGSSLCERT":
+			accrue("sslcert")
+		case "PGSSLKEY":
+			accrue("sslkey")
+		case "PGSSLROOTCERT":
+			accrue("sslrootcert")
+		case "PGREQUIRESSL", "PGSSLCRL":
 			unsupported()
 		case "PGREQUIREPEER":
 			unsupported()

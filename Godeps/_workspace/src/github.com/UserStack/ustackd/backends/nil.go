@@ -23,6 +23,10 @@ func (backend *NilBackend) GetUserData(nameuid string, key string) (string, *Err
 	return "", nil
 }
 
+func (backend *NilBackend) GetUserDataKeys(nameuid string) (keys []string, err *Error) {
+	return
+}
+
 func (backend *NilBackend) LoginUser(name string, password string) (int64, *Error) {
 	return 0, nil
 }

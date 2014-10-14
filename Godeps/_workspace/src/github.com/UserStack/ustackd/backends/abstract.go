@@ -44,6 +44,7 @@ type Abstract interface {
 	EnableUser(nameuid string) *Error
 	SetUserData(nameuid string, key string, value string) *Error
 	GetUserData(nameuid string, key string) (string, *Error)
+	GetUserDataKeys(nameuid string) ([]string, *Error)
 	LoginUser(name string, password string) (int64, *Error)
 	ChangeUserPassword(nameuid string, password string, newpassword string) *Error
 	ChangeUserName(nameuid string, password string, newname string) *Error

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 const (
@@ -21,6 +22,7 @@ type SqlBackend struct {
 	uidForNameUidStmt       *sql.Stmt
 	setUserDataStmt         *sql.Stmt
 	getUserDataStmt         *sql.Stmt
+	getUserDataKeysStmt     *sql.Stmt
 	changeUserPasswordStmt  *sql.Stmt
 	changeUserNameStmt      *sql.Stmt
 	userGroupsStmt          *sql.Stmt
@@ -82,6 +84,11 @@ func (backend *SqlBackend) init(prepare []string) error {
 	}
 	backend.getUserDataStmt, err = backend.db.Prepare(`SELECT value FROM UserValues
 		WHERE uid = $1 AND key = $2;`)
+	if err != nil {
+		panic(err)
+	}
+	backend.getUserDataKeysStmt, err = backend.db.Prepare(`SELECT key FROM UserValues
+		WHERE uid = $1;`)
 	if err != nil {
 		panic(err)
 	}
@@ -214,6 +221,33 @@ func (backend *SqlBackend) GetUserData(nameuid string, key string) (string, *Err
 	return "", &Error{"ENOENT", "Key unknown"}
 }
 
+func (backend *SqlBackend) GetUserDataKeys(nameuid string) (keys []string, err *Error) {
+	if nameuid == "" {
+		err = &Error{"EINVAL", "Name/uid can't be blank"}
+		return
+	}
+	uid, err := backend.getUidForNameUid(nameuid)
+	if err != nil {
+		return
+	}
+	rows, gerr := backend.getUserDataKeysStmt.Query(uid)
+	defer rows.Close()
+	if gerr != nil {
+		err = &Error{"EFAULT", gerr.Error()}
+		return
+	}
+	for rows.Next() {
+		var key string
+		serr := rows.Scan(&key)
+		if serr != nil {
+			err = &Error{"EFAULT", serr.Error()}
+			return
+		}
+		keys = append(keys, key)
+	}
+	return
+}
+
 func (backend *SqlBackend) LoginUser(name string, password string) (uid int64, err *Error) {
 	if name == "" || password == "" {
 		err = &Error{"EINVAL", "Username and password can't be blank"}
@@ -227,7 +261,9 @@ func (backend *SqlBackend) LoginUser(name string, password string) (uid int64, e
 	case serr != nil:
 		err = &Error{"EFAULT", serr.Error()}
 	}
-	if err != nil {
+	if err == nil {
+		backend.SaveLastLogin(name)
+	} else {
 		backend.IncFailCount(name)
 	}
 
@@ -248,6 +284,17 @@ func (backend *SqlBackend) IncFailCount(nameuid string) (err *Error) {
 		return
 	}
 	err = backend.SetUserData(nameuid, "failcount", strconv.Itoa(count+1))
+	return
+}
+
+func (backend *SqlBackend) SaveLastLogin(nameuid string) (err *Error) {
+	lastS, err := backend.GetUserData(nameuid, "currentlogin")
+	if err == nil {
+		backend.SetUserData(nameuid, "lastlogin", lastS)
+	}
+	var current int64
+	current = time.Now().Unix()
+	err = backend.SetUserData(nameuid, "currentlogin", strconv.FormatInt(current, 10))
 	return
 }
 

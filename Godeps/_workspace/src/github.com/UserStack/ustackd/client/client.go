@@ -114,6 +114,11 @@ func (client *Client) GetUserData(nameuid string, key string) (string, *backends
 	return list[0], nil
 }
 
+func (client *Client) GetUserDataKeys(nameuid string) (keys []string, err *backends.Error) {
+	keys, err = client.listCmd("getkeys %s", nameuid)
+	return
+}
+
 func (client *Client) LoginUser(name string, password string) (uid int64, err *backends.Error) {
 	uid, err = client.simpleIntCmd("login %s %s", name, password)
 	return
