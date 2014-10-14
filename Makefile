@@ -42,7 +42,7 @@ setup_ustackd:
 ustackd:
 	ustackd --foreground --config '${GOPATH}/src/${USTACKD}/config/ustackd.conf'
 test:
-	godep go test ./tests/...
+	${GOPATH}/bin/godep go test ./tests/...
 convey:
 	goconvey -depth=10 -host="0.0.0.0" -port="8081"
 favicon:
