@@ -21,6 +21,7 @@ restore:
 prepare:
 	make prepare_go
 	make prepare_assets
+	make restore
 prepare_go:
 	make setup_prod
 	make setup_dev
