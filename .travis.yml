@@ -4,7 +4,6 @@ go:
   - tip
 install: make prepare_go
 script:
-  - env
-  - make test
+  - PATH=$PATH:/home/travis/gopath make test
 notifications:
   email: false
