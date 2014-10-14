@@ -16,6 +16,18 @@
         </div>
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
+            <div class="list-group">
+            {{range $idx, $val := .userDataKeys}}
+              <div class="list-group-item">
+                {{$val}}
+                <span class="badge">{{$val}}</span>
+              </div>
+            {{end}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-3 col-md-6">
             <button type="submit" class="btn btn-default">Change</button>
           </div>
         </div>
