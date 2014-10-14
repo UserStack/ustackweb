@@ -1,6 +1,9 @@
 package models
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/UserStack/ustackd/backends"
 	"github.com/UserStack/ustackweb/backend"
 )
@@ -26,5 +29,18 @@ func (this *User) Data(key string) (data string, err *backend.Error) {
 	}
 	data, backendError := connection.GetUserData(this.Name, key)
 	backend.VerifyConnection(backendError)
+	return
+}
+
+func (this *User) DataAsTime(key string) (data time.Time, err *backend.Error) {
+	value, err := this.Data(key)
+	if err != nil {
+		return
+	}
+	i, backendError := strconv.ParseInt(value, 10, 0)
+	if backendError != nil {
+		return
+	}
+	data = time.Unix(i, 0)
 	return
 }
