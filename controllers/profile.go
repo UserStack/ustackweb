@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/UserStack/ustackweb/models"
 )
 
@@ -25,11 +28,18 @@ func (this *ProfileController) Get() {
 	if err != nil {
 		return
 	}
-	data := make(map[string]string)
+	data := make(map[string]interface{})
 	for _, key := range keys {
 		value, err := user.Data(key)
 		if err == nil {
-			data[key] = value
+			if key == "currentlogin" || key == "lastlogin" {
+				i, err := strconv.ParseInt(value, 10, 0)
+				if err == nil {
+					data[key] = time.Unix(i, 0)
+				}
+			} else {
+				data[key] = value
+			}
 		}
 	}
 	this.Data["userData"] = data
