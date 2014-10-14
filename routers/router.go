@@ -4,6 +4,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
@@ -14,6 +15,12 @@ import (
 
 func camelize(name string) string {
 	return strings.ToTitle(name[0:1]) + name[1:]
+}
+
+func isDate(value interface{}) bool {
+	aType := reflect.TypeOf(value)
+	timeType := reflect.TypeOf(time.Time{})
+	return aType == timeType
 }
 
 var SingleSignOnDispatcher = func(ctx *context.Context) {
@@ -27,8 +34,9 @@ var SingleSignOnDispatcher = func(ctx *context.Context) {
 
 func init() {
 	beego.AddFuncMap("i18n", i18n.Tr)
-	beego.AddFuncMap("compare", beego.Compare)
+	beego.AddFuncMap("datef", beego.Date)
 	beego.AddFuncMap("camelize", camelize)
+	beego.AddFuncMap("isDate", isDate)
 
 	beego.InsertFilter("/", beego.BeforeRouter, SingleSignOnDispatcher)
 	beego.InsertFilter("*", beego.BeforeRouter, SingleSignOnDispatcher)

@@ -13,7 +13,11 @@
             {{range $key, $val := .userData}}
               <div class="list-group-item">
                 {{$key}}
+                {{if isDate $val}}
+                <span class="badge">{{dateformat $val "Jan 2, 2006 15:04 (MST)"}}</span>
+                {{else}}
                 <span class="badge">{{$val}}</span>
+                {{end}}
               </div>
             {{end}}
             </div>
