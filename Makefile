@@ -13,6 +13,10 @@ assets:
 	npm run compile
 	make favicon
 
+# restore
+restore:
+	godep restore
+
 # setup project environment including dependencies and pre-compilation
 prepare:
 	make prepare_go
