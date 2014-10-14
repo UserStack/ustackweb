@@ -33,7 +33,10 @@ module.exports = function(grunt) {
         }
       },
       livereload: {
-        files: '**/*',
+        files: ['**/*.go',
+          'static/**/*',
+          'views/**/*'
+        ],
         options: {
           debounceDelay: 250,
           livereload: true
