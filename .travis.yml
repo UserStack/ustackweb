@@ -5,6 +5,6 @@ go:
 install:
   - make prepare_go
 script:
-  - /home/travis/gopath/bin/godep go test ./tests/...
+  - PATH=$PATH:/home/travis/gopath/bin make test
 notifications:
   email: false
