@@ -57,6 +57,11 @@ func (this *User) AllData() (allData map[string]interface{}, err *backend.Error)
 			if err == nil {
 				allData[key] = value
 			}
+		} else {
+			value, err := this.Data(key)
+			if err == nil {
+				allData[key] = value
+			}
 		}
 	}
 	return
