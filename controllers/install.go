@@ -28,8 +28,11 @@ func (this *InstallController) permissionRequirements() (permissionRequirements 
 	return
 }
 
+func (this *InstallController) Prepare() {
+	this.PrepareLayout()
+}
+
 func (this *InstallController) Index() {
-	this.Layout = "layouts/default.html.tpl"
 	this.TplNames = "config/index.html.tpl"
 	rootUser, err := models.Users().FindByName(this.rootUserId())
 	this.Data["rootUserError"] = err
