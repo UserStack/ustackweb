@@ -22,6 +22,7 @@ func (this *BaseController) PrepareLayout() {
 	this.Layout = "layouts/default.html.tpl"
 	this.Data["Lang"] = "en-US"
 	this.Locale.Lang = "en-US"
+	this.Data["RunMode"] = beego.RunMode
 }
 
 func (this *BaseController) PrepareXsrf() {
