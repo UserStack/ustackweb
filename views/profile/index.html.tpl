@@ -17,9 +17,9 @@
         <div class="form-group">
           <div class="col-md-offset-3 col-md-6">
             <div class="list-group">
-            {{range $idx, $val := .userDataKeys}}
+            {{range $key, $val := .userData}}
               <div class="list-group-item">
-                {{$val}}
+                {{$key}}
                 <span class="badge">{{$val}}</span>
               </div>
             {{end}}

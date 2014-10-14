@@ -18,3 +18,13 @@ func (this *User) DataKeys() (keys []string, err *backend.Error) {
 	backend.VerifyConnection(backendError)
 	return
 }
+
+func (this *User) Data(key string) (data string, err *backend.Error) {
+	connection, err := backend.Connection()
+	if err != nil {
+		return
+	}
+	data, backendError := connection.GetUserData(this.Name, key)
+	backend.VerifyConnection(backendError)
+	return
+}

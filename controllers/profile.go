@@ -17,6 +17,20 @@ func (this *ProfileController) Prepare() {
 func (this *ProfileController) Get() {
 	this.Layout = "layouts/default.html.tpl"
 	this.TplNames = "profile/index.html.tpl"
-	user, _ := models.Users().FindByName("admin")
-	this.Data["userDataKeys"], _ = user.DataKeys()
+	user, err := models.Users().FindByName("admin")
+	if err != nil {
+		return
+	}
+	keys, err := user.DataKeys()
+	if err != nil {
+		return
+	}
+	data := make(map[string]string)
+	for _, key := range keys {
+		value, err := user.Data(key)
+		if err == nil {
+			data[key] = value
+		}
+	}
+	this.Data["userData"] = data
 }
