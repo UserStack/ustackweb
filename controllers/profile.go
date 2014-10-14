@@ -21,18 +21,5 @@ func (this *ProfileController) Get() {
 	if err != nil {
 		return
 	}
-	keys, err := user.DataKeys()
-	if err != nil {
-		return
-	}
-	data := make(map[string]interface{})
-	for _, key := range keys {
-		if key == "currentlogin" || key == "lastlogin" {
-			value, err := user.DataAsTime(key)
-			if err == nil {
-				data[key] = value
-			}
-		}
-	}
-	this.Data["userData"] = data
+	this.Data["userData"], _ = user.AllData()
 }

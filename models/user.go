@@ -44,3 +44,20 @@ func (this *User) DataAsTime(key string) (data time.Time, err *backend.Error) {
 	data = time.Unix(i, 0)
 	return
 }
+
+func (this *User) AllData() (allData map[string]interface{}, err *backend.Error) {
+	keys, err := this.DataKeys()
+	if err != nil {
+		return
+	}
+	allData = make(map[string]interface{})
+	for _, key := range keys {
+		if key == "currentlogin" || key == "lastlogin" {
+			value, err := this.DataAsTime(key)
+			if err == nil {
+				allData[key] = value
+			}
+		}
+	}
+	return
+}
