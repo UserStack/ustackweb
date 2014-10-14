@@ -4,10 +4,7 @@ go:
   - tip
 install:
   - make prepare_go
-  - env
-  - ls -la /home/travis/gopath/bin
-  - ls -la /home/travis/.gvm/pkgsets/go1.3.3/global/bin
 script:
-  - PATH=$PATH:/home/travis/gopath make test
+  - /home/travis/gopath/bin/godep go test ./tests/...
 notifications:
   email: false
